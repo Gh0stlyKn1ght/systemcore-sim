@@ -6,6 +6,14 @@
 
 What can public evidence establish about Systemcore, which parts of the 2027 transition remain unsettled, and what is the smallest honest simulator that will help students learn before hardware arrives?
 
+## Current scope decision
+
+The documented FRC workflow is **WPILib-based, not simply ROS 2**. Read the [stack comparison and supporting sources](ROS2_COMPARISON.md) and [project-value assessment](PROJECT_VALUE.md) before adding dependencies or expanding the simulator.
+
+Our proposed contribution is a small, reproducible teaching and validation layer on existing WPILib simulation. It is not a replacement OS, middleware stack, or physics engine. Whether custom code improves on an adapted upstream example remains a question to evaluate, not an established result.
+
+All substantive findings must be saved in this project under the [repository-first research workflow](RESEARCH_WORKFLOW.md). The first follow-up is the [2026-09-20 scope assessment](updates/2026-09-20.md).
+
 ## Reading route
 
 | Order | Read | Outcome |
@@ -19,7 +27,7 @@ What can public evidence establish about Systemcore, which parts of the 2027 tra
 | 7 | [Passive OSINT](PASSIVE_OSINT.md) | Continue research without probing third-party systems |
 | 8 | [Research roadmap](ROADMAP.md) | Decide when evidence is sufficient to start building |
 
-Use the [source register](SOURCES.md) for provenance, the [snapshot](SNAPSHOT.md) for version references and retrieval limitations, and the [glossary](GLOSSARY.md) for vocabulary.
+Use the [source register](SOURCES.md) and [ROS 2 comparison source appendix](ROS2_COMPARISON.md#sources-and-access-notes) for provenance, the [snapshot](SNAPSHOT.md) for the initial review's version references and retrieval limitations, and the [glossary](GLOSSARY.md) for vocabulary. Dated follow-ups record subsequent changes without rewriting the initial snapshot as though they all happened together.
 
 ## Evidence language
 
