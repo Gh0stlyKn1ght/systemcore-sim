@@ -10,6 +10,8 @@ What can public evidence establish about Systemcore, which parts of the 2027 tra
 
 The documented FRC workflow is **WPILib-based, not simply ROS 2**. Begin with [roboRIO and Systemcore explained layer by layer](CONTROLLER_LAYERS.md), then read the [ROS 2 comparison and supporting sources](ROS2_COMPARISON.md) and [project-value assessment](PROJECT_VALUE.md) before adding dependencies or expanding the simulator.
 
+Our intended coding deliverable is a **Java robot application with automated tests and desktop simulation**, followed by separately validated hardware adapters. Read the [FRC toolkit and its source appendix](../development/FRC_TOOLKIT.md) and [Java testing workflow](../development/JAVA_TESTING_WORKFLOW.md) for the next implementation milestone. These are setup and test plans, not completed builds.
+
 Our proposed contribution is a small, reproducible teaching and validation layer on existing WPILib simulation. It is not a replacement OS, middleware stack, or physics engine. Whether custom code improves on an adapted upstream example remains a question to evaluate, not an established result.
 
 All substantive findings must be saved in this project under the [repository-first research workflow](RESEARCH_WORKFLOW.md). The first follow-up is the [2026-09-20 scope assessment and subsequent clarifications](updates/2026-09-20.md).
@@ -28,7 +30,7 @@ All substantive findings must be saved in this project under the [repository-fir
 | 7 | [Passive OSINT](PASSIVE_OSINT.md) | Continue research without probing third-party systems |
 | 8 | [Research roadmap](ROADMAP.md) | Decide when evidence is sufficient to start building |
 
-Use the [source register](SOURCES.md), [controller-layer source appendix](CONTROLLER_LAYERS.md#sources-and-review-boundaries), and [ROS 2 comparison source appendix](ROS2_COMPARISON.md#sources-and-access-notes) for provenance, the [snapshot](SNAPSHOT.md) for the initial review's version references and retrieval limitations, and the [glossary](GLOSSARY.md) for vocabulary. Dated follow-ups record subsequent changes without rewriting the initial snapshot as though they all happened together.
+Use the [source register](SOURCES.md), [controller-layer source appendix](CONTROLLER_LAYERS.md#sources-and-review-boundaries), [toolkit sources](../development/FRC_TOOLKIT.md#sources-and-retrieval-notes), and [ROS 2 comparison source appendix](ROS2_COMPARISON.md#sources-and-access-notes) for provenance, the [snapshot](SNAPSHOT.md) for the initial review's version references and retrieval limitations, and the [glossary](GLOSSARY.md) for vocabulary. Dated follow-ups record subsequent changes without rewriting the initial snapshot as though they all happened together.
 
 ## Evidence language
 
@@ -42,4 +44,4 @@ It is not a vendor-approved manual, a final 2027 rulebook, a purchasing guarante
 
 ## Immediate conclusion
 
-Keep the project in research mode. Before implementation, freeze one compatible software profile and prove the smallest upstream simulation example on a supported host. Build around application behavior and failure handling, not the appearance of the vendor dashboard. This is an engineering recommendation, not a statement that local validation has already succeeded.
+Prepare one compatible software profile, then prove the smallest upstream simulation example before adding custom behavior. Build around application behavior and failure handling, not the appearance of the vendor dashboard. The toolkit and acceptance tests now define this transition from research to implementation; local validation has not yet occurred.

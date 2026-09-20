@@ -9,6 +9,12 @@ An independent, documentation-first research project for understanding Limelight
 
 *Image credit: Limelight Vision. [Original product page](https://limelightvision.io/products/systemcore-development-unit). This early development-unit rendering is not a final-production wiring reference. The image is embedded from the vendor CDN, not relicensed as project artwork. [Attribution and image status](ATTRIBUTION.md).*
 
+## Coding and testing goal
+
+The intended deliverable is **Java/WPILib robot code that we can build, test automatically, run in desktop simulation, and later compare with real Systemcore hardware**. ROS 2 is not a prerequisite. Research supports this deliverable rather than replacing implementation.
+
+Start with the [FRC apps and installation checklist](docs/development/FRC_TOOLKIT.md) and [Java build, test, and simulation workflow](docs/development/JAVA_TESTING_WORKFLOW.md). They distinguish software-only development tools, hardware configuration apps, robot-code libraries, and device firmware. The Java application and CI described there have not been created yet.
+
 ## Start with the research
 
 Read the [research dossier](docs/research/README.md), then the [evidence and contradictions ledger](docs/research/EVIDENCE.md). Specifications, software releases, community observations, and our proposed simulator behavior are deliberately separated.
