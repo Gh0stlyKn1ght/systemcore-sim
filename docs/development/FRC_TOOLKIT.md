@@ -5,9 +5,19 @@
 
 ## Project direction
 
-The intended deliverable is real Java/WPILib robot code with automated tests, desktop simulation, useful telemetry, and a later hardware adapter. Documentation supports that deliverable; it is not a substitute for running code. ROS 2 is not a prerequisite for this repository. Java is our selected language, not the only FRC language. See [the controller layers](../research/CONTROLLER_LAYERS.md) and [the testing workflow](JAVA_TESTING_WORKFLOW.md).
+The intended deliverable is real Java/WPILib robot code with automated tests, desktop simulation, useful telemetry, and a later hardware adapter. Documentation supports that deliverable; it is not a substitute for running code. ROS 2 is not a prerequisite for this repository. **Java is the primary implementation, teaching, and validation language. C++ and Python are supported research and compatibility tracks, not co-equal blockers for the first milestone.** See [the controller layers](../research/CONTROLLER_LAYERS.md) and [the testing workflow](JAVA_TESTING_WORKFLOW.md).
 
 The application has not been generated yet. This update documents what to install and how to validate the first implementation. No installer, firmware update, robot deployment, simulator, or test suite was run.
+
+## Language support policy
+
+| Language | Role in this repository | What we will maintain |
+|---|---|---|
+| **Java** | Primary reference implementation and classroom path | Working example, automated tests, desktop simulation, telemetry, hardware adapter, and CI |
+| **C++** | Supported compatibility/research track | Version/toolchain notes, API differences, vendor support, simulation findings, and focused examples when they reveal a meaningful difference from Java |
+| **Python / RobotPy** | Supported compatibility/research track | Package/version notes, deployment and vendor-library findings, simulation differences, and focused examples when useful |
+
+A finding that is language-specific must say so. Do not describe a successful Java test as proof that the equivalent C++ or Python path works, and do not duplicate every Java lesson three times unless the comparison teaches something. If a language-specific difference affects architecture, safety behavior, deployment, telemetry, or hardware compatibility, it belongs in the research record.
 
 ## Install by responsibility, not by collecting every tool
 
