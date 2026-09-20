@@ -1,0 +1,119 @@
+---
+title: "Lesson 3: Trace the OpMode Lifecycle"
+description: Predict construction, start, periodic execution, shutdown, and cleanup in the 2027 OpMode framework.
+---
+
+# Trace the OpMode lifecycle
+
+**Essential question:** What exactly happens to one OpMode object as the selection and enable state change?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- order every OpMode lifecycle callback;
+- distinguish enable/disable transitions from selection changes; and
+- choose the correct location for setup, repeated work, stopping, and cleanup.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Predict the callback order for select, enable, disable, and reselect. |
+| 4–14 | Build the lifecycle state table. |
+| 14–27 | Annotate a minimal `PeriodicOpMode`. |
+| 27–36 | Repair two incorrect callback placements. |
+| 36–42 | Submit an ordered trace. |
+
+## Callback contract
+
+| Callback | Frequency | Use it for |
+|---|---|---|
+| Constructor | Once for each fresh OpMode object | Store dependencies and initialize mode-local state |
+| `disabledPeriodic()` | Repeated while this OpMode is selected and disabled | Publish a preview or update disabled-safe selection state |
+| `start()` | Once when enabled | Reset the run, start timers, and issue quick initialization |
+| `periodic()` | Repeated while enabled | Read inputs, decide, request outputs, and report state |
+| `end()` | Once when an active OpMode is disabled | Stop behavior and place requests in a neutral state |
+| `close()` | Once before the object is discarded | Release mode-owned resources |
+
+`start()` must return quickly. Blocking it with a long loop or sleep prevents the normal framework loop from running.
+
+## Minimal shape
+
+```java
+@Teleop(name = "Lifecycle Trace", group = "Course")
+public final class LifecycleTrace extends PeriodicOpMode {
+  private final Robot robot;
+  private int cycleCount;
+
+  public LifecycleTrace(Robot robot) {
+    this.robot = robot;
+  }
+
+  @Override
+  public void start() {
+    cycleCount = 0;
+  }
+
+  @Override
+  public void periodic() {
+    cycleCount++;
+  }
+
+  @Override
+  public void end() {
+    robot.drivetrain().stop();
+  }
+
+  @Override
+  public void close() {}
+}
+```
+
+Imports and reporting code are omitted so the lifecycle remains visible.
+
+## Three traces to know
+
+### Select, then run
+
+```text
+constructor
+disabledPeriodic ...
+start
+periodic ...
+end
+close
+```
+
+### Change selection without enabling
+
+```text
+old disabledPeriodic ...
+old close
+new constructor
+new disabledPeriodic ...
+```
+
+### Run the same named mode again
+
+After the earlier object is closed, the framework constructs a fresh object for the next selection. Do not rely on an old OpMode instance to preserve state across runs.
+
+## Independent diagnosis
+
+A student resets `cycleCount` in `periodic()`, opens a log file in every `disabledPeriodic()` call, and leaves the drivetrain request unchanged in `end()`.
+
+For each line, name the callback that should own the work and explain the failure caused by the original location.
+
+## Exit ticket
+
+Write the exact callback sequence for this event history:
+
+1. select Teleop A while disabled;
+2. wait for three disabled loops;
+3. enable for four loops;
+4. disable; and
+5. select Auto B.
+
+## Source check
+
+The lifecycle rules in this lesson are pinned to the [WPILib 2027 OpModes source](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/basic-programming/opmodes.rst).

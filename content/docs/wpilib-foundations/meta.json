@@ -1,4 +1,14 @@
 {
   "title": "02 · WPILib Foundations",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "project-creation",
+    "project-structure",
+    "opmode-lifecycle",
+    "robot-state-callbacks",
+    "framework-choice",
+    "lifecycle-lab",
+    "reflection",
+    "quiz"
+  ]
 }

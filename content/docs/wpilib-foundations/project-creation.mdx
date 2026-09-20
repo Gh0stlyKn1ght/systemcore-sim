@@ -1,0 +1,87 @@
+---
+title: "Lesson 1: Create the Project"
+description: Generate a Java WPILib project with desktop support and preserve a reproducible baseline.
+---
+
+# Create the project
+
+**Essential question:** What evidence proves that a new robot project is a reproducible starting point?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- generate a Java project with the intended framework and team number;
+- explain why desktop support matters for this course; and
+- record enough version information for another student to reproduce the baseline.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Predict which project settings will affect later simulation and deployment. |
+| 4–12 | Identify the generator fields and the release-version boundary. |
+| 12–24 | Create the project and inspect the generated files before editing. |
+| 24–35 | Run the first build and preserve its output. |
+| 35–42 | Complete the project record and exit ticket. |
+
+## Generate the baseline
+
+In WPILib VS Code, run **WPILib: Create a new project** and choose:
+
+| Field | Course value | Why it matters |
+|---|---|---|
+| Language | Java | The course reference implementation is Java. |
+| Project type | OpMode template | This module follows the 2027 OpMode lifecycle. |
+| Project name | A short name without spaces | Build and deployment paths remain predictable. |
+| Team number | Your real team number, or the classroom value | Network and deployment settings use it. |
+| Desktop support | Enabled | Unit tests and desktop simulation depend on it. |
+
+Use a local project directory that is not managed by OneDrive or another aggressive file-sync service. The WPILib project guide warns that caching and synchronization can interfere with builds.
+
+## Preserve before modifying
+
+Do not add motors, controllers, or telemetry yet. First record:
+
+```text
+WPILib release:
+Java release:
+Project template:
+Desktop support enabled:
+Team number:
+Build command:
+Build result:
+Git commit or baseline archive:
+```
+
+The 2027 toolchain uses Java 25. Use the Java runtime provided by the matching WPILib installation unless your team has a tested reason to replace it.
+
+## First build
+
+Use the WPILib build task or the generated Gradle wrapper. A clean result establishes only that the generated source and its resolved dependencies assemble. It does not prove that the project can deploy, control hardware, or behave correctly.
+
+Save the complete command and the final success or failure lines. If the build fails, classify the first meaningful error:
+
+- toolchain or Java mismatch;
+- dependency resolution;
+- project path or permissions;
+- generated source compilation; or
+- environment configuration.
+
+## Independent diagnosis
+
+Student A enables desktop support and records the alpha release. Student B copies the project folder but records no version and disables desktop support. Both projects compile once.
+
+Whose baseline is stronger for the simulation course? State the missing evidence instead of answering only with a name.
+
+## Exit ticket
+
+Write one sentence for each claim:
+
+1. What did the clean build establish?
+2. What did it not establish?
+3. Which recorded value would you check first if a classmate could not reproduce it?
+
+## Source check
+
+Compare your generator with [Creating a robot program](https://docs.wpilib.org/en/2027/docs/software/vscode-overview/creating-robot-program.html) and your installed version with [New for WPILib 2027](https://docs.wpilib.org/en/2027/docs/yearly-overview/yearly-changelog.html).

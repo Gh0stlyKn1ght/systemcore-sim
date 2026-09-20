@@ -1,0 +1,99 @@
+---
+title: "Lesson 4: Robot States and Timing"
+description: Separate robot-wide callbacks from OpMode callbacks and reason about 20-millisecond periodic execution.
+---
+
+# Robot states and timing
+
+**Essential question:** Which work belongs to the selected OpMode, and which work must continue for the whole robot application?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- distinguish robot-wide callbacks from selected-OpMode callbacks;
+- calculate the effect of a 20-millisecond periodic interval; and
+- prevent custom periodic work from issuing unsafe requests while disabled.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Estimate how many loop calls occur in ten seconds. |
+| 4–14 | Compare robot-wide and OpMode callback scopes. |
+| 14–26 | Classify six tasks by callback. |
+| 26–36 | Diagnose an unguarded custom callback. |
+| 36–42 | Complete a state/callback decision table. |
+
+## Two callback scopes
+
+The `Robot` object can receive callbacks that are independent of one selected OpMode.
+
+| Robot-wide callback | Appropriate responsibility |
+|---|---|
+| `driverStationConnected()` | Record connection or publish robot-wide identity once a station connects |
+| `robotPeriodic()` | Update robot-wide diagnostics used in every state |
+| `disabledInit()` | Perform one quick action when the robot enters disabled |
+| `disabledPeriodic()` | Repeat robot-wide disabled work |
+| `disabledExit()` | Finish robot-wide disabled preparation |
+| `nonePeriodic()` | Report the state when no OpMode is selected |
+| `simulationInit()` | Initialize desktop-only models once |
+| `simulationPeriodic()` | Advance desktop models repeatedly |
+
+The selected `PeriodicOpMode` owns the lifecycle of one autonomous, teleoperated, or utility behavior. Do not duplicate the same responsibility in both scopes.
+
+## The 20-millisecond budget
+
+At the default interval:
+
+`1 second / 0.020 seconds per call = 50 calls per second`
+
+A ten-second enabled period contains about 500 scheduled calls. That count is an expectation, not a hard real-time guarantee. Slow work in one callback can delay later work.
+
+Keep periodic code bounded:
+
+- do not sleep;
+- do not wait in a loop for a sensor value;
+- avoid opening files or network connections every cycle;
+- record elapsed time when timing matters; and
+- separate a requested state from confirmation that hardware reached it.
+
+## Custom periodic callbacks
+
+The framework can schedule callbacks at custom rates. In the 2027 OpMode model, those callbacks can continue while the robot is disabled. Any callback that could request actuator output therefore needs an explicit enabled-state guard.
+
+```java
+addPeriodic(
+    () -> {
+      if (DriverStation.isEnabled()) {
+        updateFastControl();
+      }
+    },
+    0.010);
+```
+
+Treat this as the safety rule even if downstream libraries also suppress physical output. The application should express neutral intent when permission is absent.
+
+## Independent diagnosis
+
+A 10-millisecond callback reads an encoder and updates a motor request. The code was written while the robot was enabled, then the robot is disabled. The callback has no enabled check.
+
+Answer all three:
+
+1. Does the callback stop merely because the robot is disabled?
+2. What should the application request while permission is absent?
+3. What evidence would show whether physical output was actually suppressed?
+
+## Exit ticket
+
+Assign each task to `Robot`, the selected OpMode, or neither:
+
+- reset an autonomous timer at the start of a run;
+- advance the drivetrain simulation model;
+- create the same gyro wrapper for every mode;
+- stop a teleoperated drive request on disable; and
+- remove battery power before rewiring.
+
+## Source check
+
+Review the callback and custom-periodic rules in the pinned [WPILib 2027 OpModes source](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/basic-programming/opmodes.rst).

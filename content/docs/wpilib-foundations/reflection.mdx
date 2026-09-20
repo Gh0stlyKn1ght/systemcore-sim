@@ -1,0 +1,65 @@
+---
+title: Reflection and Correction
+description: Correct the lifecycle model before adding controllers, devices, and behavior.
+---
+
+# Reflection and correction
+
+Complete this page after the lifecycle lab and before the module quiz.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–8 | Reconstruct the lifecycle from memory. |
+| 8–18 | Compare the reconstruction with the recorded trace. |
+| 18–30 | Correct two misconceptions with evidence. |
+| 30–38 | Explain the model to a partner. |
+| 38–42 | Commit the revised explanation. |
+
+## Reconstruct without notes
+
+Draw or write the callback order for:
+
+1. selecting an OpMode while disabled;
+2. enabling it;
+3. disabling it;
+4. selecting a different OpMode while disabled; and
+5. returning to the first named OpMode.
+
+Mark which transitions create a fresh object.
+
+## Correct two statements
+
+For each statement, write a correction and cite one observation from your lab.
+
+1. “Disabled means no code is running.”
+2. “The same OpMode object stays alive for the entire robot program.”
+3. “A clean build proves the callbacks run in the expected order.”
+4. “Every repeated task belongs in the selected OpMode.”
+5. “Changing frameworks is automatically an upgrade.”
+
+## Evidence boundary
+
+Complete the table.
+
+| Claim | Strongest evidence collected | What remains unproven |
+|---|---|---|
+| The project assembles with the selected release |  |  |
+| The OpMode callbacks occurred in the predicted order |  |  |
+| Run-local state reset at the intended transition |  |  |
+| A real motor receives no energy while disabled |  |  |
+
+The last claim cannot be established by this software-only lab. State the hardware and measurement boundary that would be needed later.
+
+## Final explanation
+
+Write 150 to 250 words that answers:
+
+> How does WPILib own control flow while the team owns robot behavior?
+
+Your explanation must use these terms accurately: **selection**, **enabled**, **periodic**, **fresh instance**, **shared resource**, and **neutral request**.
+
+## Readiness check
+
+You are ready for the quiz when you can predict lifecycle order without notes and can explain why disabled callbacks, application-neutral intent, and electrical isolation are three different ideas.

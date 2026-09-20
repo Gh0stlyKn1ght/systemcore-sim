@@ -1,26 +1,60 @@
 ---
 title: "Module 02: WPILib Foundations"
-description: Learn the robot lifecycle, project structure, modes, and periodic execution before controlling hardware.
+description: Read a 2027 Java robot project, trace the OpMode lifecycle, and explain every state transition.
 ---
 
 # Module 02: WPILib foundations
 
-**Status:** Next module to build.
+WPILib decides when robot code is called. This module makes that control flow visible before any motor, sensor, or vendor API is introduced.
 
-This module moves from the controller stack into the framework that calls the team’s Java code.
+## Module outcome
 
-## Students will be able to
+You will create a Java project with desktop support, identify the framework-owned and team-owned entry points, trace one OpMode from selection through cleanup, and produce a lifecycle record that another student can audit.
 
-- locate the entry points in a generated Java robot project;
-- explain initialization, disabled, autonomous, teleop, and test modes;
-- distinguish periodic callbacks from one-time initialization;
-- identify which state should persist and which state should reset; and
-- trace one value from Driver Station input to a bounded application request.
+## Module sequence
 
-## Planned module evidence
+| Session | Focus | Evidence |
+|---|---|---|
+| 1 | Create a safe project baseline | Project record and clean build |
+| 2 | Read the project structure | Responsibility map |
+| 3 | Trace an OpMode lifecycle | Ordered callback trace |
+| 4 | Handle robot states and timing | State/callback decision table |
+| 5 | Choose a framework deliberately | Architecture decision record |
+| 6 | Lifecycle trace lab | Timestamped transition log |
+| 7 | Reflection and correction | Revised lifecycle model |
+| 8 | Module quiz | Individual understanding check |
 
-Students will annotate a lifecycle trace, change one Java behavior, build the project, and explain why disabled code can still execute while actuator requests remain restricted.
+<Cards>
+  <Card title="Start with project creation" href="/docs/wpilib-foundations/project-creation" description="Generate a Java project and preserve a known-good baseline." />
+  <Card title="Open the lifecycle lab" href="/docs/wpilib-foundations/lifecycle-lab" description="Instrument, predict, run, and diagnose callback transitions." />
+</Cards>
 
-## Planned practical
+## The reference architecture
 
-Create a mode reporter that publishes current mode, transition count, and time since transition. Then introduce a reset bug and diagnose it from telemetry.
+This course uses **Java `OpModeRobot`** for its 2027 reference path. Shared hardware and long-lived services belong to the `Robot` object. Autonomous, teleoperated, and utility behavior live in separate `PeriodicOpMode` classes.
+
+That is a course architecture decision, not a claim that every FRC team must migrate. `TimedRobot` remains supported, and Command-based projects remain a strong choice for teams that need command composition and subsystem scheduling.
+
+## Lifecycle at a glance
+
+| Event | Framework action | Team callback |
+|---|---|---|
+| OpMode selected | Construct a fresh OpMode object | Constructor |
+| Selected while disabled | Repeat at the normal loop rate | `disabledPeriodic()` |
+| Robot enabled | Begin the selected behavior once | `start()` |
+| Enabled loop | Repeat at the normal loop rate | `periodic()` |
+| Robot disabled | Stop the active behavior | `end()`, then `close()` |
+| Selection changed while disabled | Dispose of the old selection | `close()` |
+
+The default periodic interval is 20 milliseconds, or 50 calls per second. A callback name describes when WPILib invokes code. It does not prove that physical energy has been removed.
+
+## Release note
+
+This module was checked on **September 20, 2026** against the WPILib 2027 alpha 7 source and templates. The 2027 release is prerelease software, so class names, templates, and recommendations can still change. Record the exact WPILib version with every project.
+
+## Primary sources
+
+- [WPILib 2027 OpModes source](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/basic-programming/opmodes.rst)
+- [WPILib 2027 alpha 7 OpMode template](https://github.com/wpilibsuite/allwpilib/tree/v2027.0.0-alpha-7/wpilibjExamples/src/main/java/org/wpilib/templates/opmode)
+- [Creating a robot program](https://docs.wpilib.org/en/2027/docs/software/vscode-overview/creating-robot-program.html)
+- [New for WPILib 2027](https://docs.wpilib.org/en/2027/docs/yearly-overview/yearly-changelog.html)

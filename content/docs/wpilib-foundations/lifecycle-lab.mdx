@@ -1,0 +1,90 @@
+---
+title: Lifecycle Trace Lab
+description: Instrument an OpMode, predict its event log, reproduce a reset defect, and restore the baseline.
+---
+
+# Lifecycle trace lab
+
+## Challenge
+
+Produce a timestamped record that distinguishes selection, disabled waiting, enable, periodic execution, disable, and selection change. Then introduce one controlled reset defect and diagnose it from the record.
+
+## Success criteria
+
+Your evidence must show:
+
+- the exact WPILib version and template;
+- a prediction written before the run;
+- a fresh instance identifier for each OpMode object;
+- one timestamp for every lifecycle transition;
+- periodic counts summarized without printing every 20 milliseconds;
+- the deliberate defect, diagnosis, and repair; and
+- a clean build after the baseline is restored.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Record the version and predict the first trace. |
+| 5–14 | Add instance, transition, and cycle instrumentation. |
+| 14–23 | Run the baseline event sequence. |
+| 23–31 | Introduce and reproduce the reset defect. |
+| 31–38 | Diagnose, repair, and rerun. |
+| 38–42 | Submit the evidence table. |
+
+## Instrumentation design
+
+Record fields with explicit meaning:
+
+| Field | Meaning |
+|---|---|
+| `instanceId` | Identifies one constructed OpMode object |
+| `event` | Names the constructor or lifecycle callback |
+| `elapsedMs` | Time since this object’s run started |
+| `enabledCycleCount` | Number of completed enabled periodic calls in this run |
+| `selectedMode` | Name shown by the current selection |
+| `enabled` | Permission state observed when the event was recorded |
+
+Do not print every periodic call. That creates a log-volume problem instead of useful evidence. Publish a counter and record milestones such as the first cycle, every fiftieth cycle, and the final count.
+
+## Required event sequence
+
+Perform this sequence in desktop simulation or the matching 2027 development environment:
+
+1. start with no OpMode selected;
+2. select **Lifecycle Trace** while disabled;
+3. wait at least one second;
+4. enable for at least two seconds;
+5. disable;
+6. select a different OpMode while still disabled;
+7. reselect **Lifecycle Trace**; and
+8. enable it again.
+
+Before running, write the expected constructor, `disabledPeriodic()`, `start()`, `periodic()`, `end()`, and `close()` order.
+
+## Controlled defect
+
+Move the enabled-cycle reset from `start()` to the beginning of `periodic()`. Predict the visible effect on the counter after two seconds of enabled operation, then reproduce it.
+
+The defect should make the counter repeat instead of accumulating. If your result differs, preserve the trace and explain which line or transition produced the difference. Do not claim a defect was observed when the evidence does not show it.
+
+## Evidence table
+
+| Run | Prediction | Observed order | Instance changed? | Final cycle count | Match? |
+|---|---|---|---|---:|---|
+| Baseline |  |  |  |  |  |
+| Defect |  |  |  |  |  |
+| Restored |  |  |  |  |  |
+
+## Diagnosis prompts
+
+1. Which observation distinguishes disable/re-enable from selection replacement?
+2. Which state belonged to the OpMode object, and which belonged to one enabled run?
+3. Did the logs establish callback order, physical output behavior, or both?
+4. What is the smallest change that restores the intended reset boundary?
+
+## Submission
+
+Submit the version record, predicted trace, observed evidence table, relevant code diff, defect explanation, restored build result, and the commit identifier for the known-good state.
+
+No robot hardware is required for this lab. Its evidence is limited to framework control flow and application state.

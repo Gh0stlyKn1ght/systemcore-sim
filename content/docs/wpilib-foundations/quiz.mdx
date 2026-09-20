@@ -1,0 +1,119 @@
+---
+title: Module Quiz
+description: Check your understanding of 2027 project structure, OpMode lifecycle, timing, and framework choice.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+Choose the strongest answer for each question. Explanations appear after you submit all ten.
+
+<CourseQuiz
+  questions={[
+    {
+      prompt: 'What is the strongest reason to enable desktop support when generating the course project?',
+      choices: [
+        'It supplies battery power to the robot.',
+        'It enables unit-test and desktop-simulation workflows.',
+        'It selects the team number automatically.',
+        'It replaces the Gradle wrapper.'
+      ],
+      answer: 1,
+      explanation: 'Desktop support is required for the course’s software-only test and simulation path.'
+    },
+    {
+      prompt: 'Which state most clearly belongs in the Robot object?',
+      choices: [
+        'A counter for one autonomous run',
+        'A timer reset by one teleoperated start',
+        'The shared gyro wrapper used by every mode',
+        'The selected mode’s temporary step number'
+      ],
+      answer: 2,
+      explanation: 'Robot-wide hardware and services should outlive individual OpMode objects.'
+    },
+    {
+      prompt: 'When is a fresh OpMode object constructed?',
+      choices: [
+        'On every 20-millisecond periodic call',
+        'When that OpMode is selected',
+        'Only when the controller boots',
+        'After every Driver Station packet'
+      ],
+      answer: 1,
+      explanation: 'Selection constructs the mode object; later replacement closes it and creates the newly selected object.'
+    },
+    {
+      prompt: 'Which callback should reset a counter that belongs to one enabled run?',
+      choices: ['Constructor only', 'disabledPeriodic()', 'start()', 'close()'],
+      answer: 2,
+      explanation: 'start() runs once at enable and defines the beginning of that run.'
+    },
+    {
+      prompt: 'What should end() do for a mode that has been requesting drivetrain motion?',
+      choices: [
+        'Start another periodic loop',
+        'Preserve the last active request indefinitely',
+        'Place the mode’s output request in a neutral state',
+        'Reconstruct the Robot object'
+      ],
+      answer: 2,
+      explanation: 'The application should express neutral intent when the active behavior ends.'
+    },
+    {
+      prompt: 'At the default 20-millisecond interval, about how many scheduled calls occur each second?',
+      choices: ['5', '20', '50', '200'],
+      answer: 2,
+      explanation: 'One second divided by 0.020 seconds equals 50 scheduled calls.'
+    },
+    {
+      prompt: 'Why does a custom periodic actuator callback need an enabled-state guard?',
+      choices: [
+        'Custom callbacks may continue to run while disabled.',
+        'Java cannot represent a neutral request.',
+        'The guard increases the battery voltage.',
+        'Only custom callbacks can access sensors.'
+      ],
+      answer: 0,
+      explanation: 'Scheduling can continue while disabled, so application intent must explicitly remain neutral without permission.'
+    },
+    {
+      prompt: 'What happens when the selected OpMode changes while the robot remains disabled?',
+      choices: [
+        'The old OpMode receives start() and periodic().',
+        'The old OpMode is closed, then a fresh selected object is constructed.',
+        'The Robot object is always reconstructed.',
+        'No callback can run until the next reboot.'
+      ],
+      answer: 1,
+      explanation: 'Changing the selection disposes of the old mode and creates the new selection without an enabled run.'
+    },
+    {
+      prompt: 'Which statement about framework choice is most accurate?',
+      choices: [
+        'Every existing project must migrate to OpModeRobot in 2027.',
+        'TimedRobot is no longer supported.',
+        'The choice should match team needs, evidence, and migration cost.',
+        'Command-based code cannot run on WPILib.'
+      ],
+      answer: 2,
+      explanation: 'OpModeRobot is the course reference, while TimedRobot and Command-based designs remain supported alternatives.'
+    },
+    {
+      prompt: 'What does the lifecycle lab establish?',
+      choices: [
+        'The physical motor is electrically isolated while disabled.',
+        'The battery cannot brown out.',
+        'The observed framework callback order and application-state behavior.',
+        'Every vendor device supports the 2027 release.'
+      ],
+      answer: 2,
+      explanation: 'The lab collects software evidence. It does not replace physical energy or device validation.'
+    }
+  ]}
+/>
+
+## Mastery target
+
+A score of 8/10 or higher shows readiness for the Java robot-code module. If you score below 8, revisit the callback table and rerun the event sequence you missed before trying again.

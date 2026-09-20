@@ -1,0 +1,82 @@
+---
+title: "Lesson 5: Choose a Framework"
+description: Compare OpModeRobot, TimedRobot, and Command-based projects without treating one architecture as universal.
+---
+
+# Choose a framework
+
+**Essential question:** Which framework makes this team’s control flow easiest to build, test, and explain?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- compare `OpModeRobot`, `TimedRobot`, and Command-based responsibilities;
+- explain this course’s reference choice; and
+- write an architecture decision that includes costs and migration risk.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Name the strongest reason your team would keep its current framework. |
+| 4–15 | Compare the three supported paths. |
+| 15–27 | Evaluate two team scenarios. |
+| 27–36 | Draft an architecture decision record. |
+| 36–42 | Defend the choice with one benefit and one cost. |
+
+## Supported paths
+
+| Path | Control-flow model | Strong fit | Main caution |
+|---|---|---|---|
+| `OpModeRobot` | Select one annotated OpMode with explicit lifecycle methods | Teaching mode ownership and fresh-instance state | New in 2027 prerelease; migration and APIs may change |
+| `TimedRobot` | One robot class receives mode-specific callbacks | Existing teams with stable callback code | Shared class state can blur ownership as the application grows |
+| Command-based | Commands operate on subsystems through a scheduler | Teams composing concurrent actions and reusable sequences | Scheduler behavior adds concepts that must be taught and instrumented |
+
+WPILib’s 2027 alpha documentation contains two recommendations in different contexts: the OpModes page recommends `OpModeRobot` for most users, while project-creation material strongly recommends Command-based projects for new teams. Treat that as evidence that architecture depends on learning goals and team needs, not as a contest with one universally correct answer.
+
+## Why this course uses OpModeRobot
+
+The course needs students to see:
+
+- when a behavior object is created and discarded;
+- which state is robot-wide versus mode-local;
+- how selection differs from enable state; and
+- where stopping and cleanup belong.
+
+The OpMode lifecycle makes those boundaries explicit. Later modules can add composition patterns without hiding the first control-flow model.
+
+## Do not migrate without a reason
+
+`TimedRobot` remains supported. A working team project should not be rewritten merely because this course selected another reference path. Before migrating, record:
+
+```text
+Decision:
+Current framework and version:
+Problem being solved:
+Options considered:
+Expected benefit:
+Migration cost:
+Rollback point:
+Evidence required before adoption:
+```
+
+## Scenario decisions
+
+**Team A** has four years of tested Command-based subsystems, experienced mentors, and reliable autonomous routines.
+
+**Team B** is new, has one mechanism, and repeatedly loses track of which state resets between enabled runs.
+
+Choose a path for each team. A strong answer can keep Team A’s current architecture and still select OpModeRobot for Team B, provided the evidence and costs are explicit.
+
+## Exit ticket
+
+Write a three-sentence decision:
+
+1. We choose ______.
+2. It best supports ______.
+3. We accept or reduce the risk of ______ by ______.
+
+## Source check
+
+Compare the pinned [OpModes source](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/basic-programming/opmodes.rst), the [2027 project-creation guide](https://docs.wpilib.org/en/2027/docs/software/vscode-overview/creating-robot-program.html), and the [alpha 7 template](https://github.com/wpilibsuite/allwpilib/tree/v2027.0.0-alpha-7/wpilibjExamples/src/main/java/org/wpilib/templates/opmode).

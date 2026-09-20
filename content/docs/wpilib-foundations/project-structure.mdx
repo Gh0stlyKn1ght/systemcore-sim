@@ -1,0 +1,95 @@
+---
+title: "Lesson 2: Read the Project"
+description: Separate framework entry points, shared robot resources, and mode-specific behavior.
+---
+
+# Read the project
+
+**Essential question:** Which object owns long-lived robot resources, and which object owns one selected behavior?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- locate the Java source, build configuration, tests, and simulation support;
+- separate the `Robot` object from an OpMode object; and
+- explain why dependency injection is clearer than recreating shared hardware in every mode.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Sketch where you expect robot-wide and mode-specific code to live. |
+| 4–14 | Read the generated tree and identify framework-owned files. |
+| 14–26 | Trace one shared dependency into a teleoperated OpMode. |
+| 26–36 | Diagnose three ownership mistakes. |
+| 36–42 | Submit a responsibility map. |
+
+## Read by responsibility
+
+Exact filenames can change between prereleases, but the responsibilities remain useful:
+
+| Area | Responsibility |
+|---|---|
+| Gradle files and wrapper | Select plugins, dependencies, build tasks, and toolchain behavior |
+| `src/main/java` | Hold the deployable Java application |
+| `Robot` class | Own robot-wide resources and callbacks |
+| OpMode classes | Own behavior for one selected autonomous, teleoperated, or utility mode |
+| `src/test/java` | Hold automated tests that run without the robot |
+| simulation support | Connect the application to desktop models and simulated devices |
+
+## One robot, one selected behavior
+
+The 2027 OpMode design separates shared resources from behavior that should be created fresh for a selection.
+
+```java
+public final class Robot extends OpModeRobot {
+  private final Drivetrain drivetrain = new Drivetrain();
+
+  public Drivetrain drivetrain() {
+    return drivetrain;
+  }
+}
+```
+
+An OpMode can receive the `Robot` object through its constructor:
+
+```java
+@Teleop(name = "Drive Teleop", group = "Course")
+public final class DriveTeleop extends PeriodicOpMode {
+  private final Robot robot;
+
+  public DriveTeleop(Robot robot) {
+    this.robot = robot;
+  }
+}
+```
+
+The snippets show the ownership boundary, not a complete drivetrain implementation. Imports and generated registration details must match the installed 2027 release.
+
+## Why inject the shared object?
+
+Constructor injection makes the dependency visible. It also avoids creating a second motor controller, sensor, logger, or service every time the selected OpMode changes.
+
+| Choice | Consequence |
+|---|---|
+| Shared device in `Robot` | One long-lived resource can be reused across selections. |
+| Mode state in the OpMode | A new selection gets fresh counters, timers, and decisions. |
+| Device created inside every OpMode | Multiple wrappers may compete for the same hardware resource. |
+| Global static state | Ownership and reset behavior become difficult to audit. |
+
+## Independent diagnosis
+
+A teleoperated OpMode constructs a new gyro in its constructor. An autonomous OpMode constructs another wrapper for the same port. The first OpMode is later closed.
+
+Identify the ownership mistake, the failure it could create, and the class that should own the shared gyro.
+
+## Exit ticket
+
+Complete this rule in one precise sentence:
+
+> Put ______ in `Robot` because ______; put ______ in the OpMode because ______.
+
+## Source check
+
+Compare the structure with the pinned [2027 alpha 7 OpMode template](https://github.com/wpilibsuite/allwpilib/tree/v2027.0.0-alpha-7/wpilibjExamples/src/main/java/org/wpilib/templates/opmode).
