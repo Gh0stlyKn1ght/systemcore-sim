@@ -11,7 +11,9 @@ An independent, documentation-first research project for understanding Limelight
 
 ## Coding and testing goal
 
-The intended deliverable is **Java/WPILib robot code that we can build, test automatically, run in desktop simulation, and later compare with real Systemcore hardware**. ROS 2 is not a prerequisite. Research supports this deliverable rather than replacing implementation.
+The intended deliverable is **Java/WPILib robot code that we can build, test automatically, run in desktop simulation, and later compare with real Systemcore hardware**. **Java is the primary implementation, teaching, and validation language for this repository.** ROS 2 is not a prerequisite. Research supports this deliverable rather than replacing implementation.
+
+C++ and Python remain supported research tracks. When Systemcore, WPILib, vendor-library, simulation, deployment, or tooling behavior differs by language, we will document those findings and maintain compatibility notes or focused examples. They should not delay the Java reference implementation.
 
 Start with the [FRC apps and installation checklist](docs/development/FRC_TOOLKIT.md) and [Java build, test, and simulation workflow](docs/development/JAVA_TESTING_WORKFLOW.md). They distinguish software-only development tools, hardware configuration apps, robot-code libraries, and device firmware. The Java application and CI described there have not been created yet.
 
