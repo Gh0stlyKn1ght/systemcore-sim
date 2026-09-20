@@ -9,7 +9,7 @@ Run one script from the repository root:
 ```
 
 ```bash
-./scripts/fetch-wpilib-reference.sh
+bash ./scripts/fetch-wpilib-reference.sh
 ```
 
 The scripts fetch pinned, shallow, sparse checkouts into:
