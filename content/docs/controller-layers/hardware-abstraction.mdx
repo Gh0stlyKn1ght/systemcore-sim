@@ -5,6 +5,26 @@ description: Learn how HAL separates robot-facing APIs from controller-specific 
 
 # Layer 4: Hardware abstraction
 
+**Essential question:** How can one behavior run against either simulated or physical I/O without duplicating the decision logic?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- explain HAL as a boundary rather than a magic compatibility layer;
+- separate behavioral decisions from hardware access; and
+- define a small I/O contract that a simulator and hardware adapter can both satisfy.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | List every hardware class you think a drive decision should know about. |
+| 4–14 | Learn the abstraction boundary and its limits. |
+| 14–26 | Read and extend a small `DriveIO` contract. |
+| 26–36 | Compare a simulation adapter with a hardware adapter. |
+| 36–42 | Complete the exit ticket and identify one unproven assumption. |
+
 ## Responsibility
 
 HAL means **Hardware Abstraction Layer**. It creates a boundary between robot-facing operations and the controller-specific implementation needed to perform them.
@@ -45,3 +65,34 @@ The behavior code can use a simulated adapter during desktop tests and a separat
 ## Blind spot
 
 A passing adapter test does not prove the physical device, vendor firmware, wiring, or controller timing matches the model. Record that boundary with every result.
+
+## Guided code reading
+
+Consider a behavior method that receives `DriveInputs` and returns a `DriveRequest`. It never imports a motor-controller class.
+
+```java
+DriveRequest decide(DriveInputs inputs, DriverIntent intent) {
+  if (!inputs.ready() || !intent.enabled()) {
+    return DriveRequest.neutral();
+  }
+
+  return DriveRequest.arcade(intent.forward(), intent.turn());
+}
+```
+
+Identify:
+
+1. the observations;
+2. the operating permission;
+3. the decision; and
+4. the output request.
+
+Now explain where a REV or CTRE class would belong. It belongs in the adapter that applies the request, not inside this decision.
+
+## Independent diagnosis
+
+A simulation adapter reports encoder distance in meters. A hardware adapter reports raw rotations. Both satisfy the Java interface, but the robot behaves differently. Did the abstraction succeed? Explain why matching method names is weaker than matching the contract’s units and meaning.
+
+## Exit ticket
+
+Write one sentence that begins with: “HAL hides…” and another that begins with: “HAL does not prove…”

@@ -1,0 +1,59 @@
+---
+title: Course Guide
+description: Audience, teaching rhythm, evidence rules, and completion standards for Systemcore Lab.
+---
+
+# Course guide
+
+Systemcore Lab is a Java-first FRC programming and systems course. Students learn the controller stack, write robot behavior, test decisions automatically, run desktop simulation, interpret telemetry, and eventually compare those results with bounded hardware tests.
+
+## Intended learners
+
+The primary path assumes students can read basic Java but may not understand Linux, robotics middleware, CAN, control loops, or FRC architecture yet. New terms are introduced only when students need them to explain a system or complete a task.
+
+## The 42-minute lesson rhythm
+
+| Time | Activity | Purpose |
+|---|---|---|
+| 0–4 minutes | Boot question | Expose the student’s current mental model |
+| 4–14 minutes | Micro-lesson | Teach one system boundary with a concrete example |
+| 14–26 minutes | Guided trace or code change | Follow the idea through a real path |
+| 26–36 minutes | Independent diagnosis | Make the student explain a result without copying steps |
+| 36–42 minutes | Exit check and reset | Record evidence and return the environment to baseline |
+
+The time boxes are defaults, not a script. The non-negotiable part is that students do something observable with the concept before the period ends.
+
+## Evidence ladder
+
+Claims become stronger as evidence moves down this list:
+
+1. **Prediction:** what the student expects.
+2. **Source:** what the documentation says.
+3. **Build:** whether the project assembles.
+4. **Automated test:** whether a named behavior satisfies a requirement.
+5. **Simulation:** whether the integrated application behaves correctly against a model.
+6. **Telemetry:** whether another person can explain why the result occurred.
+7. **Hardware measurement:** whether the physical system matches the model inside a defined test boundary.
+
+A simulation result must never be relabeled as electrical or hardware validation.
+
+## Language support
+
+**Java is the reference implementation.** Every core lesson, automated test, simulation, telemetry example, and hardware-validation procedure starts there.
+
+C++ and Python/RobotPy are compatibility tracks. We add focused examples when a difference in APIs, tooling, vendor bindings, deployment, simulation, or platform support teaches something important. We do not rebuild every Java lesson twice just to claim three-language coverage.
+
+## Lesson completion
+
+A practical lesson is complete when the student can:
+
+- state the requirement in plain language;
+- predict the result before running it;
+- produce the required output or observation;
+- identify which layer owns the behavior;
+- distinguish simulated evidence from measured evidence; and
+- restore the known-good baseline.
+
+## Safety boundary
+
+Disabled software is not electrical isolation. Simulation does not establish a safe physical test envelope. Hardware lessons require a separate bench procedure, bounded outputs, a designated operator, and an available stop method.

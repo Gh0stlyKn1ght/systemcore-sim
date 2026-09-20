@@ -1,0 +1,79 @@
+---
+title: Signal-Trace Lab
+description: Trace one drive request across all six layers and diagnose a failure without guessing.
+---
+
+# Signal-trace lab
+
+**Mission:** Explain why a robot does not move even though the operator computer can reach the controller.
+
+## Scenario
+
+Driver Station shows communications. The joystick responds on the operator computer. The dashboard still displays the last encoder position. The robot application was redeployed five minutes ago. Moving the joystick produces no motor motion.
+
+You are not allowed to begin with “reboot everything.” Build an evidence-based trace.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Write your first hypothesis without discussing it. |
+| 5–12 | Mark every fact as observation, assumption, or unknown. |
+| 12–24 | Trace the intended command path through all six layers. |
+| 24–34 | Select three checks that separate competing explanations. |
+| 34–39 | Write the incident explanation. |
+| 39–42 | Compare your final explanation with your first hypothesis. |
+
+## Part 1: Sort the evidence
+
+Copy the scenario facts into this structure:
+
+| Statement | Observation, assumption, or unknown? | What it proves | What it does not prove |
+|---|---|---|---|
+| Controller responds to Driver Station |  |  |  |
+| Joystick moves on operator computer |  |  |  |
+| Dashboard shows an encoder value |  |  |  |
+| Application was deployed |  |  |  |
+| Motor does not move |  |  |  |
+
+## Part 2: Build the intended trace
+
+Complete every row. Do not skip a layer because it feels “too low-level.”
+
+| Layer | Expected responsibility | Evidence you would inspect |
+|---|---|---|
+| 6. Robot application | Decide a bounded drive request |  |
+| 5. WPILib/vendor library | Express mode, input, and device operations |  |
+| 4. Hardware abstraction | Map the request to the controller implementation |  |
+| 3. Operating environment | Keep the application and required services running |  |
+| 2. Startup/I/O support | Make the platform and device interfaces ready |  |
+| 1. Physical hardware | Carry the signal and switch motor power |  |
+
+## Part 3: Competing hypotheses
+
+Develop at least three explanations from different layers. Examples of useful categories include:
+
+- the application is running but requesting neutral;
+- the application process did not start after deployment;
+- the displayed encoder value is retained and stale;
+- a vendor dependency or device path is unavailable;
+- the command path works but the physical power path does not.
+
+For each hypothesis, choose one observation that would make it more likely and one that would reject it.
+
+## Part 4: Write the incident explanation
+
+Use this format:
+
+```text
+Observed:
+Not yet proven:
+Most likely layer:
+First safe check:
+Result that would confirm it:
+Next competing explanation:
+```
+
+## Completion check
+
+Your lab is complete only if another student can follow your trace, repeat the proposed checks, and understand why you did not treat a visible dashboard value as proof of fresh data.

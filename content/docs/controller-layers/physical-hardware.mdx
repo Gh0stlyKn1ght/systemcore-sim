@@ -5,6 +5,26 @@ description: Compare the roboRIO processor and FPGA with Systemcore's Compute Mo
 
 # Layer 1: Physical hardware
 
+**Essential question:** Which parts compute, which parts handle I/O, and which parts move electrical power?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- compare the roboRIO processor/FPGA design with Systemcore’s CM5/RP2350 design;
+- separate a command signal from a motor-power path; and
+- name three claims that software simulation cannot prove.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Draw what you think happens between a joystick and a motor. |
+| 4–14 | Learn the processor, specialized-I/O, command, and power roles. |
+| 14–26 | Trace one direct encoder and one motor-controller encoder. |
+| 26–36 | Diagnose three hardware-versus-software claims. |
+| 36–42 | Complete the exit ticket and correct your original drawing. |
+
 ## Responsibility
 
 This layer performs computation, connects physical interfaces, and exchanges electrical signals with external devices. It does not decide the team’s strategy by itself.
@@ -44,3 +64,30 @@ A logic-level request does not supply drivetrain power. The motor controller per
 ## Check your model
 
 An encoder connected directly to a controller input and an encoder connected to a smart motor controller can reach the application through different paths. Draw both before deciding which layer owns a fault.
+
+## Guided trace
+
+For each step below, label it **compute**, **command**, **power**, or **measurement**.
+
+1. The Java application calculates a `0.35` drive request.
+2. The controller sends a CAN message.
+3. The motor controller switches battery power.
+4. The motor rotates the mechanism.
+5. The encoder reports a changed position.
+6. The application uses the new position on its next cycle.
+
+The same physical component can participate in more than one role, but a specific signal still has a specific job.
+
+## Independent diagnosis
+
+A simulation shows the left and right wheels turning forward. Decide whether each claim is supported:
+
+| Claim | Supported by that result? | Reason |
+|---|---|---|
+| The Java application requested forward motion | Yes, if the telemetry records that request | This is application evidence. |
+| The physical motors are wired with the correct polarity | No | No physical wiring was tested. |
+| The real robot will not brown out | No | The software model did not measure the real power system. |
+
+## Exit ticket
+
+In two sentences, explain why the RP2350 and a roboRIO FPGA can occupy similar places in a teaching diagram without being the same kind of device.

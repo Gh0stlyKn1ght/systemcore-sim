@@ -7,17 +7,19 @@ description: The planned learning sequence for the Java-first Systemcore and WPI
 
 The course moves from architectural understanding to executable evidence.
 
-| Module | Outcome | Evidence students produce |
-|---|---|---|
-| Controller layers | Explain where hardware, Linux, HAL, WPILib, and team code belong | Layer map and signal trace |
-| WPILib foundations | Recognize robot modes, periodic execution, and project structure | Small Java behavior change |
-| Driver Station | Separate operator input, mode control, and application state | Input-to-output trace |
-| CAN and devices | Distinguish configuration apps, Java libraries, firmware, and the CAN bus | Device responsibility matrix |
-| NetworkTables and telemetry | Publish useful state without mistaking visible data for fresh or valid data | Timestamped telemetry view |
-| Automated testing | Verify decision logic without physical hardware | Passing and deliberately failing JUnit tests |
-| Desktop simulation | Integrate robot behavior with simulated inputs, outputs, and physics | Reproducible simulation run |
-| Fault diagnosis | Detect stale, missing, contradictory, or invalid observations | Fault report and fallback behavior |
-| Hardware validation | Compare simulation assumptions with a bounded bench test | Measured limitations and corrections |
+| Module | Outcome | Evidence students produce | Build status |
+|---|---|---|---|
+| 01. Controller layers | Explain where hardware, Linux, HAL, WPILib, and team code belong | Layer map and signal trace | Complete first edition |
+| 02. WPILib foundations | Recognize robot modes, periodic execution, and project structure | Lifecycle trace | Next to build |
+| 03. Java robot code | Turn requirements into small, testable behavior | Java behavior change | Planned |
+| 04. Driver Station | Separate operator input, mode control, and application state | Input-to-output trace | Planned |
+| 05. CAN and devices | Distinguish configuration apps, Java libraries, firmware, and the bus | Device responsibility matrix | Planned |
+| 06. NetworkTables and telemetry | Publish useful state without confusing presence with validity | Timestamped telemetry view | Planned |
+| 07. Desktop simulation | Integrate robot behavior with simulated inputs, outputs, and physics | Reproducible simulation run | Planned |
+| 08. Automated testing | Verify decision logic without physical hardware | Passing and deliberately failing JUnit tests | Planned |
+| 09. Autonomous behavior | Compose bounded autonomous actions and stop them predictably | Short tested routine | Planned |
+| 10. Vision inputs | Treat a camera result as a timestamped observation | Stale-target fallback | Planned |
+| 11. Systemcore hardware | Compare software assumptions with a bounded bench test | Measured limitations and corrections | Planned |
 
 ## Language policy
 

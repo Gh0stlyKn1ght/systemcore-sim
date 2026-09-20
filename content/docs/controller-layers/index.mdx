@@ -7,6 +7,29 @@ description: A responsibility map for roboRIO and Systemcore, from physical elec
 
 These layers are a teaching model of responsibility. They are not an exact boot trace, electrical schematic, or promise that every device follows one identical internal path.
 
+## Module outcome
+
+You will trace an FRC action from operator input to physical output, assign each step to the correct layer, and state what evidence would be needed to diagnose a failure without guessing.
+
+## Module sequence
+
+| Session | Focus | Evidence |
+|---|---|---|
+| 1 | Layer 1: Physical hardware | Corrected command/power trace |
+| 2 | Layer 2: Startup and I/O support | Readiness-state model |
+| 3 | Layer 3: Operating environment | Reachability-versus-health diagnosis |
+| 4 | Layer 4: Hardware abstraction | Simulation/hardware adapter contract |
+| 5 | Layer 5: WPILib and vendor libraries | Compatibility record |
+| 6 | Layer 6: Robot application | Testable behavior requirement |
+| 7 | Signal-trace lab | Layered incident report |
+| 8 | Reflection and correction | Revised mental model |
+| 9 | Module quiz | Individual understanding check |
+
+<Cards>
+  <Card title="Begin Layer 1" href="/docs/controller-layers/physical-hardware" description="Separate computing, command signals, measurements, and power." />
+  <Card title="Open the signal-trace lab" href="/docs/controller-layers/signal-trace-lab" description="Use all six layers to diagnose one end-to-end scenario." />
+</Cards>
+
 | Layer | roboRIO | Systemcore |
 |---|---|---|
 | 6. Robot application | Team behavior running in the selected WPILib framework | Migrated team behavior using compatible 2027 APIs |
@@ -44,3 +67,17 @@ Joystick on the operator computer
 ```
 
 The command path and the power path are different. NetworkTables can share data, but it is not automatically the transport for every Driver Station message or motor command.
+
+## Module vocabulary
+
+| Term | Working definition |
+|---|---|
+| Controller | The computer running the robot application and controller-specific support |
+| FPGA | Configurable digital logic used by roboRIO for specialized I/O functions |
+| Microcontroller | A processor with integrated peripherals, such as Systemcore’s RP2350 I/O device |
+| Operating environment | The OS, drivers, services, files, processes, and networking around the application |
+| HAL | The boundary that maps robot-facing operations to a platform implementation |
+| WPILib | The FRC robot-programming libraries and tools used by the team application |
+| Vendor library | A device manufacturer’s robot-code API |
+| Firmware | Software running inside a controller or external device |
+| Telemetry | Recorded or published state used to explain what the system did |

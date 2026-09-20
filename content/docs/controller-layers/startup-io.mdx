@@ -5,6 +5,26 @@ description: Separate controller startup, I/O firmware, imaging, and deployment.
 
 # Layer 2: Startup and I/O support
 
+**Essential question:** What has to become ready before a robot application can trust an input or issue an output?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- distinguish power-on, imaging, deployment, and device-firmware updates;
+- explain why application startup does not guarantee sensor readiness; and
+- design an explicit readiness state instead of trusting a default number.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Put power-on, image, deploy, and firmware update into your predicted order. |
+| 4–14 | Separate platform startup from application deployment. |
+| 14–26 | Build a readiness timeline for one sensor. |
+| 26–36 | Diagnose a false zero caused by an unavailable sensor. |
+| 36–42 | Complete the exit ticket and restore the known-good sequence. |
+
 ## Responsibility
 
 This layer prepares the platform and its specialized I/O resources so the operating environment and robot application can use them.
@@ -39,3 +59,31 @@ Desktop simulation can model “I/O ready” and “I/O unavailable” states. I
 ## Failure exercise
 
 Model a sensor that is unavailable during application startup and becomes available later. The application must report readiness explicitly rather than interpreting a default numeric value as a valid measurement.
+
+Use a state model such as:
+
+```text
+UNAVAILABLE -> INITIALIZING -> READY
+                     \-> FAULT
+```
+
+The numeric measurement and the readiness state answer different questions. A value of `0.0` can be a real measurement, an initialization default, or a failure symptom.
+
+## Guided investigation
+
+For each action, identify what it changes:
+
+| Action | Platform image | Team application | External device firmware |
+|---|---:|---:|---:|
+| Deploy Java robot code | No | Yes | No |
+| Reimage the controller | Yes | May remove or require redeployment | No |
+| Update one motor controller | No | No | Yes |
+| Restart robot code | No | Restarts the process | No |
+
+## Independent diagnosis
+
+The controller is reachable, the application started, and the gyro reports `0.0` forever. Write three competing explanations that belong to different layers. Then name the next observation that would separate them.
+
+## Exit ticket
+
+Why is “the application started” weaker evidence than “the sensor is ready and its timestamp is advancing”?

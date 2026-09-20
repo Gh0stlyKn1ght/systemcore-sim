@@ -1,0 +1,124 @@
+---
+title: Module Quiz
+description: Check your understanding of the six controller layers and their validation boundaries.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+Choose the strongest answer for each question. Explanations appear after you submit all ten.
+
+<CourseQuiz
+  questions={[
+    {
+      prompt: 'Which statement best describes the relationship between roboRIO and WPILib?',
+      choices: [
+        'roboRIO is a Java library inside WPILib.',
+        'roboRIO is the physical controller, and team programs on it use WPILib.',
+        'WPILib is the Linux operating system installed on roboRIO.',
+        'WPILib is only used when ROS 2 is unavailable.'
+      ],
+      answer: 1,
+      explanation: 'The controller is the computer. WPILib is the robot-programming software used by the team application.'
+    },
+    {
+      prompt: 'What is the most accurate comparison between a roboRIO FPGA and the Systemcore RP2350?',
+      choices: [
+        'They are identical devices with different names.',
+        'Both are Java processors.',
+        'Both can handle specialized I/O responsibilities, but one is an FPGA and the other is a microcontroller.',
+        'Both require ROS 2 firmware.'
+      ],
+      answer: 2,
+      explanation: 'The teaching role overlaps, but the device types, implementations, and guarantees are different.'
+    },
+    {
+      prompt: 'A simulation shows both wheels moving forward. What does that result prove?',
+      choices: [
+        'The real motors are wired correctly.',
+        'The battery cannot brown out.',
+        'The software model produced forward motion from the tested request.',
+        'The physical CAN bus is healthy.'
+      ],
+      answer: 2,
+      explanation: 'Simulation supports claims about the software and model, not untested physical wiring, power, or bus behavior.'
+    },
+    {
+      prompt: 'Which operation changes the team application without replacing the controller image?',
+      choices: ['Power-on', 'Deploy', 'Reimage', 'Update device firmware'],
+      answer: 1,
+      explanation: 'Deployment builds and transfers the team application. Imaging changes controller system software.'
+    },
+    {
+      prompt: 'The controller web interface loads, but Driver Station reports no robot code. What is the strongest conclusion?',
+      choices: [
+        'The entire controller is dead.',
+        'The network and part of the OS respond, but team-code health is not established.',
+        'The motor controllers have correct firmware.',
+        'The robot is safe to touch.'
+      ],
+      answer: 1,
+      explanation: 'Reachability is narrower evidence than application health and says nothing by itself about physical energy.'
+    },
+    {
+      prompt: 'What is HAL responsible for?',
+      choices: [
+        'Choosing the team’s autonomous strategy',
+        'Replacing all vendor libraries',
+        'Mapping robot-facing operations to controller-specific implementations',
+        'Supplying motor power'
+      ],
+      answer: 2,
+      explanation: 'HAL creates a software boundary. It does not choose behavior or deliver actuator power.'
+    },
+    {
+      prompt: 'Which action makes a REV or CTRE Java class available to robot code?',
+      choices: [
+        'Install only the vendor configuration application',
+        'Add the compatible vendor library to the robot project',
+        'Reimage the operator laptop',
+        'Rename the CAN device'
+      ],
+      answer: 1,
+      explanation: 'The configuration application and robot-code dependency are separate artifacts.'
+    },
+    {
+      prompt: 'Why is a visible NetworkTables value not enough to authorize a control action?',
+      choices: [
+        'NetworkTables only supports strings.',
+        'The value may be retained, stale, invalid, or from the wrong source.',
+        'NetworkTables disables Java.',
+        'Every value is sent directly to a motor.'
+      ],
+      answer: 1,
+      explanation: 'Control decisions need value, timestamp, validity, source, and a defined fallback.'
+    },
+    {
+      prompt: 'Which requirement is directly testable without physical hardware?',
+      choices: [
+        'The real robot will not brown out.',
+        'The CAN wiring has correct termination.',
+        'Disabled-state input produces a neutral drive request.',
+        'The motor gearbox is aligned.'
+      ],
+      answer: 2,
+      explanation: 'That is a software decision with defined inputs and an expected output request.'
+    },
+    {
+      prompt: 'Where does ROS 2 belong in the standard FRC workflow taught here?',
+      choices: [
+        'It is required between Linux and WPILib.',
+        'It replaces the Driver Station.',
+        'It is optional architecture that must be introduced deliberately.',
+        'It is the Systemcore bootloader.'
+      ],
+      answer: 2,
+      explanation: 'Neither roboRIO nor Systemcore requires ROS 2 for the standard WPILib robot-application path.'
+    }
+  ]}
+/>
+
+## Mastery target
+
+A score of 8/10 or higher shows readiness for the WPILib foundations module. If you score below 8, revisit the two layer boundaries named in your feedback, then try again.

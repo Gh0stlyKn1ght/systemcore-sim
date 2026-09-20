@@ -5,6 +5,26 @@ description: Understand Linux, processes, files, networking, drivers, and contro
 
 # Layer 3: Operating environment
 
+**Essential question:** How can the controller be reachable while the robot application is unhealthy?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- separate controller reachability, process health, robot mode, and actuator permission;
+- distinguish restarting robot code from rebooting the controller; and
+- explain why Linux or a browser interface does not imply ROS 2.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Answer: “The controller responds to ping. Is the robot code healthy?” |
+| 4–14 | Map OS responsibilities and the robot application process. |
+| 14–26 | Compare four controller/application status scenarios. |
+| 26–36 | Diagnose a reachable controller with failed team code. |
+| 36–42 | Complete the exit ticket and record the evidence needed next. |
+
 ## Responsibility
 
 The operating environment manages processes, memory, files, networking, permissions, and device access. The robot application runs under this layer. It does not replace it.
@@ -34,3 +54,20 @@ A web interface can configure cameras, packages, or diagnostics without creating
 ## Failure exercise
 
 Terminate or simulate failure of the robot application while leaving the surrounding simulation process alive. Students must distinguish “computer reachable” from “robot code healthy.”
+
+## Four conditions that must stay separate
+
+| Condition | What it tells you | What it does not prove |
+|---|---|---|
+| Controller reachable | The network path and part of the OS are responding | Team code is running correctly |
+| Robot process running | A process exists | Its decisions are correct |
+| Robot disabled | Actuator operation is restricted by robot state | The controller is powered off |
+| Dashboard updating | Some data path is active | Every sensor is fresh or valid |
+
+## Independent diagnosis
+
+The web interface loads, but Driver Station reports no robot code. Build a three-step investigation that avoids rebooting everything as the first response. For each step, write what evidence would confirm or reject your hypothesis.
+
+## Exit ticket
+
+Finish this sentence with four different conditions: “The controller is reachable, but…”

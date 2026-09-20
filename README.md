@@ -31,6 +31,14 @@ npm run dev
 
 Use `npm run types:check` and `npm run build` before merging course changes.
 
+## Course build status
+
+**Module 01: Controller Layers** now has a complete first edition designed for nine 42-minute sessions: six layer lessons, one signal-trace diagnosis lab, one reflection, and one interactive ten-question quiz. Each lesson uses a short boot question, focused instruction, guided tracing, independent diagnosis, and an exit check.
+
+Modules 02–11 now have explicit entry pages, outcomes, and planned practical evidence. They are labeled as planned rather than presented as finished content. **Module 02: WPILib Foundations is the next authoring target.**
+
+The verified course build currently generates 24 documentation routes plus matching searchable, LLM-readable, and Open Graph routes.
+
 ## Coding and testing goal
 
 The intended deliverable is **Java/WPILib robot code that we can build, test automatically, run in desktop simulation, and later compare with real Systemcore hardware**. **Java is the primary implementation, teaching, and validation language for this repository.** ROS 2 is not a prerequisite. Research supports this deliverable rather than replacing implementation.

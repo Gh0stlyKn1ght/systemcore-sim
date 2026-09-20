@@ -2,8 +2,22 @@
   "title": "Systemcore Lab",
   "pages": [
     "index",
+    "course-guide",
     "course-map",
-    "---Controller Layers---",
-    "controller-layers"
+    "---Module 01---",
+    "controller-layers",
+    "---Java and WPILib---",
+    "wpilib-foundations",
+    "java-robot-code",
+    "driver-station",
+    "can-devices",
+    "networktables-telemetry",
+    "simulation",
+    "testing",
+    "autonomous",
+    "vision",
+    "systemcore-hardware",
+    "---Reference---",
+    "reference"
   ]
 }

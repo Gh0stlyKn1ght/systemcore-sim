@@ -9,6 +9,9 @@
     "operating-environment",
     "hardware-abstraction",
     "wpilib-vendor-libraries",
-    "robot-application"
+    "robot-application",
+    "signal-trace-lab",
+    "reflection",
+    "quiz"
   ]
 }

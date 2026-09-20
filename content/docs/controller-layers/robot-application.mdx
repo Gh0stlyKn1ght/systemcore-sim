@@ -5,6 +5,26 @@ description: Define, test, simulate, and explain the behavior written by the tea
 
 # Layer 6: Robot application
 
+**Essential question:** How do we turn an operator request and sensor observations into a bounded, explainable robot action?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- write a behavior as observations, decision, request, and telemetry;
+- define a neutral fallback for invalid input or missing permission; and
+- place build, unit-test, simulation, telemetry, and hardware evidence in the correct order.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Write the rule your robot should follow when input becomes invalid. |
+| 4–14 | Map observations, intent, decisions, and output requests. |
+| 14–26 | Convert one requirement into Java-like pseudocode. |
+| 26–36 | Test the rule against normal, disabled, and stale-input cases. |
+| 36–42 | Complete the exit ticket and identify the next stronger evidence. |
+
 ## Responsibility
 
 This is the behavior the team writes: driving, mechanisms, autonomous routines, interlocks, diagnostics, and fallback decisions.
@@ -49,3 +69,32 @@ The initial implementation will contain:
 A clean checkout must build, discover and run its tests, launch the selected simulation, expose understandable telemetry, reproduce one deliberate fault, and return to the known-good baseline.
 
 Only then should we add vendor-specific hardware integration, swerve drive, multiple cameras, or a second mechanism.
+
+## Requirement to decision
+
+Start with plain language:
+
+> When teleop is enabled and the drive input is fresh, calculate a bounded drive request. Otherwise request neutral output.
+
+Then make every condition visible:
+
+```java
+if (!mode.teleopEnabled() || !driverInput.fresh()) {
+  return DriveRequest.neutral();
+}
+
+return DriveRequest.arcade(
+    clamp(driverInput.forward()),
+    clamp(driverInput.turn())
+);
+```
+
+The real implementation will use the selected WPILib APIs and project structure. This pseudocode exists to expose the rule before framework details are added.
+
+## Independent diagnosis
+
+The simulation moves correctly, but the telemetry records no input timestamp and no selected fallback reason. Decide whether the behavior is ready for a fault exercise. Defend your answer using the evidence ladder.
+
+## Exit ticket
+
+Write one requirement for neutral output that can be tested without a robot. Include the input condition and the expected request.

@@ -5,6 +5,26 @@ description: Separate WPILib, vendor APIs, configuration applications, and devic
 
 # Layer 5: WPILib and vendor libraries
 
+**Essential question:** Which software do we install on the computer, add to the Java project, or update on the device?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- distinguish WPILib, vendor libraries, configuration applications, and firmware;
+- choose the correct artifact for a stated task; and
+- explain why compatible versions must be selected as a set.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Sort WPILib, REVLib, Hardware Client, and firmware by responsibility. |
+| 4–14 | Learn the application/library/firmware boundary. |
+| 14–26 | Build a compatibility record for one hypothetical device. |
+| 26–36 | Diagnose three “installed but not working” scenarios. |
+| 36–42 | Complete the exit ticket and state what evidence is still missing. |
+
 ## Responsibility
 
 WPILib supplies robot-oriented APIs, mode frameworks, controls, simulation support, telemetry tools, and utilities. Vendor libraries add device-specific capabilities, especially for CAN devices.
@@ -31,3 +51,38 @@ A visible value is not proof that the value is fresh, valid, or safe to act on. 
 ## Failure exercise
 
 Publish a synthetic target measurement, stop updating it, and leave the last value visible. The Java behavior must reject the stale observation instead of continuing to aim from an old number.
+
+## Choose the correct layer
+
+| Need | Correct artifact |
+|---|---|
+| Change a physical CAN ID | Vendor configuration application |
+| Call a device from Java | Compatible vendor library dependency |
+| Change software inside the physical device | Device firmware update using the supported tool |
+| Use robot modes and desktop simulation | WPILib and the generated project |
+
+## Compatibility record
+
+Before changing a device, record:
+
+```text
+controller generation:
+controller image:
+WPILib version:
+Java version:
+vendor library:
+configuration application:
+device model:
+device firmware:
+bus and device ID:
+```
+
+“Latest” is not a compatibility strategy. A desktop application, Java library, controller image, and device firmware can each have different release requirements.
+
+## Independent diagnosis
+
+The configuration application sees a motor controller, but the Java project cannot import its class. Which layer is working, which layer is missing, and what evidence would you collect before adding a dependency?
+
+## Exit ticket
+
+Explain why installing Phoenix Tuner X or REV Hardware Client does not automatically make the corresponding Java imports available.
