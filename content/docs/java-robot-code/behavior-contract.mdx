@@ -1,0 +1,79 @@
+---
+title: "Lesson 1: Write the Behavior Contract"
+description: Translate a plain-language robot requirement into ordered, testable decisions.
+---
+
+# Write the behavior contract
+
+**Essential question:** How do we know what the code must do before we write the code?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- identify every input, output, and fallback in a behavior requirement;
+- convert ambiguous prose into a decision table; and
+- name boundary values that need independent checks.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Mark the ambiguous words in the initial drive requirement. |
+| 4–14 | Separate observations, permission, decision, and request. |
+| 14–26 | Build the ordered decision table. |
+| 26–36 | Add boundary examples and expected results. |
+| 36–42 | Submit the contract and exit ticket. |
+
+## Start with prose
+
+> When teleop is enabled and driver input is valid and fresh, convert forward and turn into a bounded differential-drive request. Otherwise return neutral output and explain why.
+
+That sentence is not executable yet. It leaves questions:
+
+- What counts as fresh?
+- Is exactly 100 milliseconds accepted?
+- What makes a number invalid?
+- Does the deadband include its boundary?
+- Which failure reason wins when several conditions are false?
+- What numerical range is bounded?
+
+## Make every term measurable
+
+| Term | Course definition |
+|---|---|
+| Enabled | The input snapshot reports that robot behavior has permission to run. |
+| Teleop | The selected operating mode is teleoperated control. |
+| Valid number | Both axes are finite, not `NaN` or infinity. |
+| Valid age | Sample age is zero or positive. |
+| Fresh | Sample age is at most 100 milliseconds. |
+| Deadband | An absolute axis value at or below `0.08` becomes zero. |
+| Neutral | Left and right requests both equal `0.0`. |
+| Bounded | Each request remains from `-1.0` through `1.0`. |
+
+## Order the decisions
+
+Order matters because the function returns at the first matching guard.
+
+| Priority | Condition | Result |
+|---:|---|---|
+| 1 | Not enabled | Neutral, `DISABLED` |
+| 2 | Not teleop | Neutral, `WRONG_MODE` |
+| 3 | Axis not finite or age negative | Neutral, `INVALID_INPUT` |
+| 4 | Age greater than 100 ms | Neutral, `STALE_INPUT` |
+| 5 | Both processed axes equal zero | Neutral, `DEADBAND` |
+| 6 | Otherwise | Calculated request, `READY` |
+
+## Independent diagnosis
+
+An input is disabled, not teleop, contains `NaN`, and is 500 milliseconds old. Which reason should the current contract return? Explain why that answer follows from the table rather than from personal preference.
+
+## Exit ticket
+
+Write three cases:
+
+1. one normal case;
+2. one exact boundary case; and
+3. one invalid case.
+
+Each case must include all five inputs and the expected request and reason.

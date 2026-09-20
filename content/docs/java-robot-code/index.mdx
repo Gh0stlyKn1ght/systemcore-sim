@@ -1,20 +1,72 @@
 ---
 title: "Module 03: Java Robot Code"
-description: Convert robot requirements into small, readable, testable Java behavior.
+description: Convert robot requirements into executable, bounded, and explainable Java behavior.
 ---
 
 # Module 03: Java robot code
 
-**Status:** Planned.
+Robot code should make a decision before a hardware library turns that decision into an electrical action. This module builds that decision boundary as real Java.
 
-## Students will be able to
+## Module outcome
 
-- translate a plain-language robot requirement into inputs, decisions, and outputs;
-- keep decision logic separate from hardware access;
-- use records or small value objects for observations and requests;
-- handle invalid input explicitly; and
-- make a behavior small enough to test without the full robot.
+You will convert a drive requirement into typed inputs, a pure decision, a bounded request, a reason code, and nine executable checks. The code runs without WPILib, a Driver Station, a vendor library, or robot hardware.
 
-## Planned practical
+## Module sequence
 
-Implement a drive-request calculator with deadband, scaling, output limits, and a neutral fallback. The first version will contain an intentional boundary bug for students to find.
+| Session | Focus | Evidence |
+|---|---|---|
+| 1 | Turn prose into a contract | Requirement and decision table |
+| 2 | Model values with records | Input, request, and result types |
+| 3 | Reject invalid or stale input | Ordered guard-clause trace |
+| 4 | Calculate a bounded request | Worked drive calculations |
+| 5 | Execute behavior checks | Passing test record |
+| 6 | Boundary-defect lab | Failing check, diagnosis, and repair |
+| 7 | Reflection and correction | Revised behavior explanation |
+| 8 | Module quiz | Individual understanding check |
+
+<Cards>
+  <Card title="Start with the contract" href="/docs/java-robot-code/behavior-contract" description="Translate one robot requirement into explicit cases." />
+  <Card title="Open the boundary lab" href="/docs/java-robot-code/boundary-lab" description="Introduce a one-character defect and diagnose it from evidence." />
+</Cards>
+
+## Executable artifact
+
+The repository includes [`examples/java-behavior/BehaviorCheck.java`](https://github.com/Gh0stlyKn1ght/systemcore-sim/blob/main/examples/java-behavior/BehaviorCheck.java).
+
+Run it from the repository root:
+
+```bash
+npm run test:java
+```
+
+Expected result:
+
+```text
+PASS: 9 Java behavior checks
+```
+
+Java can run a single source file by compiling it in memory and executing its first class. This keeps the first artifact dependency-free while still using real Java. The behavior can later move unchanged into the generated WPILib project.
+
+## Behavior contract
+
+The controller receives mode state, forward input, turn input, and sample age. It returns left and right requests plus a reason.
+
+| Condition | Request | Reason |
+|---|---|---|
+| Disabled | Neutral | `DISABLED` |
+| Enabled outside teleop | Neutral | `WRONG_MODE` |
+| Non-finite value or negative age | Neutral | `INVALID_INPUT` |
+| Input older than 100 ms | Neutral | `STALE_INPUT` |
+| Both axes inside the deadband | Neutral | `DEADBAND` |
+| Valid active input | Scaled and bounded | `READY` |
+
+Neutral means both sides request `0.0`. Bounded means neither side can leave `[-1.0, 1.0]`.
+
+## Evidence boundary
+
+Passing these checks proves that the tested Java decision returns the expected values for nine named cases. It does not prove WPILib integration, motor-controller behavior, robot wiring, traction, or electrical safety.
+
+## Java sources
+
+- [Oracle Java 25 record classes](https://docs.oracle.com/en/java/javase/25/language/records.html)
+- [Oracle `java` source-file mode](https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html)

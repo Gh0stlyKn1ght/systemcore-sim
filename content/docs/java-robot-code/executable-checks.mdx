@@ -1,0 +1,94 @@
+---
+title: "Lesson 5: Execute the Checks"
+description: Read a dependency-free Java test harness and interpret its result without overstating the evidence.
+---
+
+# Execute the checks
+
+**Essential question:** What does a passing executable check establish, and what remains unproven?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- run the Java behavior artifact;
+- read expected and actual decision values; and
+- state the boundary of the resulting evidence.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Predict which check protects the freshness boundary. |
+| 4–12 | Read the test harness and failure format. |
+| 12–22 | Run all nine checks. |
+| 22–34 | Add one new case and make it pass. |
+| 34–42 | Record the evidence and exit ticket. |
+
+## Run the artifact
+
+From the repository root:
+
+```bash
+npm run test:java
+```
+
+The command runs:
+
+```text
+java examples/java-behavior/BehaviorCheck.java
+```
+
+In source-file mode, Java compiles the source in memory and executes it. This repository uses that path because the environment has a Java runtime but does not require a separate compiler installation for the first behavior exercise.
+
+## Read one check
+
+```java
+checkDecision(
+    failures,
+    "100 ms boundary is accepted",
+    controller.decide(new DriveInput(true, true, 1.0, 0.0, 100)),
+    new DriveRequest(0.75, 0.75),
+    Reason.READY);
+```
+
+The name states the requirement. The input defines the case. The expected request and reason define success. A failure prints both expected and actual decisions and exits with a nonzero status.
+
+## Why no JUnit yet?
+
+The goal here is to expose the contract with the smallest executable surface. Module 08 introduces JUnit, test discovery, fixtures, and build integration. The decision core will not need to change when the harness changes.
+
+## Add a case
+
+Add a tenth check for full reverse input:
+
+```text
+enabled = true
+teleop = true
+forward = -1.0
+turn = 0.0
+sampleAgeMs = 0
+```
+
+Predict the request and reason before running it. Keep the new check only after it passes and its name describes the requirement.
+
+## Evidence statement
+
+A valid record looks like:
+
+```text
+Command: npm run test:java
+Java runtime:
+Result: PASS: 10 Java behavior checks
+Commit:
+Established: named decision cases returned their expected request and reason
+Not established: WPILib integration, device output, physical motion, or electrical safety
+```
+
+## Exit ticket
+
+Explain why nine passing checks are stronger than “the code looks right” but weaker than integrated simulation.
+
+## Source check
+
+The execution behavior is defined by Oracle’s [`java` command documentation](https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html).

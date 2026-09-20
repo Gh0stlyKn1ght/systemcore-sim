@@ -1,0 +1,79 @@
+---
+title: "Lesson 3: Guard Invalid Input"
+description: Use ordered guard clauses to make neutral fallbacks visible and testable.
+---
+
+# Guard invalid input
+
+**Essential question:** Which conditions must stop the calculation before an active request is possible?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- read an ordered set of guard clauses;
+- distinguish invalid, stale, and unauthorized input; and
+- explain why a neutral result still needs a reason.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Predict the result of an input with multiple failures. |
+| 4–14 | Trace the guard-clause order. |
+| 14–26 | Add invalid-number and age checks. |
+| 26–36 | Diagnose a reordered implementation. |
+| 36–42 | Submit a trace and exit ticket. |
+
+## Stop early
+
+```java
+if (!input.enabled()) {
+  return neutral(Reason.DISABLED);
+}
+
+if (!input.teleop()) {
+  return neutral(Reason.WRONG_MODE);
+}
+
+if (!Double.isFinite(input.forward())
+    || !Double.isFinite(input.turn())
+    || input.sampleAgeMs() < 0) {
+  return neutral(Reason.INVALID_INPUT);
+}
+
+if (input.sampleAgeMs() > MAX_INPUT_AGE_MS) {
+  return neutral(Reason.STALE_INPUT);
+}
+```
+
+Each guard blocks the active calculation and returns a complete result. The final calculation can therefore assume that permission, mode, numeric validity, and freshness have already passed.
+
+## Invalid is not stale
+
+| Input | Classification | Why |
+|---|---|---|
+| `sampleAgeMs = -1` | Invalid | A sample cannot come from negative elapsed time in this contract. |
+| `sampleAgeMs = 100` | Fresh | The maximum is inclusive. |
+| `sampleAgeMs = 101` | Stale | It exceeds the accepted age. |
+| `forward = NaN` | Invalid | Arithmetic using it would remain non-finite. |
+| `turn = +Infinity` | Invalid | It is not a bounded observation. |
+
+## Why permission comes first
+
+If the robot is disabled, neutral is required regardless of the axis values. Returning `DISABLED` first gives the operator the most immediate control-state explanation. Another project could choose a different diagnostic priority, but that priority must be written into its contract and tests.
+
+## Independent diagnosis
+
+A developer moves the stale check above the negative-age check. For `sampleAgeMs = -1`, the stale check is false and the later invalid check still runs. The output is unchanged.
+
+Is the reordering harmless? Answer in terms of current behavior, future maintenance, and whether the code still mirrors the written table.
+
+## Exit ticket
+
+Trace the first returned reason for each case:
+
+1. disabled, teleop, `NaN`, age 200;
+2. enabled, autonomous, valid axes, age 0;
+3. enabled, teleop, valid axes, age 100; and
+4. enabled, teleop, valid axes, age 101.

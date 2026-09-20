@@ -1,0 +1,79 @@
+---
+title: "Lesson 2: Model Values with Records"
+description: Use small immutable Java records to make observations, requests, and decisions explicit.
+---
+
+# Model values with records
+
+**Essential question:** How can the type system make missing or mixed-up information harder to hide?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- explain why a group of related values deserves a named type;
+- read and construct a Java record; and
+- separate an observed input from a requested output.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Compare five loose parameters with one named input value. |
+| 4–14 | Read record headers and generated accessors. |
+| 14–26 | Construct three behavior values by hand. |
+| 26–36 | Diagnose a type and ownership mistake. |
+| 36–42 | Complete the exit ticket. |
+
+## Three different facts
+
+```java
+record DriveInput(
+    boolean enabled,
+    boolean teleop,
+    double forward,
+    double turn,
+    long sampleAgeMs) {}
+
+record DriveRequest(double left, double right) {}
+
+record DriveDecision(DriveRequest request, Reason reason) {}
+```
+
+These types prevent the code from pretending that an observation and an actuator request are the same thing.
+
+| Type | Meaning | Owned by |
+|---|---|---|
+| `DriveInput` | Snapshot of permission, mode, axes, and age | Input adapter |
+| `DriveRequest` | Desired left and right output | Decision core |
+| `DriveDecision` | Request plus explanation | Decision core |
+| `Reason` | Stable category for the decision path | Shared behavior contract |
+
+## What Java creates
+
+For each record component, Java creates a final field and an accessor with the component’s name. It also creates value-based `equals`, `hashCode`, and `toString` methods.
+
+```java
+DriveInput input = new DriveInput(true, true, 0.6, -0.2, 20);
+
+double forward = input.forward();
+long age = input.sampleAgeMs();
+```
+
+Records are useful here because these values describe a snapshot. They are not the right tool for a changing motor object, network connection, or subsystem with a lifecycle.
+
+## Why return a reason?
+
+Returning only `(0.0, 0.0)` hides whether the robot was disabled, the mode was wrong, the input was stale, or the driver simply released the controls. The `Reason` makes the same neutral request explainable.
+
+## Independent diagnosis
+
+A student adds a mutable `MotorController` object to `DriveRequest` and changes it inside the record. Identify which boundary was crossed and redesign the record so it remains a plain requested value.
+
+## Exit ticket
+
+Create one `DriveInput` value for a valid right turn and write the exact accessor call used to read each component.
+
+## Source check
+
+Oracle describes records as concise carriers for plain data aggregates and documents their generated members in [Record Classes](https://docs.oracle.com/en/java/javase/25/language/records.html).

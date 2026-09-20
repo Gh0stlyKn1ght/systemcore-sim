@@ -1,0 +1,55 @@
+---
+title: Reflection and Correction
+description: Explain the behavior boundary and correct overclaims before integrating with WPILib.
+---
+
+# Reflection and correction
+
+Complete this page after the boundary-defect lab and before the module quiz.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–8 | Reconstruct the decision order without the source. |
+| 8–18 | Compare it with the executable contract. |
+| 18–30 | Correct two weak design claims. |
+| 30–38 | Explain the behavior boundary to a partner. |
+| 38–42 | Submit the final evidence statement. |
+
+## Reconstruct the function
+
+Without opening `BehaviorCheck.java`, write the six decision outcomes in priority order. Include the boundary rule for sample age and deadband.
+
+## Correct two claims
+
+For each selected claim, write a correction and cite code or run evidence.
+
+1. “A record automatically makes every value valid.”
+2. “Clamping the joystick means the mixed output cannot exceed one.”
+3. “Neutral output explains why the robot did not move.”
+4. “If the checks pass, the robot is safe to operate.”
+5. “A one-character boundary change is too small to matter.”
+
+## Separate the layers
+
+| Layer | Responsibility in this module |
+|---|---|
+| Input adapter | Produce the `DriveInput` snapshot from a framework or test |
+| Decision core | Validate, classify, mix, scale, and bound the request |
+| Output adapter | Translate `DriveRequest` into a library or simulated device call |
+| Telemetry adapter | Publish the request and reason without changing the decision |
+
+Only the decision core is implemented here. That separation is deliberate. It lets tests supply inputs and inspect outputs without constructing motors or a Driver Station.
+
+## Final explanation
+
+Write 150 to 250 words that answers:
+
+> Why is a requested output different from a physical motor action?
+
+Use these terms accurately: **observation**, **permission**, **guard clause**, **deadband**, **bounded request**, **reason**, and **evidence**.
+
+## Readiness check
+
+You are ready for the quiz when you can calculate the output of a normal case, predict both exact boundary defects, and state what the executable checks do not prove.

@@ -1,0 +1,84 @@
+---
+title: "Lesson 4: Calculate a Bounded Drive Request"
+description: Apply deadband, scaling, arcade mixing, and final output limits in a defined order.
+---
+
+# Calculate a bounded drive request
+
+**Essential question:** How does valid driver input become a predictable left and right request?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- apply an inclusive deadband;
+- calculate a differential-drive arcade mix; and
+- explain why output clamping belongs after mixing.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Predict the result of full forward plus full turn. |
+| 4–14 | Apply deadband and input clamping. |
+| 14–26 | Work four drive calculations. |
+| 26–36 | Diagnose a misplaced clamp. |
+| 36–42 | Submit the calculation trace. |
+
+## Calculation order
+
+1. Apply the deadband to each axis.
+2. Clamp surviving axes to `[-1.0, 1.0]`.
+3. Add forward and turn for the left side.
+4. Subtract turn from forward for the right side.
+5. Multiply both sides by `0.75`.
+6. Clamp each final request to `[-1.0, 1.0]`.
+
+```java
+double forward = applyDeadband(input.forward());
+double turn = applyDeadband(input.turn());
+
+if (forward == 0.0 && turn == 0.0) {
+  return neutral(Reason.DEADBAND);
+}
+
+double left = clamp((forward + turn) * OUTPUT_SCALE);
+double right = clamp((forward - turn) * OUTPUT_SCALE);
+```
+
+## Work the values
+
+| Forward | Turn | Left before final clamp | Right before final clamp | Final request |
+|---:|---:|---:|---:|---|
+| `1.0` | `0.0` | `0.75` | `0.75` | `(0.75, 0.75)` |
+| `0.0` | `1.0` | `0.75` | `-0.75` | `(0.75, -0.75)` |
+| `1.0` | `1.0` | `1.50` | `0.00` | `(1.00, 0.00)` |
+| `-1.0` | `0.5` | `-0.375` | `-1.125` | `(-0.375, -1.00)` |
+
+The final clamp matters because two individually valid axes can produce a mixed value whose magnitude exceeds one.
+
+## Deadband boundary
+
+```java
+return Math.abs(value) <= DEADBAND ? 0.0 : clamp(value);
+```
+
+The course contract makes `0.08` and `-0.08` neutral. Changing `<=` to `<` changes the contract at exactly two values even though most driving appears unchanged.
+
+## Independent diagnosis
+
+A student clamps `forward + turn` before multiplying by `0.75`. For full forward plus full turn, the result becomes `0.75` instead of `1.0`.
+
+Neither result exceeds the output limit. Explain why this is still a behavior change that must be decided by the contract rather than by whichever line was easier to write.
+
+## Exit ticket
+
+Calculate the final request and reason for:
+
+```text
+enabled = true
+teleop = true
+forward = 0.60
+turn = -0.20
+sampleAgeMs = 25
+```

@@ -1,0 +1,114 @@
+---
+title: Module Quiz
+description: Check your understanding of Java value objects, guard clauses, bounded requests, and executable evidence.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+Choose the strongest answer for each question. Explanations appear after you submit all ten.
+
+<CourseQuiz
+  questions={[
+    {
+      prompt: 'What is the purpose of the DriveInput record?',
+      choices: [
+        'To control a physical motor directly',
+        'To hold one named snapshot of mode, axes, and sample age',
+        'To replace the WPILib framework',
+        'To keep a mutable network connection'
+      ],
+      answer: 1,
+      explanation: 'DriveInput groups the observations needed for one decision without owning hardware.'
+    },
+    {
+      prompt: 'Why does DriveDecision include a Reason?',
+      choices: [
+        'A neutral request can result from several different conditions.',
+        'Java records cannot contain numbers.',
+        'The reason increases motor output.',
+        'WPILib requires every record to contain an enum.'
+      ],
+      answer: 0,
+      explanation: 'The reason distinguishes disabled, wrong-mode, invalid, stale, and deadband results that may share the same neutral request.'
+    },
+    {
+      prompt: 'Which input is classified as stale by the course contract?',
+      choices: ['-1 ms', '0 ms', '100 ms', '101 ms'],
+      answer: 3,
+      explanation: 'Zero through 100 milliseconds is accepted. Values greater than 100 are stale.'
+    },
+    {
+      prompt: 'How is a negative sample age classified?',
+      choices: ['READY', 'DEADBAND', 'INVALID_INPUT', 'STALE_INPUT'],
+      answer: 2,
+      explanation: 'Negative elapsed age is invalid, not merely old.'
+    },
+    {
+      prompt: 'Why are guard clauses evaluated before the drive calculation?',
+      choices: [
+        'They guarantee the motor is physically disconnected.',
+        'They block unauthorized or unusable input from reaching active calculation.',
+        'They make Java run at 50 Hz.',
+        'They remove the need for tests.'
+      ],
+      answer: 1,
+      explanation: 'The active path runs only after permission, mode, validity, and freshness pass.'
+    },
+    {
+      prompt: 'What is the result for forward 1.0, turn 1.0, and scale 0.75?',
+      choices: ['(0.75, 0.75)', '(1.0, 0.0)', '(1.5, 0.0)', '(0.0, 1.0)'],
+      answer: 1,
+      explanation: 'The mixed values are 1.5 and 0.0 after scaling, then the left side is clamped to 1.0.'
+    },
+    {
+      prompt: 'Under the inclusive deadband rule, what happens to an axis value of exactly 0.08?',
+      choices: [
+        'It becomes 0.0.',
+        'It becomes 0.08.',
+        'It becomes 1.0.',
+        'It is classified as stale.'
+      ],
+      answer: 0,
+      explanation: 'The rule uses less-than-or-equal, so the exact boundary becomes zero.'
+    },
+    {
+      prompt: 'What defect is introduced by changing <= to < in applyDeadband?',
+      choices: [
+        'All positive inputs become invalid.',
+        'Exactly positive and negative 0.08 become active instead of neutral.',
+        'The Java source no longer compiles.',
+        'Every request becomes stale.'
+      ],
+      answer: 1,
+      explanation: 'Only the exact boundary values change, which is why a named boundary check matters.'
+    },
+    {
+      prompt: 'What does a passing Java behavior run establish?',
+      choices: [
+        'The robot wiring is correct.',
+        'The real drivetrain follows the request.',
+        'The named decision cases returned their expected values.',
+        'Every possible double value was tested.'
+      ],
+      answer: 2,
+      explanation: 'The harness establishes software behavior for its named cases and nothing about untested integration or hardware.'
+    },
+    {
+      prompt: 'Why is the decision core kept independent of WPILib and vendor classes?',
+      choices: [
+        'So the same rules can execute and be checked without hardware setup.',
+        'Because WPILib cannot use Java.',
+        'So output requests can ignore robot state.',
+        'Because vendor libraries are always unsafe.'
+      ],
+      answer: 0,
+      explanation: 'Framework-independent logic is easier to exercise directly and can later be called by a WPILib adapter.'
+    }
+  ]}
+/>
+
+## Mastery target
+
+A score of 8/10 or higher shows readiness for the Driver Station module. If you score below 8, rerun the boundary lab and trace the first guard returned by each missed case.

@@ -1,0 +1,93 @@
+---
+title: Boundary-Defect Lab
+description: Introduce a one-character deadband defect, identify the failing contract, and restore the baseline.
+---
+
+# Boundary-defect lab
+
+## Challenge
+
+Change one comparison operator, predict the smallest affected input set, reproduce the failure, diagnose it from expected and actual values, and restore the known-good baseline.
+
+## Success criteria
+
+Your evidence must include:
+
+- a clean baseline run;
+- the exact one-character change;
+- a prediction made before the defective run;
+- at least one failing named check;
+- an explanation tied to the written contract;
+- a restored passing run; and
+- the commit identifier for the restored state.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Run and record the baseline. |
+| 6–13 | Predict the affected boundary values. |
+| 13–20 | Introduce the comparison defect. |
+| 20–29 | Run, capture, and interpret the failure. |
+| 29–36 | Restore the operator and rerun. |
+| 36–42 | Submit the incident record. |
+
+## Baseline
+
+Run:
+
+```bash
+npm run test:java
+```
+
+Record the Java version, output, and current commit. Do not continue until all nine checks pass.
+
+## Introduce the defect
+
+Find:
+
+```java
+return Math.abs(value) <= DEADBAND ? 0.0 : clamp(value);
+```
+
+Change only `<=` to `<`.
+
+Before running, answer:
+
+1. Which exact positive value changes behavior?
+2. Which exact negative value changes behavior?
+3. Which existing check should fail?
+4. Why will most inputs still appear correct?
+
+## Run the defective version
+
+Execute the same command. Preserve the failure text.
+
+The defect changes the inclusive boundary. Inputs with magnitude exactly `0.08` are no longer converted to zero, so the decision becomes active rather than returning `DEADBAND`.
+
+## Restore and verify
+
+Return `<` to `<=`, then run all checks again. A repair is not complete because the code looks restored. It is complete when the same command that exposed the defect passes.
+
+## Incident record
+
+```text
+Baseline result:
+Change introduced:
+Predicted affected values:
+Observed failing check:
+Expected decision:
+Actual decision:
+Contract sentence violated:
+Repair:
+Restored result:
+Commit:
+```
+
+## Extension
+
+Change the freshness comparison from `>` to `>=`. Predict which check fails and explain how the meaning of “at most 100 milliseconds” determines the correct operator.
+
+## Evidence boundary
+
+This lab establishes that the executable cases can detect two precise boundary defects. It does not prove that every possible numeric input has been tested.

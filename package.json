@@ -6,6 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
+    "test:java": "java examples/java-behavior/BehaviorCheck.java",
     "types:check": "next typegen && tsc --noEmit"
   },
   "dependencies": {

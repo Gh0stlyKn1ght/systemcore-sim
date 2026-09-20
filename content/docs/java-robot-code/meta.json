@@ -1,4 +1,14 @@
 {
   "title": "03 · Java Robot Code",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "behavior-contract",
+    "value-objects",
+    "guard-clauses",
+    "bounded-drive",
+    "executable-checks",
+    "boundary-lab",
+    "reflection",
+    "quiz"
+  ]
 }
