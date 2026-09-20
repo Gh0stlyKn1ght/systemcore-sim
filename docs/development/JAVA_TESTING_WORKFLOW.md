@@ -5,11 +5,19 @@
 
 ## What this repository should deliver
 
-A Java/WPILib robot application that can be developed and tested before Systemcore hardware is available. Every meaningful behavior should have a repeatable check, and the same application decisions should be reusable behind separately validated simulation and real-device adapters.
+A Java/WPILib robot application that can be developed and tested before Systemcore hardware is available. **Java is the reference implementation for this repository.** Every meaningful behavior should have a repeatable check, and the same application decisions should be reusable behind separately validated simulation and real-device adapters.
 
 The first deliverable is not another simulator engine, a controller OS image, a ROS 2 workspace, or a dashboard-only mockup. It is robot code plus evidence of its behavior. Use the [toolkit](FRC_TOOLKIT.md) to prepare one known environment, then implement a small end-to-end example.
 
 This document advances the coding and testing plan. It does not claim that the repository already contains the Java source tree, Gradle wrapper, tests, or GitHub Actions workflow described below.
+
+## C++ and Python support without diluting the Java baseline
+
+C++ and Python/RobotPy remain in scope for research findings and compatibility support. The Java milestone comes first because we need one known-good application path before comparing languages.
+
+For each selected Systemcore/WPILib profile, record whether C++ and Python have matching support for the APIs and vendor libraries we actually use, how they build/deploy, whether desktop simulation works for the selected feature, and any differences in timestamps, units, lifecycle, telemetry, packaging, or native dependencies. A focused cross-language example is warranted when it exposes a meaningful difference. Full three-language duplication of every lesson is not required.
+
+When we later validate C++ or Python, give them their own build/test evidence. Java JUnit results do not validate C++ tests, and Java simulation results do not validate RobotPy packaging or vendor bindings.
 
 ## Start with one official Java template
 
