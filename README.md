@@ -14,11 +14,20 @@ The repository currently contains the project notes and a reproducible way to fe
 2. Read [WPILib quick access](docs/WPILIB_QUICK_ACCESS.md).
 3. Fetch the pinned WPILib reference material:
    - Windows PowerShell: `./scripts/fetch-wpilib-reference.ps1`
-   - Linux/macOS: `./scripts/fetch-wpilib-reference.sh`
+   - Linux/macOS: `bash ./scripts/fetch-wpilib-reference.sh`
 4. Use the installed WPILib VS Code command **WPILib: Create a new project** to generate a Java command-based project in this repository.
 5. Run it with **WPILib: Simulate Robot Code**.
 
 The fetch scripts place upstream material in `.reference/`, which is intentionally ignored by Git. This keeps the repository small while giving the coach and students fast local source access.
+
+## Notes
+
+- [Project scope and backlog](docs/PROJECT_NOTES.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Classroom lab sequence](docs/CLASSROOM_LABS.md)
+- [WPILib quick access](docs/WPILIB_QUICK_ACCESS.md)
+- [Public repository findings](docs/RESEARCH_FINDINGS.md)
+- [Tested versions](VERSIONS.md)
 
 ## Architecture rule
 
