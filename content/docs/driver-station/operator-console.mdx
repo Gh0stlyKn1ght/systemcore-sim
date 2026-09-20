@@ -1,0 +1,74 @@
+---
+title: "Lesson 1: Map the Operator Console"
+description: Separate the Driver Station laptop, network path, robot controller, and team application.
+---
+
+# Map the operator console
+
+**Essential question:** Which system owns each step between a driver’s hand and a robot request?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- separate Driver Station, dashboard, controller, and team-code responsibilities;
+- trace one operator input across the system boundary; and
+- reject claims that confuse software permission with physical isolation.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Sketch where gamepad input becomes robot behavior. |
+| 4–14 | Map the four major responsibility zones. |
+| 14–26 | Trace one forward-axis sample. |
+| 26–36 | Diagnose four misplaced responsibilities. |
+| 36–42 | Submit the responsibility map. |
+
+## Four responsibility zones
+
+| Zone | Owns | Does not prove |
+|---|---|---|
+| Driver Station application | Team identity, selected OpMode, robot mode, enable state, gamepad assignment, connection status | That team behavior is correct |
+| Dashboard | Team-selected displays and controls | That the Driver Station control channel is healthy |
+| Robot controller support | Receives station state and input, exposes it to WPILib, runs team code | That a mechanism is physically safe to touch |
+| Team application | Interprets input and produces bounded requests | That hardware executed the request |
+
+The dashboard is optional. The 2027 FIRST Driver Station does not launch one by default, though it can be configured to do so.
+
+## One input path
+
+```text
+driver moves gamepad
+-> operating system identifies the USB device
+-> Driver Station assigns it to a gamepad slot
+-> Driver Station communicates current input and control state
+-> WPILib exposes the input to robot code
+-> input adapter creates DriveInput
+-> decision core returns DriveDecision
+-> output adapter sends a bounded request
+```
+
+NetworkTables may carry dashboard values and telemetry, but it is not a replacement name for the complete Driver Station control path.
+
+## Authority boundaries
+
+The operator can request enable only through the allowed Driver Station or FMS controls. The application must still reject active behavior without permission. Neither software layer removes battery energy from the robot.
+
+Before physical work, follow the team’s energy-isolation procedure. A disabled indicator is software evidence, not proof of electrical isolation.
+
+## Independent diagnosis
+
+A dashboard displays joystick value `0.8`, the robot ping is green, and the Driver Station says “No Robot Code.” A student concludes that the drivetrain logic received `0.8`.
+
+Identify the unsupported leap and name the next evidence needed.
+
+## Exit ticket
+
+Assign each item to the Driver Station, dashboard, controller support, team application, or physical procedure:
+
+- lock a controller to slot 0;
+- publish a drive reason;
+- select a teleoperated OpMode;
+- calculate a bounded left request; and
+- remove electrical energy before rewiring.

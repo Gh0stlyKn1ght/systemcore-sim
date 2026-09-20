@@ -1,0 +1,80 @@
+---
+title: "Lesson 5: Trace Input into Behavior"
+description: Convert Driver Station state and gamepad values into the framework-independent Java decision core.
+---
+
+# Trace input into behavior
+
+**Essential question:** Where should framework input end and team behavior begin?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- identify the input-adapter boundary;
+- build a `DriveInput` snapshot from framework state; and
+- keep device reads, decisions, telemetry, and output writes separate.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Mark the line where a raw axis becomes a team-owned value. |
+| 4–14 | Read the adapter-to-core flow. |
+| 14–26 | Trace one valid and one missing-gamepad case. |
+| 26–36 | Diagnose a hardware call hidden in the decision core. |
+| 36–42 | Submit the input-to-output trace. |
+
+## Adapter boundary
+
+The WPILib-facing OpMode reads current framework and gamepad state. It converts that state into the value object from Module 03.
+
+```java
+DriveInput input = new DriveInput(
+    DriverStation.isEnabled(),
+    DriverStation.isTeleop(),
+    -controller.getLeftY(),
+    controller.getRightX(),
+    sampleAgeMs);
+
+DriveDecision decision = driveController.decide(input);
+```
+
+Treat the snippet as an integration shape. Verify exact 2027 method names against the installed API before compiling the robot project.
+
+## Four separate operations
+
+| Operation | Example | Boundary |
+|---|---|---|
+| Read | Get enabled state and current axes | WPILib adapter |
+| Decide | Validate and calculate a request | Java decision core |
+| Report | Publish input, request, and reason | Telemetry adapter |
+| Apply | Send the request to simulated or real outputs | Output adapter |
+
+The decision core does not call `Gamepad`, NetworkTables, or a motor class. That keeps the behavior executable when none of those systems exist.
+
+## Missing gamepad
+
+A missing gamepad is not the same thing as a connected controller resting at zero. The Driver Station status should identify whether a device is recognized. The input adapter should have a defined fallback instead of silently treating missing data as intentional neutral input.
+
+For this course, a missing required gamepad blocks teleop readiness and produces a separate station diagnosis before the drive core is invoked.
+
+## Independent diagnosis
+
+The dashboard displays a fresh axis value from five seconds ago. The gamepad is currently disconnected. Team code reads the retained dashboard value and drives from it.
+
+Identify both architecture failures and redesign the input boundary.
+
+## Exit ticket
+
+Trace this case through read, decide, report, and apply:
+
+```text
+connected and enabled teleop
+gamepad slot 0 present
+forward = 0.60
+turn = -0.20
+sample age = 20 ms
+```
+
+Include the final request and reason from Module 03.

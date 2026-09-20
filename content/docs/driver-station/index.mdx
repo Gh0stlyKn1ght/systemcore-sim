@@ -1,19 +1,74 @@
 ---
 title: "Module 04: Driver Station"
-description: Separate operator input, robot mode, communications, and team-code health.
+description: Separate operator input, robot mode, communications, and team-code health in the 2027 FIRST Driver Station.
 ---
 
 # Module 04: Driver Station
 
-**Status:** Planned.
+The Driver Station is an operator console, communications endpoint, status display, and permission controller. It is not the robot program, the dashboard, NetworkTables, or an electrical disconnect.
 
-## Students will be able to
+## Module outcome
 
-- identify which work happens on the operator computer and which runs on the controller;
-- separate joystick input, mode control, network connectivity, and robot-code status;
-- explain why enabled, connected, and code-running are different conditions; and
-- trace a joystick request without treating NetworkTables as the entire control path.
+You will read the 2027 FIRST Driver Station as a set of independent signals, diagnose the first failed boundary, and trace one gamepad value into the Java behavior core without confusing connectivity with readiness.
 
-## Planned practical
+## Module sequence
 
-Diagnose four prepared status scenarios: no joystick, no communications, no robot code, and disabled robot. Students must choose the correct layer before proposing a fix.
+| Session | Focus | Evidence |
+|---|---|---|
+| 1 | Separate operator-console and robot responsibilities | Responsibility map |
+| 2 | Read the status pane in order | Diagnostic trace |
+| 3 | Distinguish modes and stop actions | State-transition table |
+| 4 | Control gamepad identity and slots | Input-assignment record |
+| 5 | Trace input into robot behavior | End-to-end data trace |
+| 6 | Driver Station diagnosis lab | Eight-scenario incident record |
+| 7 | Reflection and correction | Revised readiness model |
+| 8 | Module quiz | Individual understanding check |
+
+<Cards>
+  <Card title="Start with responsibilities" href="/docs/driver-station/operator-console" description="Separate the laptop, network, controller, and robot application." />
+  <Card title="Open the diagnosis lab" href="/docs/driver-station/diagnosis-lab" description="Classify eight status snapshots with executable checks." />
+</Cards>
+
+## Readiness is a conjunction
+
+For this module’s teleop scenario, readiness requires every condition below:
+
+```text
+radio reachable
+AND robot reachable
+AND UDP connected
+AND TCP connected
+AND robot code running
+AND gamepad present
+AND enabled
+AND teleop selected
+```
+
+One green indicator cannot substitute for the others. A robot can answer a ping while team code is stopped. Team code can run while the gamepad is missing. Every connection can be healthy while the robot remains disabled.
+
+## Executable diagnosis
+
+The Java artifact now includes eight Driver Station status checks in addition to the nine behavior checks:
+
+```bash
+npm run test:java
+```
+
+Expected result:
+
+```text
+PASS: 17 Java behavior and Driver Station checks
+```
+
+The model diagnoses the first failed boundary. It does not emulate the FIRST Driver Station protocol or replace the official application.
+
+## Release note
+
+This module was checked on **September 20, 2026** against WPILib 2027 alpha 7 documentation. The FIRST Driver Station and Systemcore material is prerelease content and may change before the final season release.
+
+## Primary sources
+
+- [FIRST Driver Station introduction](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/firstdriverstation/first-driver-station-introduction.rst)
+- [Driver Station best practices](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/firstdriverstation/first-driver-station-best-practices.rst)
+- [WPILib joystick and gamepad programming](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/basic-programming/joystick.rst)
+- [2027 getting-started drivetrain example](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/zero-to-robot/step-4/creating-test-drivetrain-program-cpp-java-python.rst)

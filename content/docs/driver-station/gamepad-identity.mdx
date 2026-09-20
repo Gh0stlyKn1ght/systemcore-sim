@@ -1,0 +1,78 @@
+---
+title: "Lesson 4: Control Gamepad Identity"
+description: Verify device recognition, slot assignment, axis mapping, and the 2027 Java input class.
+---
+
+# Control gamepad identity
+
+**Essential question:** How do we know that robot code is reading the intended physical controller?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- distinguish USB identity, Driver Station slot, and Java object;
+- verify axis and button mapping before enabling; and
+- explain the 2027 FIRST-versus-NI Driver Station API difference.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Predict what port `new Gamepad(0)` refers to. |
+| 4–14 | Map device, slot, and code identity. |
+| 14–25 | Assign and lock a controller while disabled. |
+| 25–35 | Verify axes, buttons, neutral return, and reconnect behavior. |
+| 35–42 | Record the input configuration. |
+
+## Three identities
+
+| Identity | Example | Controlled by |
+|---|---|---|
+| Physical device | A specific USB gamepad | Hardware and operating system |
+| Driver Station slot | Slot `0` | Gamepad tab assignment |
+| Robot-code object | `new Gamepad(0)` | Team Java code |
+
+The number in the Java constructor refers to the Driver Station slot, not a physical USB socket number.
+
+## 2027 class selection
+
+The pinned 2027 getting-started guide uses:
+
+```java
+import org.wpilib.driverstation.Gamepad;
+
+private final Gamepad controller = new Gamepad(0);
+```
+
+That `Gamepad` class is for the 2027 FIRST Driver Station. The same guide says projects using the legacy NI Driver Station need `NiDsXboxController` instead. Do not copy an older controller class without checking which Driver Station and WPILib release the project actually uses.
+
+## Locking does not create identity
+
+The 2027 Gamepad tab can lock a recognized device to a slot. Identical devices may still be difficult to distinguish reliably, especially after ports or devices are rearranged. A competition procedure should therefore verify the live axes and buttons, not merely trust a saved slot label.
+
+## Pre-enable check
+
+1. Confirm the intended device appears.
+2. Assign it to the documented slot.
+3. Lock the slot if the workflow requires it.
+4. Move every axis and verify direction and range.
+5. Press the required buttons and verify mapping.
+6. Release controls and verify axes return to neutral.
+7. Disconnect and reconnect while disabled, then verify again.
+
+The Driver Station avoids newly enumerating controllers while enabled because enumeration can stall the input thread. Refresh and reassign while disabled whenever possible.
+
+## Independent diagnosis
+
+Two identical gamepads were locked, then swapped between USB ports. The slot labels appear correct, but the operator controls the wrong mechanism.
+
+Identify which assumption failed and write the quickest bounded verification before re-enabling.
+
+## Exit ticket
+
+Explain the path from one physical gamepad to `new Gamepad(0)` using the terms **operating system**, **recognized device**, **slot**, and **Java object**.
+
+## Source check
+
+Compare the [Gamepad tab behavior](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/firstdriverstation/first-driver-station-introduction.rst) with the [2027 drivetrain API note](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/zero-to-robot/step-4/creating-test-drivetrain-program-cpp-java-python.rst).

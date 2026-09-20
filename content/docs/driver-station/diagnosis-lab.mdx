@@ -1,0 +1,96 @@
+---
+title: Driver Station Diagnosis Lab
+description: Classify eight prepared status snapshots, reproduce a priority defect, and restore the diagnostic baseline.
+---
+
+# Driver Station diagnosis lab
+
+## Challenge
+
+Use the status indicators as independent evidence. Diagnose the first failed boundary in eight snapshots, then introduce one ordering defect and explain why the reported cause becomes misleading.
+
+## Success criteria
+
+Your evidence must include:
+
+- a prediction for all eight snapshots;
+- a clean 17-check baseline;
+- one observed result for every `StationState`;
+- the deliberate ordering defect and failing check;
+- a restored passing run; and
+- a statement of what the model cannot prove.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Predict all eight station states. |
+| 6–14 | Run and record the baseline. |
+| 14–24 | Trace each snapshot through the analyzer. |
+| 24–32 | Introduce and reproduce the priority defect. |
+| 32–38 | Restore and rerun all checks. |
+| 38–42 | Submit the incident record. |
+
+## Run the baseline
+
+```bash
+npm run test:java
+```
+
+Expected output:
+
+```text
+PASS: 17 Java behavior and Driver Station checks
+```
+
+## Diagnostic priority
+
+The executable model returns the first matching state:
+
+1. `RADIO_UNREACHABLE`
+2. `ROBOT_UNREACHABLE`
+3. `COMMUNICATIONS_INCOMPLETE`
+4. `ROBOT_CODE_NOT_RUNNING`
+5. `GAMEPAD_MISSING`
+6. `DISABLED`
+7. `WRONG_MODE`
+8. `READY`
+
+This is a dependency-oriented classroom model. The real Driver Station displays multiple indicators simultaneously, and technicians should preserve the complete snapshot.
+
+## Evidence table
+
+| Scenario | First failed boundary | Expected state | Observed state | Match? |
+|---|---|---|---|---|
+| Radio unreachable |  |  |  |  |
+| Robot unreachable |  |  |  |  |
+| TCP missing |  |  |  |  |
+| Robot code stopped |  |  |  |  |
+| Gamepad missing |  |  |  |  |
+| Disabled |  |  |  |  |
+| Autonomous enabled |  |  |  |  |
+| Teleop ready |  |  |  |  |
+
+## Controlled defect
+
+Move the `GAMEPAD_MISSING` check above the radio and robot checks. Run the suite again.
+
+The all-false snapshot now reports a missing gamepad even though the network path has not reached the robot. The gamepad statement is true, but it is not the first useful boundary for this diagnostic model.
+
+## Incident record
+
+```text
+Baseline result:
+Change introduced:
+Failing check:
+Expected state:
+Actual state:
+Why the actual state is misleading:
+Repair:
+Restored result:
+Commit:
+```
+
+## Evidence boundary
+
+The model verifies classification logic for prepared Boolean snapshots. It does not implement Driver Station networking, read live hardware, measure packet loss, or establish electrical safety.

@@ -1,4 +1,14 @@
 {
   "title": "04 · Driver Station",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "operator-console",
+    "status-pane",
+    "modes-and-stops",
+    "gamepad-identity",
+    "input-trace",
+    "diagnosis-lab",
+    "reflection",
+    "quiz"
+  ]
 }

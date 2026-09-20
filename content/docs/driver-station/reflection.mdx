@@ -1,0 +1,55 @@
+---
+title: Reflection and Correction
+description: Correct connectivity, readiness, and safety misconceptions before moving to CAN devices.
+---
+
+# Reflection and correction
+
+Complete this page after the diagnosis lab and before the module quiz.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–8 | Reconstruct the status dependency order. |
+| 8–18 | Compare it with the executable analyzer. |
+| 18–30 | Correct two weak claims. |
+| 30–38 | Explain one snapshot to a partner. |
+| 38–42 | Submit the final readiness statement. |
+
+## Reconstruct without notes
+
+List the eight `StationState` outcomes in priority order. For each outcome, write the narrow claim that the preceding green indicators establish.
+
+## Correct two claims
+
+For each selected claim, write a correction and cite source or run evidence.
+
+1. “Robot Ping proves team code is running.”
+2. “A green gamepad means Java is reading the intended physical controller.”
+3. “Teleop selected means the robot is enabled.”
+4. “Disabled means the battery is isolated.”
+5. “NetworkTables is the entire Driver Station control path.”
+6. “The first true warning is always the root cause.”
+
+## Three readiness levels
+
+| Level | Required evidence |
+|---|---|
+| Communications-ready | Intended team/network plus working radio, robot, and protocol paths |
+| Behavior-ready | Communications-ready plus robot code, required gamepad, correct mode, and enable permission |
+| Safe for physical work | Approved physical energy-isolation procedure, independent of UI status |
+
+Do not collapse these levels. Each answers a different question.
+
+## Final explanation
+
+Write 150 to 250 words that answers:
+
+> Why can every network indicator be green while the robot still should not produce a drive request?
+
+Use these terms accurately: **reachability**, **communications**, **robot code**, **gamepad slot**, **mode**, **enabled**, and **bounded request**.
+
+## Readiness check
+
+You are ready for the quiz when you can diagnose the first failed boundary, trace slot 0 into the Java adapter, and explain why Driver Station disable is not electrical isolation.

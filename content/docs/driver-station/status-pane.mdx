@@ -1,0 +1,84 @@
+---
+title: "Lesson 2: Read the Status Pane"
+description: Diagnose radio, robot, protocol, robot-code, and gamepad indicators without collapsing them into one green light.
+---
+
+# Read the status pane
+
+**Essential question:** What is the first failed boundary in the connection chain?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- explain each major 2027 status indicator;
+- distinguish reachability, communications, and application health; and
+- diagnose in dependency order instead of changing random settings.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Interpret “Robot Ping green, Robot Code red.” |
+| 4–14 | Read the status indicators by dependency. |
+| 14–26 | Trace four prepared snapshots. |
+| 26–36 | Write the first justified next check. |
+| 36–42 | Submit the diagnostic record. |
+
+## Indicator meanings
+
+| Indicator | Narrow claim |
+|---|---|
+| `FMS` | The Driver Station is communicating with field management. |
+| `DS` | A team number is configured. |
+| `Radio Ping` | The Driver Station can communicate with the robot radio. |
+| `Robot Ping` | The Driver Station can communicate with the robot controller. |
+| `UDP/TCP` | The station is communicating with the Systemcore communications task over the displayed protocol paths. |
+| `Robot Code` | Team robot code appears started and running according to Driver Station updates. |
+| `Gamepad` | At least one controller is connected and recognized. |
+
+Battery voltage appears when the station is connected and communicating with the robot. The overall status string can report conditions such as no robot communication, no robot code, emergency stop, enabled mode, or voltage brownout.
+
+## Diagnose in dependency order
+
+1. Confirm the team number and intended network.
+2. Check radio reachability.
+3. Check robot reachability.
+4. Check both communications indicators.
+5. Check robot-code status.
+6. Check gamepad presence and assignment.
+7. Check mode and enable state.
+
+This order prevents a joystick remap from being proposed as a fix for an unreachable robot.
+
+## Read four snapshots
+
+| Snapshot | Strongest conclusion |
+|---|---|
+| Radio red, everything downstream red | Begin at the laptop-to-radio path. |
+| Radio green, robot red | The radio answers, but controller reachability is not established. |
+| Robot and protocols green, code red | Controller communications work; team-code health is not established. |
+| All connections green, gamepad red | The robot path works; inspect controller connection and slot assignment. |
+
+## Independent diagnosis
+
+All connection and code indicators are green. The gamepad is green. The mode is Teleop, but the robot is disabled.
+
+Is the system communication-ready, behavior-ready, physically safe to touch, or some combination? Give a separate answer for each claim.
+
+## Exit ticket
+
+Write the first failed boundary and next check for:
+
+```text
+Radio Ping: green
+Robot Ping: green
+UDP: green
+TCP: green
+Robot Code: red
+Gamepad: green
+```
+
+## Source check
+
+The indicator definitions come from the pinned [FIRST Driver Station introduction](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/firstdriverstation/first-driver-station-introduction.rst).

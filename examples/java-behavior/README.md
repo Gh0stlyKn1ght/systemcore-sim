@@ -1,6 +1,6 @@
 # Java behavior example
 
-This executable example converts robot state and driver input into a bounded differential-drive request. It has no WPILib or vendor dependency, so its decision rules can run before hardware integration.
+This executable example diagnoses a Driver Station snapshot and converts valid robot state and driver input into a bounded differential-drive request. It has no WPILib or vendor dependency, so its decision rules can run before hardware integration.
 
 ## Run
 
@@ -16,10 +16,11 @@ The command uses Java source-file mode to compile the source in memory and execu
 - Input age is valid from 0 through 100 milliseconds.
 - Forward and turn inputs are clamped to the range `[-1.0, 1.0]`.
 - Active requests are scaled to 75 percent before final clamping.
-- Every decision returns a reason suitable for telemetry.
+- Every drive decision returns a reason suitable for telemetry.
+- Driver Station diagnosis keeps radio, robot, protocol, robot-code, gamepad, enable, and mode state separate.
 
 ## Files
 
-- `BehaviorCheck.java`: behavior types, decision logic, and nine executable checks.
+- `BehaviorCheck.java`: behavior types, station diagnosis, decision logic, and seventeen executable checks.
 
 The single-file layout makes the artifact runnable in a minimal environment. A robot project can split the nested types into normal source files without changing the contract.

@@ -15,6 +15,24 @@ public final class BehaviorCheck {
     DEADBAND
   }
 
+  enum OperatingMode {
+    NONE,
+    AUTONOMOUS,
+    TELEOP,
+    UTILITY
+  }
+
+  enum StationState {
+    RADIO_UNREACHABLE,
+    ROBOT_UNREACHABLE,
+    COMMUNICATIONS_INCOMPLETE,
+    ROBOT_CODE_NOT_RUNNING,
+    GAMEPAD_MISSING,
+    DISABLED,
+    WRONG_MODE,
+    READY
+  }
+
   record DriveInput(
       boolean enabled,
       boolean teleop,
@@ -29,6 +47,50 @@ public final class BehaviorCheck {
   }
 
   record DriveDecision(DriveRequest request, Reason reason) {}
+
+  record StationSnapshot(
+      boolean radioReachable,
+      boolean robotReachable,
+      boolean udpConnected,
+      boolean tcpConnected,
+      boolean robotCodeRunning,
+      boolean gamepadConnected,
+      boolean enabled,
+      OperatingMode mode) {}
+
+  static final class StationAnalyzer {
+    StationState analyze(StationSnapshot snapshot) {
+      if (!snapshot.radioReachable()) {
+        return StationState.RADIO_UNREACHABLE;
+      }
+
+      if (!snapshot.robotReachable()) {
+        return StationState.ROBOT_UNREACHABLE;
+      }
+
+      if (!snapshot.udpConnected() || !snapshot.tcpConnected()) {
+        return StationState.COMMUNICATIONS_INCOMPLETE;
+      }
+
+      if (!snapshot.robotCodeRunning()) {
+        return StationState.ROBOT_CODE_NOT_RUNNING;
+      }
+
+      if (!snapshot.gamepadConnected()) {
+        return StationState.GAMEPAD_MISSING;
+      }
+
+      if (!snapshot.enabled()) {
+        return StationState.DISABLED;
+      }
+
+      if (snapshot.mode() != OperatingMode.TELEOP) {
+        return StationState.WRONG_MODE;
+      }
+
+      return StationState.READY;
+    }
+  }
 
   static final class DriveController {
     DriveDecision decide(DriveInput input) {
@@ -77,6 +139,7 @@ public final class BehaviorCheck {
 
   public static void main(String[] args) {
     DriveController controller = new DriveController();
+    StationAnalyzer stationAnalyzer = new StationAnalyzer();
     List<String> failures = new ArrayList<>();
 
     checkDecision(
@@ -142,12 +205,70 @@ public final class BehaviorCheck {
         new DriveRequest(1.0, 0.0),
         Reason.READY);
 
+    StationSnapshot readyStation =
+        new StationSnapshot(true, true, true, true, true, true, true, OperatingMode.TELEOP);
+
+    checkStation(
+        failures,
+        "radio reachability is checked first",
+        stationAnalyzer.analyze(
+            new StationSnapshot(false, false, false, false, false, false, false, OperatingMode.NONE)),
+        StationState.RADIO_UNREACHABLE);
+
+    checkStation(
+        failures,
+        "robot can be unreachable after radio responds",
+        stationAnalyzer.analyze(
+            new StationSnapshot(true, false, false, false, false, false, false, OperatingMode.NONE)),
+        StationState.ROBOT_UNREACHABLE);
+
+    checkStation(
+        failures,
+        "partial protocol status is not complete communications",
+        stationAnalyzer.analyze(
+            new StationSnapshot(true, true, true, false, false, false, false, OperatingMode.NONE)),
+        StationState.COMMUNICATIONS_INCOMPLETE);
+
+    checkStation(
+        failures,
+        "communications do not prove robot code is running",
+        stationAnalyzer.analyze(
+            new StationSnapshot(true, true, true, true, false, true, false, OperatingMode.TELEOP)),
+        StationState.ROBOT_CODE_NOT_RUNNING);
+
+    checkStation(
+        failures,
+        "running code does not prove a gamepad is present",
+        stationAnalyzer.analyze(
+            new StationSnapshot(true, true, true, true, true, false, false, OperatingMode.TELEOP)),
+        StationState.GAMEPAD_MISSING);
+
+    checkStation(
+        failures,
+        "healthy disabled station remains disabled",
+        stationAnalyzer.analyze(
+            new StationSnapshot(true, true, true, true, true, true, false, OperatingMode.TELEOP)),
+        StationState.DISABLED);
+
+    checkStation(
+        failures,
+        "enabled autonomous is not teleop-ready",
+        stationAnalyzer.analyze(
+            new StationSnapshot(true, true, true, true, true, true, true, OperatingMode.AUTONOMOUS)),
+        StationState.WRONG_MODE);
+
+    checkStation(
+        failures,
+        "all required teleop conditions are ready",
+        stationAnalyzer.analyze(readyStation),
+        StationState.READY);
+
     if (!failures.isEmpty()) {
       failures.forEach(message -> System.err.println("FAIL: " + message));
       System.exit(1);
     }
 
-    System.out.println("PASS: 9 Java behavior checks");
+    System.out.println("PASS: 17 Java behavior and Driver Station checks");
   }
 
   private static void checkDecision(
@@ -163,6 +284,13 @@ public final class BehaviorCheck {
               + new DriveDecision(expectedRequest, expectedReason)
               + " actual="
               + actual);
+    }
+  }
+
+  private static void checkStation(
+      List<String> failures, String name, StationState actual, StationState expected) {
+    if (actual != expected) {
+      failures.add(name + " expected=" + expected + " actual=" + actual);
     }
   }
 }

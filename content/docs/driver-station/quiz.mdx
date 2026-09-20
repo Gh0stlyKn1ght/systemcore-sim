@@ -1,0 +1,124 @@
+---
+title: Module Quiz
+description: Check your understanding of 2027 Driver Station indicators, modes, gamepads, and behavior boundaries.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+Choose the strongest answer for each question. Explanations appear after you submit all ten.
+
+<CourseQuiz
+  questions={[
+    {
+      prompt: 'What does a green Robot Ping establish?',
+      choices: [
+        'The controller is reachable from the Driver Station.',
+        'Team robot code is correct.',
+        'The gamepad is assigned to slot 0.',
+        'The battery is electrically isolated.'
+      ],
+      answer: 0,
+      explanation: 'Reachability is narrower than communications, team-code health, behavior, or physical safety.'
+    },
+    {
+      prompt: 'Radio Ping is green but Robot Ping is red. Where should diagnosis begin?',
+      choices: [
+        'The dashboard color theme',
+        'The path between the responding radio and robot controller',
+        'The joystick deadband',
+        'The autonomous timer'
+      ],
+      answer: 1,
+      explanation: 'The radio answers, but controller reachability has not been established.'
+    },
+    {
+      prompt: 'All connection indicators are green, but Robot Code is red. What is the strongest conclusion?',
+      choices: [
+        'The entire robot is unreachable.',
+        'The communications path works, but team-code health is not established.',
+        'The gamepad must be broken.',
+        'The motors are electrically disconnected.'
+      ],
+      answer: 1,
+      explanation: 'Network and controller status can be healthy while the team application is stopped or not reporting.'
+    },
+    {
+      prompt: 'What does the 0 mean in new Gamepad(0)?',
+      choices: [
+        'Motor CAN ID 0',
+        'The first physical USB socket',
+        'Driver Station gamepad slot 0',
+        'Team number 0'
+      ],
+      answer: 2,
+      explanation: 'Robot code reads the Driver Station slot, which must be mapped to the intended physical device.'
+    },
+    {
+      prompt: 'Which Java class does the pinned 2027 guide use with the new FIRST Driver Station?',
+      choices: ['Gamepad', 'NetworkTable', 'MotorController', 'NiDsXboxController only'],
+      answer: 0,
+      explanation: 'The 2027 guide uses Gamepad and identifies NiDsXboxController for the legacy NI station.'
+    },
+    {
+      prompt: 'Which statement about OpMode selection and enable state is correct?',
+      choices: [
+        'Selecting an OpMode always enables the robot.',
+        'An OpMode can be selected while the robot remains disabled.',
+        'Enable state determines the USB slot.',
+        'They are two names for the same state.'
+      ],
+      answer: 1,
+      explanation: 'Selection chooses behavior; enable state grants or removes current permission to act.'
+    },
+    {
+      prompt: 'Why is a missing gamepad different from a connected gamepad at zero?',
+      choices: [
+        'A missing device means the expected input source is unavailable.',
+        'A missing device always enables autonomous.',
+        'Zero is outside the joystick range.',
+        'There is no difference.'
+      ],
+      answer: 0,
+      explanation: 'Neutral input is an observation from a present source. Missing input needs its own validity state and fallback.'
+    },
+    {
+      prompt: 'What should happen before reaching into a disabled robot?',
+      choices: [
+        'Trust the disabled status alone.',
+        'Close the dashboard tab.',
+        'Follow the approved physical energy-isolation procedure.',
+        'Move the gamepad to slot 1.'
+      ],
+      answer: 2,
+      explanation: 'Software disable is not proof that hazardous electrical or stored energy has been isolated.'
+    },
+    {
+      prompt: 'Where should raw framework input become a DriveInput value?',
+      choices: [
+        'Inside the motor controller firmware',
+        'At the WPILib input-adapter boundary',
+        'Inside the battery',
+        'Only inside NetworkTables'
+      ],
+      answer: 1,
+      explanation: 'The adapter reads framework state and creates a plain value for the independent decision core.'
+    },
+    {
+      prompt: 'What do the eight station checks prove?',
+      choices: [
+        'The official Driver Station protocol is fully emulated.',
+        'The prepared status snapshots are classified according to the model.',
+        'Physical mechanisms are safe.',
+        'Every network failure has one root cause.'
+      ],
+      answer: 1,
+      explanation: 'The checks verify classification logic, not live networking, protocol compatibility, or hardware safety.'
+    }
+  ]}
+/>
+
+## Mastery target
+
+A score of 8/10 or higher shows readiness for the CAN and devices module. If you score below 8, revisit the status dependency order and rerun the scenario that matches each missed question.

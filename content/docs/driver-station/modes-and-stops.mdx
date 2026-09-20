@@ -1,0 +1,78 @@
+---
+title: "Lesson 3: Modes and Stop Actions"
+description: Distinguish selection, robot mode, enable, disable, autonomous stop, and emergency stop.
+---
+
+# Modes and stop actions
+
+**Essential question:** Which state changed, and what must happen before active behavior can resume?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- separate OpMode selection from robot mode and enable state;
+- distinguish disable, autonomous stop, and emergency stop; and
+- explain why a software stop is not electrical isolation.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Compare “Teleop selected” with “Teleop enabled.” |
+| 4–14 | Map the three independent state choices. |
+| 14–26 | Classify disable, A-Stop, and E-Stop scenarios. |
+| 26–36 | Trace a Match Mode transition. |
+| 36–42 | Complete the state table. |
+
+## Three separate choices
+
+| State | Question |
+|---|---|
+| OpMode selection | Which named team behavior is selected? |
+| Robot mode | Is the period autonomous, teleoperated, utility, or match sequence? |
+| Enable state | Does robot behavior currently have permission to act? |
+
+A teleoperated OpMode can be selected while the robot is disabled. Selection may construct or prepare behavior, but it does not grant active-output permission.
+
+## Mode meanings
+
+| Mode | 2027 Driver Station role |
+|---|---|
+| Teleoperated | Runs the teleoperated portion of robot behavior. |
+| Autonomous | Runs the autonomous portion. |
+| Utility | Allows testing of behavior outside a regular match. |
+| Match | Reproduces timed match transitions using configured period timing. |
+
+Match Mode can transition from autonomous to a disabled delay and then teleop according to its settings. Predict every transition before using it with physical hardware.
+
+## Stop actions are not synonyms
+
+| Action | Operational meaning |
+|---|---|
+| Disable | Removes current enable permission and normally allows a later enable. |
+| A-Stop | Stops autonomous behavior for the applicable autonomous period. |
+| E-Stop | Emergency stop with a deliberate reset process; field operation uses the team-station E-Stop. |
+| Electrical isolation | Physically controls hazardous energy and is outside the Driver Station state model. |
+
+At an event under FMS control, local keyboard enable, disable, and E-Stop shortcuts are ignored. Teams use field controls and procedures.
+
+## Independent diagnosis
+
+A student presses disable, sees every mechanism stop, and reaches into the robot to repair a wire.
+
+Explain why the observed stop is useful software evidence but insufficient authorization for physical work.
+
+## Exit ticket
+
+For each event, state whether OpMode selection, robot mode, enable state, or physical energy changed:
+
+1. select a different teleoperated OpMode while disabled;
+2. enter Autonomous Mode;
+3. press Disable;
+4. press A-Stop during autonomous; and
+5. disconnect the battery using the approved procedure.
+
+## Source check
+
+Review the operation controls and keyboard/FMS limitations in the [FIRST Driver Station introduction](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/firstdriverstation/first-driver-station-introduction.rst).
