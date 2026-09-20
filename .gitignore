@@ -1,0 +1,16 @@
+# Local WPILib reference checkouts
+.reference/
+
+# WPILib/Gradle build output
+.gradle/
+build/
+bin/
+
+# IDE and OS files
+.vscode/settings.json
+.DS_Store
+Thumbs.db
+
+# Runtime logs and local data
+logs/
+*.log
