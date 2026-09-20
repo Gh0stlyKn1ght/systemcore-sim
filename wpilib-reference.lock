@@ -1,0 +1,6 @@
+# Verified public upstream snapshots selected 2026-09-20.
+# Update these deliberately after compatibility testing.
+WPILIB_DOCS_REPO=https://github.com/wpilibsuite/wpilib-docs.git
+WPILIB_DOCS_REF=1897febd8ae910a6e0de78388f62e7ccd6d8a085
+ALLWPILIB_REPO=https://github.com/wpilibsuite/allwpilib.git
+ALLWPILIB_REF=8e42a614691fdf6c1cf89d68f0fb98b2e26fbc03
