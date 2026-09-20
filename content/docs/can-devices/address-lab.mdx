@@ -1,0 +1,89 @@
+---
+title: Duplicate-Address Diagnosis Lab
+description: Build a device inventory, introduce one full-address collision, and restore the known-good record.
+---
+
+# Duplicate-address diagnosis lab
+
+## Challenge
+
+Create a complete multi-bus device inventory, introduce one duplicate full address, predict the diagnostic result, and restore a unique known-good assignment.
+
+## Success criteria
+
+Your evidence must include:
+
+- one named physical bus for every device;
+- manufacturer, device type, and device number;
+- a clean 27-check baseline;
+- one deliberate duplicate full address;
+- one same-number example that is not a duplicate because the bus differs;
+- the repaired inventory; and
+- a statement of what remains unverified without hardware.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Run and record the baseline. |
+| 6–15 | Build the five-device inventory. |
+| 15–23 | Introduce and predict the collision. |
+| 23–31 | Classify the defective snapshot. |
+| 31–38 | Repair the inventory and rerun. |
+| 38–42 | Submit the incident record. |
+
+## Baseline
+
+```bash
+npm run test:java
+```
+
+Expected output:
+
+```text
+PASS: 27 Java behavior, Driver Station, and CAN device checks
+```
+
+## Build the inventory
+
+| Role | Bus | Manufacturer | Device type | Number | Variable name |
+|---|---|---|---|---:|---|
+| Left leader | main | REV | motor | 1 | `leftLeader` |
+| Left follower | main | REV | motor | 2 | `leftFollower` |
+| Right leader | main | REV | motor | 3 | `rightLeader` |
+| Right follower | main | REV | motor | 4 | `rightFollower` |
+| Arm encoder | aux | REV | encoder | 3 | `armEncoder` |
+
+Device number 3 appears twice but the complete addresses differ by bus and type.
+
+## Introduce the collision
+
+Change the right follower number from `4` to `3`. The right leader and right follower now share:
+
+```text
+main / REV / motor / 3
+```
+
+Set `addressUnique` to false in the prepared `DeviceSnapshot` and predict the analyzer result before running.
+
+## Repair
+
+Restore the right follower to number `4`. Check the configuration record and source expectation together. In a hardware lab, the repair would also require verifying the physical device’s configured identity with the supported vendor tool.
+
+## Incident record
+
+```text
+Baseline result:
+Duplicate address introduced:
+Same-number non-duplicate example:
+Expected state:
+Observed state:
+Inventory repair:
+Source or configuration artifacts affected:
+Restored result:
+Commit:
+```
+
+## Evidence boundary
+
+This software-only lab proves that the inventory and classifier distinguish full-address equality from device-number equality. It does not prove the physical devices carry those configured addresses.

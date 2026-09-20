@@ -1,0 +1,89 @@
+---
+title: "Lesson 3: Build the Device Address"
+description: Treat bus, manufacturer, device type, and device number as one complete identity.
+---
+
+# Build the device address
+
+**Essential question:** When are two CAN nodes actually trying to use the same address?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- distinguish a device number from a complete FIRST CAN address;
+- explain why address scope includes the physical bus; and
+- detect duplicate full addresses in an inventory.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Decide whether two devices numbered 3 must conflict. |
+| 4–14 | Read the FIRST arbitration-ID fields. |
+| 14–26 | Build a five-device address inventory. |
+| 26–36 | Diagnose true and false duplicate reports. |
+| 36–42 | Submit the corrected inventory. |
+
+## Device number is one field
+
+FIRST CAN arbitration identifiers include:
+
+- device type;
+- manufacturer;
+- API class and index; and
+- device number.
+
+For team inventory, also record the physical bus because Systemcore can expose multiple CAN buses.
+
+```java
+record DeviceAddress(
+    String bus,
+    String manufacturer,
+    String deviceType,
+    int deviceNumber) {}
+```
+
+The API message fields vary by frame and are not part of the team’s persistent device inventory. The first four fields above identify the node location expected by the application.
+
+## Compare complete identities
+
+| Bus | Manufacturer | Type | Number | Relationship |
+|---|---|---|---:|---|
+| main | REV | motor | 3 | Baseline |
+| main | REV | motor | 3 | Duplicate full address |
+| aux | REV | motor | 3 | Different bus |
+| main | CTRE | motor | 3 | Different manufacturer field |
+| main | REV | encoder | 3 | Different device-type field |
+
+Vendor tools may present simplified IDs and may impose product-specific rules. Preserve the complete inventory even when a screen shows only one number.
+
+## Address and Java variable are unrelated
+
+```java
+var leftLeader = new SparkMax(3, MotorType.kBrushless);
+```
+
+`leftLeader` is a Java variable name. `3` is a device number expected by that vendor API. Renaming the variable does not change the physical device. Reconfiguring the device does not automatically update the source code.
+
+## Protected actuator frames
+
+The FIRST CAN specification requires actuator-capable nodes to verify that the robot is enabled and that commands originate from the main controller. Systemcore currently sends the defined disable broadcast and forwards it across Motioncore buses. Application-neutral intent remains necessary even when device-level protection also exists.
+
+## Independent diagnosis
+
+A technician changes a controller from device number 3 to 4 in the vendor tool. The code still constructs device 3 and reports timeouts.
+
+Identify which artifact is stale and write the evidence needed before changing either side again.
+
+## Exit ticket
+
+State whether each pair is a duplicate and justify the answer using every address field:
+
+1. `main / REV / motor / 3` and `main / REV / motor / 3`
+2. `main / REV / motor / 3` and `aux / REV / motor / 3`
+3. `main / REV / motor / 3` and `main / CTRE / motor / 3`
+
+## Source check
+
+Review the arbitration fields, device-number range, and protected-frame requirements in the [FIRST CAN device specifications](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/can-devices/can-addressing.rst).

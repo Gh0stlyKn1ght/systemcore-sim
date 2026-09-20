@@ -1,4 +1,14 @@
 {
   "title": "05 · CAN and Devices",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "shared-bus",
+    "topology-termination",
+    "device-addressing",
+    "vendor-stack",
+    "readiness-evidence",
+    "address-lab",
+    "reflection",
+    "quiz"
+  ]
 }

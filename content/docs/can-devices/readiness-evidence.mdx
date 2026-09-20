@@ -1,0 +1,70 @@
+---
+title: "Lesson 5: Establish Device Readiness"
+description: Build a layered evidence record without treating configuration-tool visibility as complete integration.
+---
+
+# Establish device readiness
+
+**Essential question:** What is the next stronger piece of evidence for one CAN device?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- order device checks by dependency;
+- state what each observation establishes and leaves unproven; and
+- stop integration when an earlier boundary is still unknown.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Rank eight device-readiness observations. |
+| 4–14 | Build the dependency order. |
+| 14–26 | Classify prepared snapshots with the Java model. |
+| 26–36 | Diagnose an overclaimed readiness report. |
+| 36–42 | Submit the evidence ladder. |
+
+## Dependency order
+
+| Order | State | Evidence example |
+|---:|---|---|
+| 1 | `TOPOLOGY_UNVERIFIED` | Current bus diagram and connector inspection are missing. |
+| 2 | `TERMINATION_UNVERIFIED` | Endpoint termination sources are undocumented. |
+| 3 | `DUPLICATE_ADDRESS` | Two inventory rows share one full address. |
+| 4 | `DEVICE_NOT_VISIBLE` | The correct vendor tool cannot discover the expected device. |
+| 5 | `FIRMWARE_MISMATCH` | Vendor compatibility record rejects the installed firmware. |
+| 6 | `VENDOR_DEPENDENCY_MISSING` | The project lacks the required vendordep. |
+| 7 | `API_MISMATCH` | Source uses a class or method from another library version. |
+| 8 | `READY` | All documented boundaries pass for bounded integration. |
+
+The order is a diagnostic model, not a claim that one symptom has only one cause. Preserve the complete evidence snapshot.
+
+## Run the model
+
+```bash
+npm run test:java
+```
+
+The Java `DeviceAnalyzer` evaluates prepared observations. It cannot measure resistance, discover a live device, or validate a vendor’s firmware package.
+
+## Strong claims remain narrow
+
+| Evidence | Establishes | Does not establish |
+|---|---|---|
+| Clean project build | Selected source and dependencies compile | Physical device presence |
+| Configurator visibility | Tool communicated with a supported device | Team application correctness |
+| Unique inventory address | No documented collision | Actual configured address without verification |
+| Bounded bench response | Tested device acted inside one test envelope | Match reliability or full mechanism safety |
+
+## Independent diagnosis
+
+A report says “CAN complete” because every device appeared once in a vendor application. It contains no bus names, firmware versions, vendordep versions, source commit, or termination record.
+
+Rewrite the conclusion so it matches the evidence, then list the next three stronger checks.
+
+## Exit ticket
+
+Complete this sentence for one device:
+
+> The strongest evidence collected is ______, which establishes ______ but does not establish ______.

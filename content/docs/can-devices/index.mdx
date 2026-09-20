@@ -1,20 +1,75 @@
 ---
 title: "Module 05: CAN and Devices"
-description: Understand the bus, device identity, firmware, configuration tools, and Java libraries.
+description: Separate bus topology, device addressing, firmware, configuration tools, vendor dependencies, and Java APIs.
 ---
 
 # Module 05: CAN and devices
 
-**Status:** Planned.
+CAN is a shared communications network. A motor controller may use CAN to receive commands and report measurements, but motor power travels through a different circuit.
 
-## Students will be able to
+## Module outcome
 
-- explain CAN as a shared communications bus rather than a motor-power wire;
-- distinguish a device ID from a Java object name;
-- separate configuration applications, robot-code libraries, and device firmware;
-- identify duplicate-ID and wrong-bus failure patterns; and
-- document a device before changing its firmware or configuration.
+You will document a CAN device by full address, trace its hardware and software dependencies, classify the first unverified boundary, and diagnose a duplicate-address fault without guessing from one status light.
 
-## Planned practical
+## Module sequence
 
-Build a device responsibility matrix, diagnose a synthetic duplicate-ID fault, and explain which claims can be made without a physical CAN interface.
+| Session | Focus | Evidence |
+|---|---|---|
+| 1 | Separate CAN data from device power | Signal-and-power trace |
+| 2 | Verify topology and termination assumptions | Bus topology record |
+| 3 | Build a complete device address | Address inventory |
+| 4 | Separate firmware, tools, libraries, and APIs | Compatibility matrix |
+| 5 | Establish device readiness | Evidence ladder |
+| 6 | Duplicate-address diagnosis lab | Fault report and restored inventory |
+| 7 | Reflection and correction | Revised device model |
+| 8 | Module quiz | Individual understanding check |
+
+<Cards>
+  <Card title="Start with the bus" href="/docs/can-devices/shared-bus" description="Separate shared CAN communication from actuator power." />
+  <Card title="Open the duplicate-address lab" href="/docs/can-devices/address-lab" description="Reproduce and diagnose a full-address collision." />
+</Cards>
+
+## Device readiness model
+
+This module keeps eight states separate:
+
+1. topology documented;
+2. termination assumptions verified;
+3. full address unique;
+4. device visible in its configuration tool;
+5. firmware compatible;
+6. vendor dependency installed in the project;
+7. Java API compatible with the selected release; and
+8. ready for bounded integration.
+
+Passing one state does not prove the next. A configuration application can see a device even when the robot project lacks its Java library. A project can compile against a library while the physical device remains on another bus.
+
+## Executable diagnosis
+
+The Java artifact now includes ten CAN identity and readiness checks:
+
+```bash
+npm run test:java
+```
+
+Expected result:
+
+```text
+PASS: 27 Java behavior, Driver Station, and CAN device checks
+```
+
+The model classifies prepared observations. It does not electrically test a bus, configure firmware, or communicate with a physical device.
+
+## Systemcore note
+
+WPILib’s 2027 changelog states that Systemcore supports multiple CAN buses. Therefore a device number alone is not a complete identity. This course records the bus, manufacturer, device type, and device number.
+
+The general WPILib CAN wiring page still describes the older roboRIO-to-PDP topology. Use its two-wire and termination principles, but verify Systemcore connectors, bus names, and terminating hardware against current Systemcore and device documentation before wiring.
+
+## Primary sources
+
+- [FIRST CAN device specifications](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/can-devices/can-addressing.rst)
+- [WPILib CAN wiring basics](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/hardware/hardware-basics/can-wiring-basics.rst)
+- [WPILib third-party libraries](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/vscode-overview/3rd-party-libraries.rst)
+- [WPILib third-party CAN devices](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/can-devices/third-party-devices.rst)
+- [New for WPILib 2027](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/yearly-overview/yearly-changelog.rst)

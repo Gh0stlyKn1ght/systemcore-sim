@@ -1,0 +1,124 @@
+---
+title: Module Quiz
+description: Check your understanding of CAN topology, addressing, firmware, vendor tools, and project dependencies.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+Choose the strongest answer for each question. Explanations appear after you submit all ten.
+
+<CourseQuiz
+  questions={[
+    {
+      prompt: 'What does the CAN bus carry to a motor controller?',
+      choices: [
+        'The motor’s full operating power',
+        'Communication such as requests, configuration, and status',
+        'Only Java bytecode',
+        'Physical battery isolation'
+      ],
+      answer: 1,
+      explanation: 'CAN is the communication path. The actuator power path is separate.'
+    },
+    {
+      prompt: 'Why are two endpoint terminators used on a high-speed CAN bus?',
+      choices: [
+        'To assign Java variable names',
+        'To define the electrical ends of the communication network',
+        'To provide motor power',
+        'To install vendor libraries'
+      ],
+      answer: 1,
+      explanation: 'Termination belongs at the two physical endpoints and must match the actual hardware topology.'
+    },
+    {
+      prompt: 'Which pair is a duplicate full address in the course inventory?',
+      choices: [
+        'main / REV / motor / 3 and main / REV / motor / 3',
+        'main / REV / motor / 3 and aux / REV / motor / 3',
+        'main / REV / motor / 3 and main / CTRE / motor / 3',
+        'main / REV / motor / 3 and main / REV / encoder / 3'
+      ],
+      answer: 0,
+      explanation: 'All recorded address fields, including the physical bus, match only in the first pair.'
+    },
+    {
+      prompt: 'What does renaming a Java variable from motorA to leftLeader change?',
+      choices: [
+        'The physical device number',
+        'The CAN bus wiring',
+        'Only the source-level variable name',
+        'The device firmware'
+      ],
+      answer: 2,
+      explanation: 'Java names do not reconfigure physical device identity.'
+    },
+    {
+      prompt: 'A device appears in its configuration tool, but the Java import is missing. What should be inspected first?',
+      choices: [
+        'Motor power wiring only',
+        'The project vendor dependency',
+        'Driver Station gamepad slot',
+        'Battery chemistry'
+      ],
+      answer: 1,
+      explanation: 'Configurator visibility and project library installation are separate boundaries.'
+    },
+    {
+      prompt: 'Where is a Java/C++ vendordep recorded for a robot project?',
+      choices: ['The project vendordeps folder', 'Inside the motor windings', 'Only in the Driver Station', 'In the gamepad firmware'],
+      answer: 0,
+      explanation: 'The per-project JSON record belongs in the repository’s vendordeps folder.'
+    },
+    {
+      prompt: 'The project compiles, but the vendor tool cannot discover the device. What remains unproven?',
+      choices: [
+        'That the Java syntax is valid',
+        'The physical power, bus, address, and tool connection path',
+        'That the vendordep JSON can be parsed',
+        'That records have equals methods'
+      ],
+      answer: 1,
+      explanation: 'Compilation establishes software dependency resolution, not live device reachability.'
+    },
+    {
+      prompt: 'Why must Systemcore device inventories include a bus name?',
+      choices: [
+        'Systemcore supports multiple CAN buses.',
+        'CAN device numbers are Java strings.',
+        'Every bus has a different battery.',
+        'The bus name replaces the manufacturer field.'
+      ],
+      answer: 0,
+      explanation: 'The same manufacturer, type, and number can refer to a different location on another physical bus.'
+    },
+    {
+      prompt: 'What does configurator visibility establish?',
+      choices: [
+        'The supported tool communicated with a device.',
+        'The team behavior is correct.',
+        'The motor received the expected current.',
+        'Every dependency version is compatible.'
+      ],
+      answer: 0,
+      explanation: 'It is meaningful device-level evidence, but it does not prove project or mechanism integration.'
+    },
+    {
+      prompt: 'What do the CAN readiness checks prove?',
+      choices: [
+        'The physical bus resistance is correct.',
+        'The prepared observations are classified according to the dependency model.',
+        'Every vendor firmware release is safe.',
+        'The robot is ready for an unbounded hardware test.'
+      ],
+      answer: 1,
+      explanation: 'The model tests classification logic and full-address equality without claiming live hardware evidence.'
+    }
+  ]}
+/>
+
+## Mastery target
+
+A score of 8/10 or higher shows readiness for the NetworkTables and telemetry module. If you score below 8, rebuild the device compatibility matrix and rerun the address lab before trying again.

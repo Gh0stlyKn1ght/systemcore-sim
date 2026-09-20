@@ -1,0 +1,89 @@
+---
+title: "Lesson 4: Separate the Vendor Stack"
+description: Distinguish configuration software, device firmware, project dependencies, and Java APIs.
+---
+
+# Separate the vendor stack
+
+**Essential question:** Which artifact must change when hardware is visible but Java cannot use it?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- assign configuration, firmware, dependency, and API responsibilities;
+- explain per-project vendor dependencies; and
+- build a compatibility record before upgrading.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Explain why installing a configuration app does not add a Java class. |
+| 4–14 | Map the vendor stack. |
+| 14–26 | Inspect a vendordep record and project folder. |
+| 26–36 | Diagnose four compatibility failures. |
+| 36–42 | Submit the compatibility matrix. |
+
+## Four separate artifacts
+
+| Artifact | Lives on | Responsibility |
+|---|---|---|
+| Configuration application | Technician computer | Discover, identify, configure, and update supported devices |
+| Device firmware | CAN device | Run the device’s embedded behavior and protocol implementation |
+| Vendor dependency | Robot project | Resolve the vendor’s Java/C++/native libraries for that project |
+| Java API usage | Team source | Construct objects, send requests, and read status through the selected library version |
+
+Installing one does not silently update the others.
+
+## Per-project dependencies
+
+WPILib manages Java and C++ vendor dependencies per project. Installing a vendordep copies a JSON description into the project’s `vendordeps` folder. That record selects library components and versions and helps Gradle resolve Java, C++, JNI, and simulation artifacts.
+
+```text
+robot-project/
+  vendordeps/
+    VendorName.json
+```
+
+The configuration application may be installed globally, but the robot repository must preserve its own dependency record.
+
+## Compatibility record
+
+```text
+Device model:
+Physical bus:
+Full address:
+Configuration application and version:
+Firmware version:
+Vendordep filename and version:
+Java class and package:
+WPILib release:
+Known-compatible evidence:
+Rollback point:
+```
+
+Do not update firmware at competition merely because a newer version exists. Update to solve a defined problem or meet a documented compatibility requirement, with a rollback and validation plan.
+
+## Four failure patterns
+
+| Observation | Likely boundary to inspect |
+|---|---|
+| Device visible in configurator, Java import missing | Project vendor dependency |
+| Project compiles, configurator cannot see device | Power, physical bus, address, or tool connection |
+| Class exists, method from tutorial missing | Tutorial/library API version mismatch |
+| Device visible, library installed, runtime reports incompatible firmware | Firmware-library compatibility |
+
+## Independent diagnosis
+
+The vendor application was updated on one laptop. The repository did not change. Another student clones the project and cannot compile the vendor imports.
+
+Explain why copying the application installer is not the correct project fix.
+
+## Exit ticket
+
+Write the exact artifact you would inspect first for each failure pattern above. Do not answer only “vendor software.”
+
+## Source check
+
+Review per-project JSON dependencies and Dependency Manager behavior in [WPILib third-party libraries](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/software/vscode-overview/3rd-party-libraries.rst).

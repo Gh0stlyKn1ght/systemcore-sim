@@ -1,0 +1,86 @@
+---
+title: "Lesson 2: Topology and Termination"
+description: Document the physical bus and verify termination assumptions without copying an obsolete controller diagram.
+---
+
+# Topology and termination
+
+**Essential question:** What must be true at both physical ends of one CAN bus?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- draw one CAN bus in physical order;
+- explain the role of two endpoint terminators; and
+- distinguish a general CAN principle from a controller-specific connector instruction.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Mark both physical ends of a sample bus. |
+| 4–14 | Explain daisy-chain topology and termination. |
+| 14–26 | Build a Systemcore bus record from current manuals. |
+| 26–36 | Diagnose branch, endpoint, and documentation faults. |
+| 36–42 | Submit the topology record. |
+
+## Draw the real order
+
+A useful inventory follows conductors, not software class names:
+
+```text
+bus endpoint
+-> device A
+-> device B
+-> device C
+-> bus endpoint
+```
+
+For every segment, record connector, CAN-High, CAN-Low, retention, and the device powered state used during the inspection.
+
+## Termination principle
+
+A high-speed CAN bus uses terminating resistance at its two physical ends. WPILib’s older roboRIO/PDP example describes 120-ohm terminators at those endpoints. That illustrates the electrical principle but does not automatically identify the terminating components on a Systemcore bus.
+
+Before changing wiring, answer:
+
+- Which named Systemcore CAN bus is this?
+- Which two physical components are the endpoints?
+- Which endpoints provide or require termination?
+- Is termination fixed, switched, jumpered, or external?
+- Which current manuals support those answers?
+
+## Multiple buses change the inventory
+
+Systemcore’s 2027 support includes multiple CAN buses. Treat each bus as a separate physical network with its own topology, endpoints, utilization, devices, and addressing scope.
+
+A device connected to `aux` will not become reachable through `main` merely because both networks use the same protocol.
+
+## Do not infer wiring from code
+
+```java
+new Device(3, "main")
+```
+
+That constructor expresses where software expects a device. It does not prove where the conductors are attached, whether termination is correct, or whether the device has power.
+
+## Independent diagnosis
+
+Every Java object names bus `main`. The configuration tool sees the device only when connected to bus `aux`.
+
+Identify the mismatch, the evidence that exposed it, and which artifact must be corrected before integration continues.
+
+## Exit ticket
+
+Create a topology record with these fields:
+
+```text
+Bus name:
+Controller connector:
+Ordered devices:
+Endpoint A termination source:
+Endpoint B termination source:
+Manuals and versions:
+Unverified assumptions:
+```

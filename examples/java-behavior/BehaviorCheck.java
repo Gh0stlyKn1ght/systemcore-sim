@@ -33,6 +33,17 @@ public final class BehaviorCheck {
     READY
   }
 
+  enum DeviceState {
+    TOPOLOGY_UNVERIFIED,
+    TERMINATION_UNVERIFIED,
+    DUPLICATE_ADDRESS,
+    DEVICE_NOT_VISIBLE,
+    FIRMWARE_MISMATCH,
+    VENDOR_DEPENDENCY_MISSING,
+    API_MISMATCH,
+    READY
+  }
+
   record DriveInput(
       boolean enabled,
       boolean teleop,
@@ -57,6 +68,17 @@ public final class BehaviorCheck {
       boolean gamepadConnected,
       boolean enabled,
       OperatingMode mode) {}
+
+  record DeviceAddress(String bus, String manufacturer, String deviceType, int deviceNumber) {}
+
+  record DeviceSnapshot(
+      boolean topologyVerified,
+      boolean terminationVerified,
+      boolean addressUnique,
+      boolean visibleInConfigurator,
+      boolean firmwareCompatible,
+      boolean vendorDependencyInstalled,
+      boolean apiCompatible) {}
 
   static final class StationAnalyzer {
     StationState analyze(StationSnapshot snapshot) {
@@ -89,6 +111,40 @@ public final class BehaviorCheck {
       }
 
       return StationState.READY;
+    }
+  }
+
+  static final class DeviceAnalyzer {
+    DeviceState analyze(DeviceSnapshot snapshot) {
+      if (!snapshot.topologyVerified()) {
+        return DeviceState.TOPOLOGY_UNVERIFIED;
+      }
+
+      if (!snapshot.terminationVerified()) {
+        return DeviceState.TERMINATION_UNVERIFIED;
+      }
+
+      if (!snapshot.addressUnique()) {
+        return DeviceState.DUPLICATE_ADDRESS;
+      }
+
+      if (!snapshot.visibleInConfigurator()) {
+        return DeviceState.DEVICE_NOT_VISIBLE;
+      }
+
+      if (!snapshot.firmwareCompatible()) {
+        return DeviceState.FIRMWARE_MISMATCH;
+      }
+
+      if (!snapshot.vendorDependencyInstalled()) {
+        return DeviceState.VENDOR_DEPENDENCY_MISSING;
+      }
+
+      if (!snapshot.apiCompatible()) {
+        return DeviceState.API_MISMATCH;
+      }
+
+      return DeviceState.READY;
     }
   }
 
@@ -140,6 +196,7 @@ public final class BehaviorCheck {
   public static void main(String[] args) {
     DriveController controller = new DriveController();
     StationAnalyzer stationAnalyzer = new StationAnalyzer();
+    DeviceAnalyzer deviceAnalyzer = new DeviceAnalyzer();
     List<String> failures = new ArrayList<>();
 
     checkDecision(
@@ -263,12 +320,78 @@ public final class BehaviorCheck {
         stationAnalyzer.analyze(readyStation),
         StationState.READY);
 
+    DeviceSnapshot readyDevice = new DeviceSnapshot(true, true, true, true, true, true, true);
+
+    checkDevice(
+        failures,
+        "device diagnosis starts with documented topology",
+        deviceAnalyzer.analyze(new DeviceSnapshot(false, false, false, false, false, false, false)),
+        DeviceState.TOPOLOGY_UNVERIFIED);
+
+    checkDevice(
+        failures,
+        "termination is independent of topology",
+        deviceAnalyzer.analyze(new DeviceSnapshot(true, false, false, false, false, false, false)),
+        DeviceState.TERMINATION_UNVERIFIED);
+
+    checkDevice(
+        failures,
+        "duplicate full addresses block readiness",
+        deviceAnalyzer.analyze(new DeviceSnapshot(true, true, false, true, true, true, true)),
+        DeviceState.DUPLICATE_ADDRESS);
+
+    checkDevice(
+        failures,
+        "wiring readiness does not prove configurator visibility",
+        deviceAnalyzer.analyze(new DeviceSnapshot(true, true, true, false, true, true, true)),
+        DeviceState.DEVICE_NOT_VISIBLE);
+
+    checkDevice(
+        failures,
+        "visible devices can still have incompatible firmware",
+        deviceAnalyzer.analyze(new DeviceSnapshot(true, true, true, true, false, true, true)),
+        DeviceState.FIRMWARE_MISMATCH);
+
+    checkDevice(
+        failures,
+        "configured hardware does not install a project dependency",
+        deviceAnalyzer.analyze(new DeviceSnapshot(true, true, true, true, true, false, true)),
+        DeviceState.VENDOR_DEPENDENCY_MISSING);
+
+    checkDevice(
+        failures,
+        "installed libraries can still use an incompatible API",
+        deviceAnalyzer.analyze(new DeviceSnapshot(true, true, true, true, true, true, false)),
+        DeviceState.API_MISMATCH);
+
+    checkDevice(
+        failures,
+        "all documented device boundaries are ready",
+        deviceAnalyzer.analyze(readyDevice),
+        DeviceState.READY);
+
+    DeviceAddress mainBusMotor = new DeviceAddress("main", "REV", "motor", 3);
+    DeviceAddress duplicateMainBusMotor = new DeviceAddress("main", "REV", "motor", 3);
+    DeviceAddress auxiliaryBusMotor = new DeviceAddress("aux", "REV", "motor", 3);
+
+    checkBoolean(
+        failures,
+        "matching bus manufacturer type and number is a duplicate address",
+        mainBusMotor.equals(duplicateMainBusMotor),
+        true);
+
+    checkBoolean(
+        failures,
+        "the same device number on another bus is a different full address",
+        mainBusMotor.equals(auxiliaryBusMotor),
+        false);
+
     if (!failures.isEmpty()) {
       failures.forEach(message -> System.err.println("FAIL: " + message));
       System.exit(1);
     }
 
-    System.out.println("PASS: 17 Java behavior and Driver Station checks");
+    System.out.println("PASS: 27 Java behavior, Driver Station, and CAN device checks");
   }
 
   private static void checkDecision(
@@ -289,6 +412,20 @@ public final class BehaviorCheck {
 
   private static void checkStation(
       List<String> failures, String name, StationState actual, StationState expected) {
+    if (actual != expected) {
+      failures.add(name + " expected=" + expected + " actual=" + actual);
+    }
+  }
+
+  private static void checkDevice(
+      List<String> failures, String name, DeviceState actual, DeviceState expected) {
+    if (actual != expected) {
+      failures.add(name + " expected=" + expected + " actual=" + actual);
+    }
+  }
+
+  private static void checkBoolean(
+      List<String> failures, String name, boolean actual, boolean expected) {
     if (actual != expected) {
       failures.add(name + " expected=" + expected + " actual=" + actual);
     }

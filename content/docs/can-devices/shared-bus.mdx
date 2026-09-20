@@ -1,0 +1,71 @@
+---
+title: "Lesson 1: Read CAN as a Shared Bus"
+description: Separate CAN communication, device power, actuator power, and team behavior.
+---
+
+# Read CAN as a shared bus
+
+**Essential question:** Which wires carry information, and which conductors carry energy?
+
+## Learning targets
+
+By the end of this lesson, you can:
+
+- explain CAN as a two-wire shared communications network;
+- separate command, measurement, control power, and actuator power; and
+- identify claims that require electrical evidence rather than software evidence.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–4 | Trace how a motor request reaches a CAN controller. |
+| 4–14 | Separate the communication and power paths. |
+| 14–26 | Label one controller wiring diagram by responsibility. |
+| 26–36 | Diagnose four crossed-path claims. |
+| 36–42 | Submit a signal-and-power trace. |
+
+## Two paths reach the controller
+
+```text
+Java request -> vendor library -> controller support -> CAN bus -> device logic
+
+battery -> protection/distribution -> motor controller power stage -> motor
+```
+
+The CAN bus communicates desired state, configuration, status, and measurements. It does not deliver the motor’s operating power.
+
+## Four different flows
+
+| Flow | Example | Evidence source |
+|---|---|---|
+| Command | Requested output or setpoint | Robot logs and vendor status |
+| Measurement | Position, current, temperature, faults | Device status frames and independent measurements |
+| Device/control power | Energy that lets electronics operate | Wiring record and voltage measurement |
+| Actuator power | Energy switched to the motor or load | Power-path inspection and bounded measurement |
+
+A device can communicate while its actuator power path is unavailable. A powered device can also fail to communicate because the CAN path, address, firmware, or software stack is wrong.
+
+## Shared means one fault can spread
+
+Multiple nodes share the bus. Open conductors, shorts, reversed CAN-High/CAN-Low, poor termination, or a failing node can affect more than one device. The physical layout and exact location of failures matter.
+
+WPILib’s general wiring guide uses yellow for CAN-High and green for CAN-Low. Color is a convention, not proof. Verify terminal labels and continuity against current hardware documentation.
+
+## Independent diagnosis
+
+A motor controller appears in its configuration application, accepts a new device number, and reports temperature. The motor does not turn.
+
+List three still-unproven boundaries. At least one must be in the power path and one in team behavior.
+
+## Exit ticket
+
+Write one sentence for each:
+
+1. What does CAN carry?
+2. What does CAN not carry?
+3. What evidence would establish that a motor actually received power?
+
+## Source check
+
+Review the two-wire shared-network description in [WPILib CAN wiring basics](https://github.com/wpilibsuite/wpilib-docs/blob/1897febd8ae910a6e0de78388f62e7ccd6d8a085/source/docs/hardware/hardware-basics/can-wiring-basics.rst).
