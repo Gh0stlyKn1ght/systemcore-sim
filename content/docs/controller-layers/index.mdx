@@ -1,0 +1,46 @@
+---
+title: Controller Layers
+description: A responsibility map for roboRIO and Systemcore, from physical electronics to Java robot behavior.
+---
+
+# Controller layers
+
+These layers are a teaching model of responsibility. They are not an exact boot trace, electrical schematic, or promise that every device follows one identical internal path.
+
+| Layer | roboRIO | Systemcore |
+|---|---|---|
+| 6. Robot application | Team behavior running in the selected WPILib framework | Migrated team behavior using compatible 2027 APIs |
+| 5. WPILib and vendor libraries | Robot modes, controls, NetworkTables, and vendor device APIs | The compatible WPILib and vendor release set |
+| 4. Hardware abstraction | WPILib HAL plus NI low-level support | Systemcore-specific HAL, drivers, and I/O services |
+| 3. Operating environment | roboRIO Linux environment | Limelight Linux environment and platform services |
+| 2. Startup and I/O support | Platform startup and FPGA configuration | Platform startup and RP2350 firmware/support |
+| 1. Physical hardware | ARM processor, FPGA, memory, and ports | Compute Module 5, RP2350, memory, and ports |
+
+## What stays the same
+
+The controller is the computer. Linux manages the computer. WPILib gives robot programmers useful APIs. Your application defines the robot’s behavior.
+
+## What changes
+
+Systemcore is not a faster roboRIO with the same disk image. Its processor, I/O architecture, operating environment, firmware, compatible releases, and migration requirements differ.
+
+## Where ROS 2 belongs
+
+ROS 2 is an optional framework that a team would introduce deliberately. It is not a hidden layer between WPILib and either controller. A future ROS 2 bridge would need explicit message definitions, timestamps, coordinate frames, stale-data handling, and control authority. It is outside the core FRC path taught here.
+
+## Follow one command through the stack
+
+For a CAN-connected motor controller, the simplified path is:
+
+```text
+Joystick on the operator computer
+  -> Driver Station input and robot mode
+  -> robot network
+  -> team Java application decides a request
+  -> WPILib or vendor API expresses the request
+  -> controller-specific support transmits it on CAN
+  -> motor controller switches battery power to the motor
+  -> measurements inform the next decision
+```
+
+The command path and the power path are different. NetworkTables can share data, but it is not automatically the transport for every Driver Station message or motor command.

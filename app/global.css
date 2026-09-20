@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+:root {
+  --color-fd-primary: hsl(188 92% 42%);
+  --color-fd-background: hsl(222 33% 98%);
+  --color-fd-foreground: hsl(222 36% 10%);
+  --color-fd-muted: hsl(216 22% 94%);
+  --color-fd-muted-foreground: hsl(218 12% 42%);
+  --color-fd-border: hsl(216 20% 86%);
+  --color-fd-card: hsl(0 0% 100%);
+  --color-fd-card-foreground: hsl(222 36% 10%);
+}
+
+.dark {
+  --color-fd-primary: hsl(187 92% 55%);
+  --color-fd-background: hsl(224 38% 7%);
+  --color-fd-foreground: hsl(210 25% 96%);
+  --color-fd-muted: hsl(222 26% 13%);
+  --color-fd-muted-foreground: hsl(215 16% 68%);
+  --color-fd-border: hsl(219 24% 20%);
+  --color-fd-card: hsl(223 32% 9%);
+  --color-fd-card-foreground: hsl(210 25% 96%);
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+body {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-fd-primary) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-fd-primary) 4%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}

@@ -1,0 +1,41 @@
+---
+title: "Layer 2: Startup and I/O Support"
+description: Separate controller startup, I/O firmware, imaging, and deployment.
+---
+
+# Layer 2: Startup and I/O support
+
+## Responsibility
+
+This layer prepares the platform and its specialized I/O resources so the operating environment and robot application can use them.
+
+| roboRIO | Systemcore |
+|---|---|
+| Boot support starts the controller platform | Platform startup initializes the CM5-based controller |
+| FPGA configuration establishes supported hardware logic | RP2350 firmware and platform support establish specialized I/O behavior |
+| Controller image and FPGA behavior belong to the platform | Controller image, services, packages, and peripheral firmware must be compatible |
+
+The team’s Java class is not FPGA configuration and it is not RP2350 firmware.
+
+## Three operations students must not merge
+
+**Power-on** starts the installed platform. **Imaging** installs or replaces controller system software. **Deploying** builds and transfers the team application. External device firmware is a fourth versioned concern.
+
+```text
+Power usable
+  -> startup firmware and hardware initialization
+  -> operating environment and drivers
+  -> controller services and I/O support
+  -> installed robot application
+  -> operator connectivity and mode state
+```
+
+This is a responsibility sequence, not a measured timing trace. Several operations can overlap.
+
+## Test boundary
+
+Desktop simulation can model “I/O ready” and “I/O unavailable” states. It cannot validate the real controller’s startup timing, firmware recovery, image compatibility, or electrical readiness.
+
+## Failure exercise
+
+Model a sensor that is unavailable during application startup and becomes available later. The application must report readiness explicitly rather than interpreting a default numeric value as a valid measurement.

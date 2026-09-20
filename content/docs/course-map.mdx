@@ -1,0 +1,39 @@
+---
+title: Course Map
+description: The planned learning sequence for the Java-first Systemcore and WPILib course.
+---
+
+# Course map
+
+The course moves from architectural understanding to executable evidence.
+
+| Module | Outcome | Evidence students produce |
+|---|---|---|
+| Controller layers | Explain where hardware, Linux, HAL, WPILib, and team code belong | Layer map and signal trace |
+| WPILib foundations | Recognize robot modes, periodic execution, and project structure | Small Java behavior change |
+| Driver Station | Separate operator input, mode control, and application state | Input-to-output trace |
+| CAN and devices | Distinguish configuration apps, Java libraries, firmware, and the CAN bus | Device responsibility matrix |
+| NetworkTables and telemetry | Publish useful state without mistaking visible data for fresh or valid data | Timestamped telemetry view |
+| Automated testing | Verify decision logic without physical hardware | Passing and deliberately failing JUnit tests |
+| Desktop simulation | Integrate robot behavior with simulated inputs, outputs, and physics | Reproducible simulation run |
+| Fault diagnosis | Detect stale, missing, contradictory, or invalid observations | Fault report and fallback behavior |
+| Hardware validation | Compare simulation assumptions with a bounded bench test | Measured limitations and corrections |
+
+## Language policy
+
+Java receives the full reference implementation, tests, simulation, telemetry, CI, and eventual hardware validation first.
+
+C++ and Python/RobotPy pages are added when a real difference exists in APIs, tooling, packaging, deployment, simulation, vendor support, or controller compatibility. We will not duplicate every Java lesson simply to claim three-language coverage.
+
+## How each practical lesson will work
+
+1. Read the system boundary.
+2. Predict the result.
+3. Modify a small piece of Java code.
+4. Run the automated checks.
+5. Run the WPILib simulation.
+6. Inspect the named telemetry.
+7. Introduce a controlled fault.
+8. Diagnose and restore the baseline.
+
+The layer lessons come first because students need a reliable mental model before they can diagnose code, network, device, or hardware failures.

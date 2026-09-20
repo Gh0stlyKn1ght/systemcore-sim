@@ -1,0 +1,43 @@
+---
+title: Systemcore Lab
+description: Learn the FRC controller stack, write Java/WPILib robot behavior, and test it before touching hardware.
+---
+
+# Systemcore Lab
+
+This course begins with one question:
+
+> When robot code produces an action, which layer is responsible for what happened?
+
+The answer is not “ROS 2.” Standard FRC robot applications use **WPILib**. In this project, **Java is the reference implementation and classroom path**. C++ and Python/RobotPy remain compatibility tracks for findings that are genuinely language-specific.
+
+<Cards>
+  <Card title="See the course map" href="/docs/course-map" description="Follow the path from controller architecture to tested robot behavior." />
+  <Card title="Start with Layer 1" href="/docs/controller-layers/physical-hardware" description="Separate computing, command signals, and motor power." />
+</Cards>
+
+## The six-layer model
+
+| Layer | Student question |
+|---|---|
+| 6. Robot application | What behavior did our Java code request? |
+| 5. WPILib and vendor libraries | Which API expresses that request? |
+| 4. Hardware abstraction | How is the same robot-facing operation mapped to this controller? |
+| 3. Operating environment | Which processes, files, networks, and drivers support the application? |
+| 2. Startup and I/O support | What must initialize before robot I/O is usable? |
+| 1. Physical hardware | Which processor, I/O device, bus, sensor, or motor controller does the work? |
+
+Every layer has its own lesson. Each lesson compares roboRIO and Systemcore, identifies common misconceptions, and defines what can be tested in software versus what requires hardware.
+
+## Course rule
+
+We will not call a feature complete because an animation moved. A finished exercise needs:
+
+- a clear behavioral requirement;
+- a Java test where practical;
+- a WPILib desktop simulation;
+- telemetry that explains the outcome;
+- one deliberate fault or invalid input;
+- a documented boundary between simulated and measured behavior.
+
+The first implementation target remains deliberately small: differential drive, a short autonomous routine, simulated encoder and heading inputs, automated tests, and one stale-sensor failure case.

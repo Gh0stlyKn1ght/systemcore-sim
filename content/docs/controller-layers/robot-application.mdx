@@ -1,0 +1,51 @@
+---
+title: "Layer 6: Robot Application"
+description: Define, test, simulate, and explain the behavior written by the team.
+---
+
+# Layer 6: Robot application
+
+## Responsibility
+
+This is the behavior the team writes: driving, mechanisms, autonomous routines, interlocks, diagnostics, and fallback decisions.
+
+The application receives observations and operating state, decides what should happen, and produces bounded requests. It should not hide hardware access throughout unrelated classes.
+
+```text
+observations + mode + operator intent
+                -> behavior decision
+                -> output request + telemetry
+```
+
+## First Java milestone
+
+The initial implementation will contain:
+
+- differential-drive manual control;
+- one short autonomous routine;
+- simulated encoder and heading inputs;
+- JUnit tests for behavior decisions;
+- WPILib desktop simulation;
+- useful telemetry for inputs, decisions, and outputs;
+- one stale-sensor scenario with a defined fallback.
+
+## Required test progression
+
+1. **Build:** the project and dependencies assemble.
+2. **Unit test:** decision logic satisfies named requirements.
+3. **Simulation:** integrated behavior operates against a software model.
+4. **Telemetry review:** another person can explain why the result occurred.
+5. **Hardware validation:** a bounded bench test checks assumptions that software cannot prove.
+
+## Example requirements
+
+- Zero joystick input produces a neutral drive request.
+- Canceling autonomous produces a stopped output request.
+- Disabled-state input cannot produce an active application output request.
+- An observation older than the accepted threshold triggers the documented fallback.
+
+## Completion rule
+
+A clean checkout must build, discover and run its tests, launch the selected simulation, expose understandable telemetry, reproduce one deliberate fault, and return to the known-good baseline.
+
+Only then should we add vendor-specific hardware integration, swerve drive, multiple cameras, or a second mechanism.

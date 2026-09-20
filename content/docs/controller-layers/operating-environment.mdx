@@ -1,0 +1,36 @@
+---
+title: "Layer 3: Operating Environment"
+description: Understand Linux, processes, files, networking, drivers, and controller services.
+---
+
+# Layer 3: Operating environment
+
+## Responsibility
+
+The operating environment manages processes, memory, files, networking, permissions, and device access. The robot application runs under this layer. It does not replace it.
+
+| roboRIO | Systemcore |
+|---|---|
+| NI-supplied Linux environment and controller image | Limelight Linux environment, controller images, packages, and platform services |
+| Team code runs as an application process | Team code runs as an application process in the supported workflow |
+| Restarting code and rebooting the controller are different operations | Application lifecycle and whole-controller lifecycle remain separate concerns |
+
+## Disabled does not mean powered off
+
+When a robot is disabled, the controller, operating system, networking, and application can remain active. Disabled is an operating state, not electrical isolation and not proof that all diagnostic tools are read-only.
+
+## Browser interfaces are not ROS 2
+
+A web interface can configure cameras, packages, or diagnostics without creating a ROS graph. Linux, Python, cameras, web services, and publish/subscribe concepts do not automatically imply ROS 2.
+
+## What to observe
+
+- Did the robot process start?
+- Can the operator computer communicate with the controller?
+- Are required files and packages present?
+- Did a service fail while the OS remained available?
+- Is the application restarting, or is the whole controller rebooting?
+
+## Failure exercise
+
+Terminate or simulate failure of the robot application while leaving the surrounding simulation process alive. Students must distinguish “computer reachable” from “robot code healthy.”

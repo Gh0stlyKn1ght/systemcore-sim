@@ -1,0 +1,33 @@
+---
+title: "Layer 5: WPILib and Vendor Libraries"
+description: Separate WPILib, vendor APIs, configuration applications, and device firmware.
+---
+
+# Layer 5: WPILib and vendor libraries
+
+## Responsibility
+
+WPILib supplies robot-oriented APIs, mode frameworks, controls, simulation support, telemetry tools, and utilities. Vendor libraries add device-specific capabilities, especially for CAN devices.
+
+| Artifact | Job |
+|---|---|
+| WPILib | Robot programming APIs and tools |
+| REVLib, Phoenix, or another vendor library | Java API for the selected device family |
+| REV Hardware Client 2 or Phoenix Tuner X | Desktop or mobile configuration and diagnostics application |
+| Device firmware | Software running inside the physical device |
+
+Installing a configuration application does not add its Java library to the robot project. Adding a Java dependency does not update physical-device firmware.
+
+## Java-first policy
+
+Java establishes the known-good reference behavior, JUnit tests, desktop simulation, telemetry, CI, and eventual hardware validation. C++ and Python/RobotPy receive focused compatibility findings when their toolchain, APIs, bindings, deployment, simulation, or vendor support differs.
+
+## NetworkTables boundary
+
+NetworkTables is a typed data-sharing system commonly used with dashboards and coprocessors. It is not automatically the path for every Driver Station control message or CAN command.
+
+A visible value is not proof that the value is fresh, valid, or safe to act on. Every observation used for control should have a defined timestamp, validity rule, and fallback.
+
+## Failure exercise
+
+Publish a synthetic target measurement, stop updating it, and leave the last value visible. The Java behavior must reject the stale observation instead of continuing to aim from an old number.

@@ -1,13 +1,35 @@
 # SystemCore research and classroom simulator
 
 **Research lead and project author: [Gh0stly / @Gh0stlyKn1ght](https://github.com/Gh0stlyKn1ght)**  
-**Research snapshot: 2026-09-20 | Phase 0: documentation and architecture | Implementation: not started**
+**Research snapshot: 2026-09-20 | Phase 0: course frontend and architecture | Robot implementation: not started**
 
 An independent, documentation-first research project for understanding Limelight Systemcore and the FRC 2027 transition, followed by a Java/WPILib behavioral simulator for FRC Team 8721.
 
 ![Limelight Systemcore development-unit product rendering, showing the early hardware enclosure and connectors](https://limelightvision.io/cdn/shop/files/68049783-9d89-4c4e-aae3-32a3091318a1.png?v=1749759827&width=800)
 
 *Image credit: Limelight Vision. [Original product page](https://limelightvision.io/products/systemcore-development-unit). This early development-unit rendering is not a final-production wiring reference. The image is embedded from the vendor CDN, not relicensed as project artwork. [Attribution and image status](ATTRIBUTION.md).*
+
+## Course frontend
+
+The repository now includes a verified **Fumadocs + Next.js course frontend**. The course begins at `/docs` and gives each controller layer its own section:
+
+1. physical hardware;
+2. startup and I/O support;
+3. operating environment;
+4. hardware abstraction;
+5. WPILib and vendor libraries; and
+6. the team-written robot application.
+
+Each layer compares roboRIO and Systemcore, identifies what can be tested in software, and marks what still requires physical validation. The frontend was type-checked and production-built before it was committed. This does not mean the Java/WPILib robot application exists yet.
+
+For local course development:
+
+```bash
+npm install
+npm run dev
+```
+
+Use `npm run types:check` and `npm run build` before merging course changes.
 
 ## Coding and testing goal
 

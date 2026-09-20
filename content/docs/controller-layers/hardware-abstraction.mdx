@@ -1,0 +1,47 @@
+---
+title: "Layer 4: Hardware Abstraction"
+description: Learn how HAL separates robot-facing APIs from controller-specific implementations.
+---
+
+# Layer 4: Hardware abstraction
+
+## Responsibility
+
+HAL means **Hardware Abstraction Layer**. It creates a boundary between robot-facing operations and the controller-specific implementation needed to perform them.
+
+```text
+Application asks: read this input
+HAL boundary: represent the robot-facing operation
+Platform implementation: obtain the value on this controller or simulator
+```
+
+| roboRIO | Systemcore |
+|---|---|
+| roboRIO HAL uses NI low-level support for controller access | Systemcore uses its controller-specific HAL, drivers, and I/O services |
+| Desktop simulation substitutes a simulation implementation where supported | The same behavior-level test can use desktop simulation before Systemcore hardware exists |
+
+Abstraction does not make incompatible hardware identical. It gives application code a stable place to depend on a capability while platform-specific code handles the implementation.
+
+## Project architecture
+
+Our Java reference implementation will keep decisions behind small interfaces such as:
+
+```java
+interface DriveIO {
+  DriveInputs readInputs();
+  void apply(DriveRequest request);
+}
+```
+
+The behavior code can use a simulated adapter during desktop tests and a separately validated hardware adapter later.
+
+## What to test here
+
+- Input values are converted into the application’s units.
+- Output requests are clamped or rejected according to the contract.
+- Missing or stale device data is represented explicitly.
+- Simulation and hardware adapters satisfy the same behavior-facing interface.
+
+## Blind spot
+
+A passing adapter test does not prove the physical device, vendor firmware, wiring, or controller timing matches the model. Record that boundary with every result.

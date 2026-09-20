@@ -1,0 +1,46 @@
+---
+title: "Layer 1: Physical Hardware"
+description: Compare the roboRIO processor and FPGA with Systemcore's Compute Module 5 and RP2350.
+---
+
+# Layer 1: Physical hardware
+
+## Responsibility
+
+This layer performs computation, connects physical interfaces, and exchanges electrical signals with external devices. It does not decide the team’s strategy by itself.
+
+| roboRIO | Systemcore |
+|---|---|
+| ARM processor runs the main software environment | Raspberry Pi Compute Module 5 runs the main software environment |
+| FPGA provides configurable, timing-sensitive I/O functions | RP2350 microcontroller supports reconfigurable I/O |
+| Built-in robot interfaces connect sensors and control signals | Published interfaces include CAN, I2C, USB, Ethernet, configurable I/O, and an onboard IMU |
+
+The **RP2350 is a microcontroller, not an FPGA**. Both platforms separate application computing from specialized I/O work, but their circuitry, firmware, timing, and supported features are not interchangeable.
+
+## Command is not power
+
+```text
+Command: controller -> CAN or PWM -> motor controller
+Power:   battery -> protected distribution -> motor controller -> motor
+```
+
+A logic-level request does not supply drivetrain power. The motor controller performs the high-current switching.
+
+## What software simulation can prove
+
+- The application selected the intended output request.
+- The request respects the limits encoded in the model.
+- Simulated sensor feedback changes the next software decision as expected.
+
+## What requires hardware
+
+- Wiring polarity and connector placement
+- Actual CAN signal integrity
+- Physical motor inversion
+- Current draw, voltage drop, and brownout behavior
+- Sensor noise and mechanical load
+- FPGA or RP2350 timing behavior
+
+## Check your model
+
+An encoder connected directly to a controller input and an encoder connected to a smart motor controller can reach the application through different paths. Draw both before deciding which layer owns a fault.
