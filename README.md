@@ -1,51 +1,45 @@
-# SystemCore Classroom Simulator
+# SystemCore research and classroom simulator
 
-A Java/WPILib teaching project for FRC Team 8721. The goal is to let students learn robot lifecycle, command-based programming, simulation, telemetry, controls, vision, SmartIO concepts, and fault diagnosis before real SystemCore hardware is available.
+**Research lead and project author: [Gh0stly / @Gh0stlyKn1ght](https://github.com/Gh0stlyKn1ght)**  
+**Research snapshot: 2026-09-20 | Phase 0: documentation and architecture | Implementation: not started**
 
-## Current status
+An independent, documentation-first research project for understanding Limelight Systemcore and the FRC 2027 transition, followed by a Java/WPILib behavioral simulator for FRC Team 8721.
 
-**Phase 0: project and reference bootstrap**
+![Limelight Systemcore development-unit product rendering, showing the early hardware enclosure and connectors](https://limelightvision.io/cdn/shop/files/68049783-9d89-4c4e-aae3-32a3091318a1.png?v=1749759827&width=800)
 
-The repository currently contains the project notes and a reproducible way to fetch the relevant WPILib documentation and source code. The executable robot project is the next phase.
+*Image credit: Limelight Vision. [Original product page](https://limelightvision.io/products/systemcore-development-unit). This early development-unit rendering is not a final-production wiring reference. The image is embedded from the vendor CDN, not relicensed as project artwork. [Attribution and image status](ATTRIBUTION.md).*
 
-## Start here
+## Start with the research
 
-1. Read [the project notes](docs/PROJECT_NOTES.md).
-2. Read [WPILib quick access](docs/WPILIB_QUICK_ACCESS.md).
-3. Fetch the pinned WPILib reference material:
-   - Windows PowerShell: `./scripts/fetch-wpilib-reference.ps1`
-   - Linux/macOS: `bash ./scripts/fetch-wpilib-reference.sh`
-4. Use the installed WPILib VS Code command **WPILib: Create a new project** to generate a Java command-based project in this repository.
-5. Run it with **WPILib: Simulate Robot Code**.
+Read the [research dossier](docs/research/README.md), then the [evidence and contradictions ledger](docs/research/EVIDENCE.md). Specifications, software releases, community observations, and our proposed simulator behavior are deliberately separated.
 
-The fetch scripts place upstream material in `.reference/`, which is intentionally ignored by Git. This keeps the repository small while giving the coach and students fast local source access.
+| Question | Documentation |
+|---|---|
+| What is publicly established about the hardware? | [Hardware and revision differences](docs/research/HARDWARE.md) |
+| How do the processors, buses, vision, and robot program fit together? | [System architecture](docs/research/SYSTEM_ARCHITECTURE.md) |
+| What software is changing for 2027? | [Software and vendor compatibility](docs/research/SOFTWARE.md) |
+| What are teams actually reporting? | [Reddit and Chief Delphi field notes](docs/research/COMMUNITY.md) |
+| How should we simulate it on Linux? | [Debian, Ubuntu, and Kali plan](docs/research/LINUX_SIMULATION.md) |
+| How can we investigate without probing vendor infrastructure? | [Passive OSINT playbook](docs/research/PASSIVE_OSINT.md) |
+| What is verified, unresolved, or next? | [Evidence ledger](docs/research/EVIDENCE.md), [research gates](docs/research/ROADMAP.md), [snapshot](docs/research/SNAPSHOT.md) |
+| Where did each claim come from? | [Source register](docs/research/SOURCES.md) |
 
-## Notes
+## Current boundary
 
-- [Project scope and backlog](docs/PROJECT_NOTES.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Classroom lab sequence](docs/CLASSROOM_LABS.md)
-- [WPILib quick access](docs/WPILIB_QUICK_ACCESS.md)
-- [Public repository findings](docs/RESEARCH_FINDINGS.md)
-- [Tested versions](VERSIONS.md)
+This update adds research and planning only. It does not generate a robot application, install dependencies, flash a controller, run a simulator, or validate hardware. The existing reference scripts and `wpilib-reference.lock` remain available and unchanged; see [WPILib quick access](docs/WPILIB_QUICK_ACCESS.md).
 
-## Architecture rule
+The intended first implementation is a **behavioral simulator**, not an exact Systemcore emulator. Robot behavior will sit behind small interfaces such as `DriveIO`, `IMUIO`, `VisionIO`, and `SmartIO`. We will reuse WPILib desktop simulation rather than reproduce its HAL or build a new operating system. See the [project scope](docs/PROJECT_NOTES.md) and [architecture decision](docs/ARCHITECTURE.md).
 
-Robot commands and subsystems must depend on small interfaces such as `DriveIO`, `VisionIO`, `IMUIO`, and `SmartIO`. Simulation implementations come first. Real SystemCore implementations are added only after hardware validation.
+**Before building:** approve the research gates, select one compatible prerelease profile, and validate a minimal upstream example on a supported host. Existing classroom labs are proposals, not tested functionality.
 
-## Scope boundary
+## Research standard
 
-This is a classroom and robot-development project, not an exact SystemCore emulator. It does not reproduce RP2350 firmware, electrical timing, FMS behavior, vendor firmware, or the SystemCore OS image.
+Every consequential claim must identify its source, hardware generation, software version when relevant, and evidence class. An official alpha specification is not a final production guarantee. A community report is not our measurement. A public repository name does not establish that every component is open source.
 
-Private security research does not belong in this student-facing repository.
+Public research uses search engines, public documents, published repositories, and community discussions. No vendor port scans, endpoint guessing, authentication attempts, or robot-network interaction are part of this project.
 
-## Upstream sources
+## Credits and licensing
 
-- [WPILib documentation](https://github.com/wpilibsuite/wpilib-docs)
-- [WPILib source](https://github.com/wpilibsuite/allwpilib)
-- [SystemCore public OS material](https://github.com/LimelightVision/systemcore-os-public)
-- [SystemCore testing repository](https://github.com/wpilibsuite/SystemcoreTesting)
+Research direction, original synthesis, architecture decisions, and classroom adaptation belong to **Gh0stly / @Gh0stlyKn1ght**, with AI-assisted source discovery and drafting disclosed in [ATTRIBUTION.md](ATTRIBUTION.md). FIRST, WPILib contributors, Limelight Vision, vendors, and community authors retain credit for their own work. This project is not endorsed by those organizations.
 
-## License
-
-Project licensing is not yet selected. Upstream repositories retain their own licenses. The reference-fetch workflow does not copy upstream source into this repository.
+Project licensing remains undecided. No upstream code, firmware, OS image, or vendor photograph is automatically covered by a future project license.
