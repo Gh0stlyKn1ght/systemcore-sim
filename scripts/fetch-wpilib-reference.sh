@@ -16,7 +16,7 @@ if [[ ! -f "$lock_file" ]]; then
 fi
 
 while IFS='=' read -r key value; do
-  [[ -z "$key" || "$key" == #* ]] && continue
+  [[ -z "$key" || "$key" == "#"* ]] && continue
   case "$key" in
     WPILIB_DOCS_REPO|WPILIB_DOCS_REF|ALLWPILIB_REPO|ALLWPILIB_REF)
       printf -v "$key" '%s' "$value"
@@ -52,8 +52,30 @@ sync_sparse_repo() {
 
 mkdir -p "$reference_root"
 
-sync_sparse_repo   "$WPILIB_DOCS_REPO"   "$WPILIB_DOCS_REF"   "$reference_root/wpilib-docs"   source/docs/software/systemcore-info   source/docs/software/wpilib-tools/robot-simulation   source/docs/software/commandbased   source/docs/software/dashboards   source/docs/software/hardware-apis   source/docs/software/networktables   source/docs/networking   source/docs/zero-to-robot/step-3   source/docs/yearly-overview
+docs_paths=(
+  source/docs/software/systemcore-info
+  source/docs/software/wpilib-tools/robot-simulation
+  source/docs/software/commandbased
+  source/docs/software/dashboards
+  source/docs/software/hardware-apis
+  source/docs/software/networktables
+  source/docs/networking
+  source/docs/zero-to-robot/step-3
+  source/docs/yearly-overview
+)
 
-sync_sparse_repo   "$ALLWPILIB_REPO"   "$ALLWPILIB_REF"   "$reference_root/allwpilib"   wpilibj   wpilibjExamples   commandsv2   ntcore   wpimath   hal   simulation   design-docs
+source_paths=(
+  wpilibj
+  wpilibjExamples
+  commandsv2
+  ntcore
+  wpimath
+  hal
+  simulation
+  design-docs
+)
+
+sync_sparse_repo "$WPILIB_DOCS_REPO" "$WPILIB_DOCS_REF" "$reference_root/wpilib-docs" "${docs_paths[@]}"
+sync_sparse_repo "$ALLWPILIB_REPO" "$ALLWPILIB_REF" "$reference_root/allwpilib" "${source_paths[@]}"
 
 echo "WPILib reference material is ready in $reference_root"
