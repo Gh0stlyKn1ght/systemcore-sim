@@ -1,10 +1,12 @@
 # Hardware specifications and revision boundaries
 
-Research lead: @Gh0stlyKn1ght. Snapshot: 2026-09-20.
+Research lead: @Gh0stlyKn1ght. Snapshot: 2026-09-21.
 
 ## Identify the unit before applying a specification
 
 The published development-unit image and original PDF describe early hardware. The official testing guide distinguishes original FRC alpha units from later beta hardware distributed in the FTC alpha test. Hardware generation and software maturity are separate labels. A beta enclosure running an alpha WPILib build is not a contradiction. [S01](SOURCES.md#s01) [S05](SOURCES.md#s05)
+
+The 2026-09-19 Systemcore image-15 releases reinforce that distinction by publishing separate **Alpha 15 build 382** and **Beta 15 build 212** artifacts. Their GitHub release state is prerelease. Never choose an image by number alone. [S39](SOURCES.md#s39)
 
 ## Compute and interfaces
 
@@ -42,8 +44,17 @@ The draft's power table and brownout section disagree: 6 V nominal versus 6.3 V,
 | Recovery entry | USB-C attached before applying power | Config button held with USB connected during power-up | [S05](SOURCES.md#s05) |
 | Digital input bias | Pulldown arrangement | Pull-up arrangement | [S05](SOURCES.md#s05) |
 | Identification | Early port-label limitations | Later enclosure/configuration-button distinction | [S05](SOURCES.md#s05) |
+| Image-15 display inactivity behavior | OLED continues to turn off after the no-motion period | OLED stays on at reduced brightness and framerate after inactivity | [S40](SOURCES.md#s40), vendor changelog claim only |
 
 The testing guide also warns against using a regulator such as the VRM to supply the controller under load. Follow the revision-specific power instructions, not a photograph. Its I2C migration note says the roboRIO cable order differs: SDA and SCL need attention. A mechanically fitting connector does not prove correct wiring. [S05](SOURCES.md#s05)
+
+The OLED difference is useful diagnostically because a dark Alpha display and a dim Beta display can represent different expected inactivity behavior. It must not be used as a universal controller-health rule. This project has not measured either behavior.
+
+## Image 15 hardware-facing release notes
+
+Limelight's current image-15 notes include Motioncore OTA behavior, device-port power cycling after OTA, a more detailed eMMC health display, camera-pipeline fixes, memory-reduction claims, and Motioncore 0.7.0/0.7.1 changes. These are official vendor release-note claims. They do not become project **Observed** results until tested with a revision-matched unit and recorded procedure. [S39](SOURCES.md#s39) [S40](SOURCES.md#s40)
+
+The image-15 release artifacts are explicitly split by Alpha and Beta hardware. This strengthens the project's existing rule that hardware revision belongs in every compatibility and test record.
 
 ## How to reason about the specifications
 
@@ -51,12 +62,14 @@ A listed bus speed is a link capability, not a guaranteed application update rat
 
 Likewise, six configurable ports do not mean six independent ports of every possible type simultaneously. Our future simulator should make allocation and ownership visible. The exact combinations supported by a particular image/API need validation before becoming teaching rules.
 
-Do not select cables, mounting holes, current limits, or external power arrangements from this abbreviated table. Consult the full drawing and current vendor instructions for the actual unit. The cable PDF was located but could not be inspected in this session. [S38](SOURCES.md#s38)
+Do not select cables, mounting holes, current limits, or external power arrangements from this abbreviated table. Consult the full drawing and current vendor instructions for the actual unit. The cable PDF was located but could not be inspected in the earlier review. [S38](SOURCES.md#s38)
 
 ## Manual reading map
 
 Use S02 for the physical drawing and processor details near the beginning, power/CAN/SmartIO tables in the middle, and USB, Ethernet, expansion, IMU, status indicators, and mating connectors later. The filename date alone is insufficient: inspect the internal revision history. FIRST's early announcement also gives a slightly different length, so production mounting must wait for revision-matched CAD. [S02](SOURCES.md#s02) [S04](SOURCES.md#s04)
 
+For software-era behavior, use S05, S39, and S40 rather than projecting the alpha PDF forward. Physical revision, OS image, and application software are separate axes.
+
 ## Still unknown for our purposes
 
-Final production dimensional approval, exact onboard IMU silicon, complete temperature-qualified operating limits, final accessory bundle, production retail price, and measured thermal/ESD behavior of our future unit are not established by this dossier. We have not measured any controller.
+Final production dimensional approval, exact onboard IMU silicon, complete temperature-qualified operating limits, final accessory bundle, production retail price, final public-sale availability, and measured thermal/ESD behavior of our future unit are not established by this dossier. We have not measured any controller. Image-15 release notes do not resolve those unknowns.
