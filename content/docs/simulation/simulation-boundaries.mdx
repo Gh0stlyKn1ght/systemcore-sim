@@ -1,0 +1,58 @@
+---
+title: "Lesson 1: Simulation Boundaries"
+description: Separate modeled software evidence from physical hardware evidence.
+---
+
+# Simulation boundaries
+
+**Essential question:** What can move in a simulator without proving that a robot can move?
+
+## Learning targets
+
+- identify modeled and unmodeled boundaries;
+- classify claims by evidence source; and
+- avoid treating animation as hardware validation.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Challenge the claim “the robot works because the dot moved.” |
+| 5–15 | Map behavior, model, sensors, and visualization. |
+| 15–27 | Classify ten claims by evidence source. |
+| 27–37 | Define one explicit model limitation. |
+| 37–42 | Submit a boundary statement. |
+
+## Evidence layers
+
+| Layer | Simulation can establish | Simulation cannot establish alone |
+|---|---|---|
+| Behavior | The same modeled input selects the expected request | The request reaches a real device |
+| Timing | The algorithm behaves under the modeled step size | Real scheduling jitter and bus delay |
+| Physics | The chosen equations produce the expected state | Actual mass, friction, backlash, traction, and impacts |
+| Sensors | Code handles prepared values and faults | Sensor wiring, calibration, noise, and mounting |
+| Visualization | State is rendered consistently | A physical mechanism occupies that position |
+
+## Four objects, four jobs
+
+```text
+scenario -> behavior -> output request -> physics model
+                                      -> simulated sensors
+                                      -> telemetry and visualization
+```
+
+The behavior should not secretly read model internals. It should receive the same kind of observation contract used by real I/O.
+
+## Boundary exercise
+
+For each statement, label it `MODELED`, `MEASURED`, or `UNPROVEN`:
+
+1. The controller requested equal left and right output.
+2. The simulated encoder distances increased equally.
+3. The real CAN device received the request.
+4. The physical robot tracked straight.
+5. The stale-heading fallback selected neutral output.
+
+## Exit ticket
+
+Complete this sentence: “This simulation proves ___ under ___ assumptions; it does not prove ___.”

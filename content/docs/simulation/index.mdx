@@ -5,16 +5,42 @@ description: Run shared robot behavior against software inputs, outputs, and sim
 
 # Module 07: desktop simulation
 
-**Status:** Planned.
+**Status:** Complete first edition.
 
-## Students will be able to
+Desktop simulation is a controlled experiment. It runs robot behavior against modeled inputs, outputs, sensors, and physics without claiming that real wiring or mechanisms behave the same way.
+
+## Module outcomes
 
 - explain what desktop simulation replaces and what it does not;
-- supply simulated joystick, encoder, heading, and mode inputs;
-- connect behavior code to a simple drivetrain model;
+- run a deterministic 20 ms update loop;
+- connect drive requests to modeled velocity, distance, and heading;
 - inspect telemetry from a repeatable run; and
-- avoid describing animation as proof of wiring, power, or timing.
+- inject reversed-encoder and frozen-heading faults;
+- preserve baseline, failure, and recovery evidence.
 
-## Planned practical
+## Lessons
 
-Drive a differential robot in simulation, record a baseline, reverse one modeled encoder, and diagnose the resulting disagreement between command and observation.
+<Cards>
+  <Card title="Simulation boundaries" href="/docs/simulation/simulation-boundaries" description="Name what software models and what remains physical." />
+  <Card title="Deterministic loop" href="/docs/simulation/deterministic-loop" description="Advance identical inputs through fixed 20 ms steps." />
+  <Card title="Drivetrain model" href="/docs/simulation/drivetrain-model" description="Translate side requests into distance and heading." />
+  <Card title="Fault injection" href="/docs/simulation/fault-injection" description="Reverse an encoder and freeze the heading sensor." />
+  <Card title="Run the lab" href="/docs/simulation/simulation-lab" description="Execute, break, diagnose, and restore the baseline." />
+  <Card title="Module quiz" href="/docs/simulation/quiz" description="Check readiness for automated testing." />
+</Cards>
+
+## Two simulation layers
+
+| Layer | Purpose | Command |
+|---|---|---|
+| Repository model | Hardware-free, deterministic behavior and fault checks | `npm run test:simulation` |
+| WPILib desktop simulation | Generated robot project, HAL simulation, GUI, modeled devices, and WPILib integration | matching Gradle simulation command from the installed release |
+
+The repository model is executable now. The WPILib layer must use the exact selected 2027 prerelease and generated project because package names and templates are still changing.
+
+## Source checks
+
+- [Robot simulation](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/index.html)
+- [Physics simulation](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/physics-sim.html)
+- [Drivetrain simulation overview](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/drivesim-tutorial/diffdrive-sim-overview.html)
+- [Updating a drivetrain model](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/drivesim-tutorial/updating-drivetrain-model.html)

@@ -1,4 +1,13 @@
 {
   "title": "07 · Desktop Simulation",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "simulation-boundaries",
+    "deterministic-loop",
+    "drivetrain-model",
+    "fault-injection",
+    "simulation-lab",
+    "reflection",
+    "quiz"
+  ]
 }

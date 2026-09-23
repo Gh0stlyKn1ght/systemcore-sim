@@ -1,0 +1,73 @@
+---
+title: "Lab: Baseline, Break, Restore"
+description: Run the drivetrain model, inject faults, and preserve reproducible evidence.
+---
+
+# Baseline, break, restore
+
+## Objective
+
+Run a deterministic drivetrain scenario, inject one observation fault, diagnose it from evidence, and restore the passing baseline.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict baseline and fault outcomes. |
+| 5–12 | Run all simulation checks. |
+| 12–22 | Trace the 20 ms update loop. |
+| 22–32 | Change one constant or fault assertion. |
+| 32–38 | Restore and rerun. |
+| 38–42 | Submit the evidence bundle. |
+
+## Run
+
+```bash
+npm run test:simulation
+```
+
+Expected checks include:
+
+- straight motion produces positive, agreeing distances;
+- equal side motion produces near-zero heading change;
+- opposite requests create rotation;
+- repeated scenarios finish in the same state;
+- a reversed right encoder disagrees with model truth;
+- a frozen heading sensor disagrees with modeled rotation;
+- neutral requests allow the model to decelerate.
+
+## Student modification
+
+Choose one:
+
+1. Change the track width and predict how the same turn request changes heading.
+2. Change the response time and predict the distance after two seconds.
+3. Add a left-encoder-frozen fault and one failing-then-passing check.
+
+## Evidence bundle
+
+Submit:
+
+- original prediction;
+- baseline command and passing result;
+- changed constant or fault;
+- one deliberate failure;
+- corrected passing result;
+- final model constants;
+- one sentence naming what remains unproven without WPILib;
+- one sentence naming what remains unproven without hardware.
+
+## Extension: WPILib layer
+
+After the selected WPILib 2027 example runs cleanly:
+
+1. create simulated motor and sensor endpoints;
+2. instantiate the compatible drivetrain model;
+3. feed requested outputs into the model;
+4. advance it at the nominal period;
+5. update simulated encoders and heading;
+6. publish pose, observation age, validity, request, and reason;
+7. reproduce the same two faults;
+8. compare results with the repository baseline.
+
+Do not copy 2026 imports into the 2027 project. Use the API delivered by the installed release.

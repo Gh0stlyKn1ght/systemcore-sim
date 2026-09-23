@@ -1,0 +1,63 @@
+---
+title: "Lesson 2: The Deterministic 20 ms Loop"
+description: Advance scenarios with fixed time steps so failures are reproducible.
+---
+
+# The deterministic 20 ms loop
+
+**Essential question:** Why should the same scenario produce the same final state every time?
+
+## Learning targets
+
+- explain fixed-step simulation;
+- keep scenario time separate from wall-clock time; and
+- reproduce a final state exactly.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Compare “run for a while” with “run 100 steps.” |
+| 5–15 | Trace the fixed-step update order. |
+| 15–27 | Predict a two-second scenario. |
+| 27–37 | Repeat and compare final state. |
+| 37–42 | Record the deterministic contract. |
+
+## Fixed-step contract
+
+The repository model uses:
+
+```text
+dt = 0.020 seconds
+steps = 100
+modeled duration = 2.000 seconds
+```
+
+Each step performs the same order:
+
+1. read the prepared scenario input;
+2. calculate the behavior request;
+3. apply the request to the model;
+4. advance physics exactly one `dt`;
+5. produce simulated sensor observations;
+6. record telemetry.
+
+## Wall clock is not simulation time
+
+Do not call `sleep(20)` and assume exactly 20 ms passed. A deterministic test advances its own model clock. A real-time user interface may render faster or slower without changing the modeled results.
+
+## Repeatability rule
+
+Given the same:
+
+- initial state;
+- scenario sequence;
+- time step;
+- constants;
+- fault configuration;
+
+the final state and telemetry decisions must match.
+
+## Exit ticket
+
+Name two hidden dependencies that would break repeatability, such as wall-clock reads, random numbers without a seed, unordered external events, or mutable global state.

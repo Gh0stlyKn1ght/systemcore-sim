@@ -1,0 +1,29 @@
+---
+title: Reflection and Corrections
+description: Correct simulation misconceptions before automated testing.
+---
+
+# Reflection and corrections
+
+For each claim, identify the hidden assumption and the evidence needed to correct it.
+
+1. “The animation moved, so the wiring is correct.”
+2. “Twenty milliseconds of wall time always equals one 20 ms simulation step.”
+3. “Equal motor requests guarantee straight real-world travel.”
+4. “A reversed encoder means the physics model must run backward.”
+5. “A frozen heading value is safe because it is still a valid number.”
+6. “A deterministic model includes every real source of variation.”
+7. “The Raspberry Pi can replace Systemcore because both use ARM processors.”
+8. “Passing repository checks proves WPILib integration.”
+9. “Passing WPILib simulation proves CAN wiring.”
+10. “One successful run is enough evidence.”
+
+## Synthesis
+
+Draw or describe this chain for the reversed-encoder scenario:
+
+```text
+scenario -> behavior -> request -> model truth -> fault adapter -> observation -> diagnosis
+```
+
+For every arrow, name the recorded field that would let another student locate the first disagreement.

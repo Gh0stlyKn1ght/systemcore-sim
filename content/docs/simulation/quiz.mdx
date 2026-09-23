@@ -1,0 +1,77 @@
+---
+title: Module Quiz
+description: Check your understanding of deterministic simulation, drivetrain state, and fault injection.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+<CourseQuiz
+  questions={[
+    {
+      prompt: 'What is the strongest claim from a passing desktop simulation?',
+      choices: ['The wiring is correct', 'The modeled behavior meets its prepared cases and assumptions', 'The motor drew safe current', 'Systemcore timing is proven'],
+      answer: 1,
+      explanation: 'Simulation establishes modeled software behavior, not unmeasured physical boundaries.'
+    },
+    {
+      prompt: 'Why use a fixed 20 ms step in the repository model?',
+      choices: ['To guarantee repeatable modeled time', 'To make wall clocks exact', 'To power a CAN bus', 'To identify USB devices'],
+      answer: 0,
+      explanation: 'A fixed model step makes scenarios reproducible independent of rendering or host speed.'
+    },
+    {
+      prompt: 'Which update order matches a drivetrain simulation?',
+      choices: ['Render, guess, deploy', 'Apply request, advance model, update sensors', 'Update sensors, delete request, charge battery', 'Publish animation only'],
+      answer: 1,
+      explanation: 'Requests drive the physics step, whose state then becomes simulated sensor input.'
+    },
+    {
+      prompt: 'Equal positive left and right velocities should produce what in the teaching model?',
+      choices: ['Straight forward motion', 'Rotation in place', 'No movement', 'A reversed encoder'],
+      answer: 0,
+      explanation: 'Equal side velocities increase both distances while their difference keeps heading nearly constant.'
+    },
+    {
+      prompt: 'Opposite left and right velocities produce what?',
+      choices: ['Straight motion', 'Rotation', 'A network timeout', 'A firmware update'],
+      answer: 1,
+      explanation: 'The difference between side velocities creates angular velocity.'
+    },
+    {
+      prompt: 'Where should a reversed-encoder fault be injected?',
+      choices: ['In the observation adapter', 'By rewriting the entire physics state', 'In the README', 'In the battery'],
+      answer: 0,
+      explanation: 'The model truth should remain intact while the named sensor observation is corrupted.'
+    },
+    {
+      prompt: 'What does a frozen heading fault preserve?',
+      choices: ['The initial reported heading while model heading changes', 'All model state at zero', 'Physical gyro calibration', 'CAN termination'],
+      answer: 0,
+      explanation: 'The fault creates a deliberate disagreement between model truth and sensor observation.'
+    },
+    {
+      prompt: 'Why repeat the same scenario twice?',
+      choices: ['To verify deterministic final state', 'To double motor voltage', 'To install Java', 'To assign a team number'],
+      answer: 0,
+      explanation: 'Identical initial state, inputs, constants, time steps, and faults should match.'
+    },
+    {
+      prompt: 'What is the Raspberry Pi role in this lab architecture?',
+      choices: ['Optional coprocessor or network peer', 'Drop-in Systemcore replacement', 'Required Java compiler for every student', 'Physical CAN terminator'],
+      answer: 0,
+      explanation: 'The Pi adds a second computing boundary but does not reproduce Systemcore hardware or HAL.'
+    },
+    {
+      prompt: 'What must follow a fault exercise?',
+      choices: ['A restored passing baseline', 'A hidden enabled fault', 'Immediate motor attachment', 'Deletion of the evidence'],
+      answer: 0,
+      explanation: 'Restoration proves the fault was controlled and the known-good state remains reproducible.'
+    }
+  ]}
+/>
+
+## Mastery target
+
+A score of 8/10 or higher shows readiness for Module 08 automated testing. Below 8, rerun the baseline-break-restore lab and rebuild the evidence-layer table.

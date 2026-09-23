@@ -1,0 +1,136 @@
+---
+title: Build the Systemcore Lab
+description: What to install, what to buy, and when a Raspberry Pi or real controller becomes useful.
+---
+
+# Build the Systemcore Lab
+
+You do **not** need a Raspberry Pi or Systemcore to begin. The first useful version runs on an existing supported desktop or laptop. A Pi is an optional coprocessor. Only real Systemcore hardware can validate Systemcore-specific deployment, I/O, timing, networking, and electrical behavior.
+
+## Recommended path
+
+| Tier | Purpose | Buy now? |
+|---|---|---:|
+| 1. Desktop-only | Java behavior, tests, telemetry contracts, WPILib simulation, fault injection | Yes, using an existing computer |
+| 2. Pi coprocessor | Separate network peer, vision experiments, service deployment, latency and stale-data tests | Later, optional |
+| 3. Systemcore bench | Controller deployment, physical I/O, CAN, power, timing, and measured hardware behavior | Later, when supported hardware is available |
+
+## Tier 1: minimum viable lab
+
+Use one existing 64-bit computer per student or pair.
+
+### Required
+
+- supported 64-bit Windows, Linux, or macOS host for the exact WPILib release;
+- 16 GB RAM recommended for the Java-first path;
+- at least 20 GB free storage for WPILib, projects, logs, and tools;
+- Git;
+- the matching WPILib 2027 installer when the team selects a prerelease build;
+- this repository;
+- one USB gamepad per pair, optional for the first deterministic labs.
+
+Your Windows 11 classroom machines should be the primary path. Do not buy forty Raspberry Pis to replace them.
+
+### Install order
+
+1. Record the host OS, CPU architecture, and available storage.
+2. Install the selected WPILib 2027 build and use its supplied Java toolchain.
+3. Clone this repository.
+4. Run `npm install`, `npm test`, `npm run types:check`, and `npm run build`.
+5. Run `npm run test:simulation`.
+6. Create a separate generated WPILib Java project with desktop support enabled.
+7. Run the generated example before moving any course behavior into it.
+8. Record the WPILib build, template, Java version, and result.
+
+The repository's deterministic Java simulator works without WPILib. It is the known-good behavior baseline while the 2027 APIs remain prerelease.
+
+## Tier 2: optional Raspberry Pi coprocessor
+
+Buy a Pi only when you are ready to test a second computer on the robot network.
+
+### Practical bill of materials
+
+| Item | Recommended specification | Why |
+|---|---|---|
+| Raspberry Pi | Pi 5, 8 GB | Enough headroom for vision, logging, and development experiments |
+| Cooling | Active Cooler or ventilated fan case | Pi 5 can throttle under sustained load |
+| Power | Official 27 W USB-C supply for desk use | Removes weak-power variables during development |
+| Storage | 64 GB or larger A2 microSD, or USB SSD | Space and write performance for packages and logs |
+| Network | Cat6 patch cable | Prefer wired links for repeatable latency tests |
+| Switch | Small unmanaged gigabit switch | Connect workstation, Pi, and later controller on an isolated bench |
+| Camera | USB UVC camera, optional | Only needed for the vision track |
+
+### Pi role
+
+The Pi may run:
+
+- a camera or vision pipeline;
+- a NetworkTables client after compatibility is verified;
+- log collection and file transfer;
+- a deliberately delayed or stale producer for fault exercises;
+- team-authored services that do not own robot safety.
+
+The Pi must not:
+
+- impersonate a Systemcore;
+- be treated as proof of Systemcore HAL or I/O behavior;
+- become the only copy of student work;
+- directly authorize actuator motion merely because a network value exists;
+- be assumed to support the complete desktop WPILib toolchain on ARM.
+
+The 2027 host support matrix is prerelease and may change. Verify the exact release before installing tools on ARM. Keep the supported classroom computer as the build and simulation authority.
+
+## Tier 3: Systemcore bench
+
+Do not build the powered bench until the controller, compatible firmware, vendor libraries, and reviewed wiring information are available.
+
+### Controller-side items
+
+- production Systemcore or an officially supported development unit;
+- matching 2027 WPILib and Driver Station releases;
+- isolated Ethernet switch and known-good cables;
+- team-labeled USB media if the current controller procedure requires it;
+- ESD-safe work surface.
+
+### Power and I/O items
+
+- current FRC-legal battery and charger or an approved current-limited bench source;
+- main breaker and correct power-distribution hardware;
+- fused low-current branch for first-power tests;
+- multimeter;
+- CAN wiring and terminating hardware that matches the selected controller topology;
+- one supported CAN device for discovery before any motor is attached;
+- emergency stop and a written first-power checklist.
+
+Start with communications and one unpowered actuator controller. Add motors only after device identity, bus health, disable behavior, firmware compatibility, and neutral software requests are established.
+
+## What each tier proves
+
+| Claim | Desktop | Pi peer | Systemcore bench |
+|---|---:|---:|---:|
+| Java decision logic is correct for modeled cases | Yes | Yes | Yes |
+| A 20 ms simulation produces repeatable modeled state | Yes | Yes | Yes |
+| A second computer can publish delayed data | No | Yes | Yes |
+| Systemcore deployment works | No | No | Yes |
+| Physical CAN topology and device discovery work | No | No | Yes |
+| Motor current, wiring, and mechanism motion are correct | No | No | Yes, with measurement |
+
+## Do not buy yet
+
+- a roboRIO solely to imitate Systemcore;
+- forty Raspberry Pis before one coprocessor exercise is validated;
+- motor controllers before selecting a compatible 2027 vendor release;
+- a mechanism before the desktop behavior and telemetry contract pass;
+- unverified Systemcore alpha hardware from an unofficial seller.
+
+## First classroom configuration
+
+Use student pairs, one Windows 11 workstation, one repository checkout, and optionally one shared gamepad. Build Tier 1 across the existing 40-workstation lab. Add two to four Pi kits as a shared advanced station only after Module 07 is stable.
+
+## Source checks
+
+- [WPILib installation guide](https://docs.wpilib.org/en/2027/docs/zero-to-robot/step-2/wpilib-setup.html)
+- [Robot simulation](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/index.html)
+- [Drivetrain simulation tutorial](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/drivesim-tutorial/index.html)
+- [Systemcore introduction](https://docs.wpilib.org/en/2027/docs/software/systemcore-info/systemcore-introduction.html)
+- [Systemcore alpha and beta testing repository](https://github.com/wpilibsuite/SystemcoreTesting)

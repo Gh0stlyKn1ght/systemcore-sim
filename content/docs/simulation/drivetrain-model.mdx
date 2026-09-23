@@ -1,0 +1,58 @@
+---
+title: "Lesson 3: Differential Drivetrain Model"
+description: Convert left and right requests into modeled distance and heading.
+---
+
+# Differential drivetrain model
+
+**Essential question:** How do two side velocities determine forward motion and rotation?
+
+## Learning targets
+
+- connect normalized requests to target side velocity;
+- calculate distance and heading changes; and
+- name the model's simplifying assumptions.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict equal, opposite, and unequal side requests. |
+| 5–17 | Trace target velocity and first-order response. |
+| 17–29 | Calculate one 20 ms state update. |
+| 29–38 | Compare straight and turning scenarios. |
+| 38–42 | Document one model limitation. |
+
+## Repository model
+
+The executable model uses normalized left and right requests in `[-1, 1]`.
+
+```text
+target velocity = request × maximum speed
+new velocity = old velocity + response × (target - old)
+distance += velocity × dt
+heading rate = (right velocity - left velocity) / track width
+heading += heading rate × dt
+```
+
+The first-order response prevents velocity from changing instantly. It is a teaching model, not a measured motor-and-gearbox plant.
+
+## Scenario predictions
+
+| Left | Right | Expected modeled motion |
+|---:|---:|---|
+| `+0.6` | `+0.6` | Forward with near-zero heading change |
+| `-0.6` | `-0.6` | Reverse with near-zero heading change |
+| `+0.6` | `-0.6` | Rotate in place |
+| `+0.6` | `+0.3` | Curve toward the slower side |
+| `0.0` | `0.0` | Decelerate toward rest in this model |
+
+## WPILib migration
+
+When the 2027 project is selected, replace the teaching physics with the matching WPILib drivetrain simulation classes. Keep the same scenario names, evidence fields, fault cases, and expected behavior boundaries.
+
+The standard WPILib update sequence is: apply motor voltages, advance the drivetrain model by the nominal period, then write the resulting position, velocity, and angle into simulated sensors.
+
+## Exit ticket
+
+Why would two equal motor requests still fail to make a real robot drive straight even though this model does?

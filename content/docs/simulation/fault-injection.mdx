@@ -1,0 +1,58 @@
+---
+title: "Lesson 4: Fault Injection"
+description: Break observations deliberately without hiding the physical model state.
+---
+
+# Fault injection
+
+**Essential question:** Can the system identify which boundary was intentionally broken?
+
+## Learning targets
+
+- distinguish model state from reported sensor state;
+- inject one fault at a time; and
+- verify the expected detection and fallback.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict a reversed right encoder trace. |
+| 5–15 | Separate truth state from observation adapters. |
+| 15–27 | Inject one named fault. |
+| 27–37 | Diagnose from telemetry only. |
+| 37–42 | Restore the known-good baseline. |
+
+## Fault boundary
+
+```text
+physics truth -> sensor adapter -> observation -> behavior or telemetry
+                    ^
+                 inject here
+```
+
+Changing the observation adapter lets the physical model continue consistently while the reported sensor becomes wrong.
+
+## Required faults
+
+| Fault | Model truth | Reported observation | Expected evidence |
+|---|---|---|---|
+| Right encoder reversed | Right distance increases | Right distance becomes negative | Direction disagreement |
+| Heading frozen | Heading changes during rotation | Heading remains at its initial value | Motion-without-heading-change disagreement |
+
+## Fault rules
+
+- name the fault explicitly;
+- change one boundary at a time;
+- predict the result before execution;
+- record detection and fallback expectations;
+- restore and rerun the baseline;
+- never leave a hidden fault enabled.
+
+## Security connection
+
+The same pattern supports resilience testing. A stale, reversed, frozen, out-of-range, or unauthorized observation should remain distinguishable in telemetry. Fault injection tests defensive behavior. It does not prove the real source of a future field failure or attack.
+
+## Exit ticket
+
+Why is silently editing the physics state a weaker fault exercise than corrupting a named sensor adapter?
