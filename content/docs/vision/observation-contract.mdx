@@ -1,0 +1,40 @@
+---
+title: "Lesson 1: Observation Contracts"
+description: Define the evidence a camera result must carry before robot code can use it.
+---
+
+# Observation contracts
+
+**Essential question:** What does the robot actually know when a pipeline reports a target?
+
+## Learning targets
+
+- separate an image from a derived measurement;
+- define units, frame, time, quality, and source; and
+- distinguish target presence from usable evidence.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Trace image capture to robot decision. |
+| 6–17 | Label every field and unit. |
+| 17–29 | Classify missing and malformed results. |
+| 29–38 | Add source and authority fields. |
+| 38–42 | Submit an observation contract. |
+
+| Field | Meaning | Reject when |
+|---|---|---|
+| `targetPresent` | Pipeline found a candidate | false |
+| `yawRadians` | Horizontal error in a named camera frame | non-finite or frame unknown |
+| `distanceMeters` | Estimated range under a named model | non-finite or implausible |
+| `capturedAtMicros` | Time the evidence was observed | missing, future, or too old |
+| `ambiguity` | Pipeline-specific solution uncertainty | invalid or above the chosen limit |
+| `tagCount` | Contributing detections | less than the requirement |
+| `sourceAuthorized` | This configured source may influence behavior | false |
+
+“Target visible” is not a complete behavior contract. A visible result can still be old, geometrically wrong, low quality, or from a source that does not own the current decision.
+
+## Exit ticket
+
+Which fields establish that a target result is usable, and which separate check establishes that it is allowed to affect motion?

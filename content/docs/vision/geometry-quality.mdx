@@ -1,0 +1,39 @@
+---
+title: "Lesson 3: Geometry and Quality"
+description: Check coordinate frames, calibration assumptions, ambiguity, tag count, and plausible range.
+---
+
+# Geometry and quality
+
+**Essential question:** Does a numerically valid camera result describe the geometry the robot code thinks it describes?
+
+## Learning targets
+
+- name the coordinate frame and units for every value;
+- identify calibration and field-layout dependencies; and
+- use quality evidence without treating it as certainty.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Find an unlabeled yaw and distance. |
+| 6–17 | Map camera, robot, and field frames. |
+| 17–28 | Compare one-tag and multi-tag evidence. |
+| 28–37 | Inject ambiguity and range faults. |
+| 37–42 | Record remaining calibration limits. |
+
+| Check | Question |
+|---|---|
+| Frame | Is this camera-relative, robot-relative, or field-relative? |
+| Transform | Is the measured camera-to-robot mounting transform current? |
+| Layout | Do tag IDs and poses match the selected field definition? |
+| Calibration | Are lens parameters and image resolution the calibrated values? |
+| Quality | Does the selected pipeline expose ambiguity or another usable score? |
+| Plausibility | Is the estimated range and jump physically credible? |
+
+More tags or lower ambiguity can strengthen evidence, but neither grants authority. Thresholds are requirements to justify and test for the selected pipeline, not universal constants copied from this lesson.
+
+## Exit ticket
+
+Give one result that is fresh and finite but must still be rejected because its geometry contract is wrong.

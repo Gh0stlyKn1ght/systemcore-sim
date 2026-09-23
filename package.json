@@ -11,7 +11,8 @@
     "test:simulation": "java examples/desktop-sim/DrivetrainSimulationCheck.java",
     "test:automated": "java examples/automated-testing/RegressionSuite.java",
     "test:autonomous": "java examples/autonomous/AutonomousRoutineCheck.java",
-    "test": "npm run test:java && npm run test:telemetry && npm run test:simulation && npm run test:automated && npm run test:autonomous",
+    "test:vision": "java examples/vision-input/VisionObservationCheck.java",
+    "test": "npm run test:java && npm run test:telemetry && npm run test:simulation && npm run test:automated && npm run test:autonomous && npm run test:vision",
     "types:check": "next typegen && tsc --noEmit"
   },
   "dependencies": {

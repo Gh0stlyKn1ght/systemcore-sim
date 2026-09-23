@@ -5,16 +5,32 @@ description: Treat vision results as timestamped observations, not unquestioned 
 
 # Module 10: vision inputs
 
-**Status:** Planned.
+**Status:** Complete first edition.
 
-## Students will be able to
+## Module outcomes
 
 - separate image capture, target processing, data transport, and robot behavior;
 - define coordinate frame, units, timestamp, and validity for an observation;
 - calculate observation age;
-- reject stale or contradictory target data; and
-- preserve one clear authority for motion requests.
+- reject stale, impossible, low-quality, or unauthorized target data;
+- distinguish an aiming correction from a global pose measurement; and
+- preserve one clear authority for motion requests and estimator updates.
 
-## Planned practical
+<Cards>
+  <Card title="Observation contract" href="/docs/vision/observation-contract" description="Turn a camera result into typed evidence." />
+  <Card title="Timestamps and latency" href="/docs/vision/timestamps-latency" description="Measure observation age without mixing clocks." />
+  <Card title="Geometry and quality" href="/docs/vision/geometry-quality" description="Check frames, ambiguity, tag count, and range." />
+  <Card title="Fusion and authority" href="/docs/vision/fusion-authority" description="Gate aiming and pose updates separately." />
+  <Card title="Vision lab" href="/docs/vision/vision-lab" description="Freeze synthetic vision and verify rejection." />
+  <Card title="Module quiz" href="/docs/vision/quiz" description="Check readiness for measured camera work." />
+</Cards>
 
-Feed synthetic target offsets into the Java application, freeze the source, and confirm the aiming helper stops trusting the retained value.
+## Executable boundary
+
+The Java example models the decision boundary after a camera pipeline has produced a result. It does not process pixels, calibrate a camera, or claim real pose accuracy. Those require a selected camera, an AprilTag field layout, calibration, compatible vendor software, and measured hardware evidence.
+
+## Source checks
+
+- [WPILib pose estimators](https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-pose-estimators.html)
+- [WPILib AprilTags](https://docs.wpilib.org/en/stable/docs/software/vision-processing/apriltag/index.html)
+- [PhotonVision pose estimation example](https://docs.photonvision.org/en/latest/docs/examples/poseest.html)

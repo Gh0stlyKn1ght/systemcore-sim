@@ -33,7 +33,7 @@ Use `npm run types:check` and `npm run build` before merging course changes.
 
 ## Course build status
 
-Modules 01 through 09 now have complete first editions:
+Modules 01 through 10 now have complete first editions:
 
 - controller layers;
 - WPILib foundations;
@@ -42,10 +42,11 @@ Modules 01 through 09 now have complete first editions:
 - CAN and devices;
 - NetworkTables and telemetry;
 - deterministic desktop simulation;
-- automated testing; and
-- bounded autonomous behavior.
+- automated testing;
+- bounded autonomous behavior; and
+- vision observation contracts.
 
-The repository includes hardware-free Java checks for behavior, telemetry freshness and authority, drivetrain simulation, 1,681 automated input pairs with mutation detection, and autonomous completion, cancellation, timeout, and fault paths. Module 10, Vision Inputs, is the next authoring target. Module 11 remains blocked on compatible Systemcore hardware and reviewed bench procedures.
+The repository includes hardware-free Java checks for behavior, telemetry freshness and authority, drivetrain simulation, 1,681 automated input pairs with mutation detection, autonomous completion and fault paths, and vision freshness, geometry, quality, authority, and bounded corrections. Module 11 remains blocked on compatible Systemcore hardware and reviewed bench procedures.
 
 See the [implementation status](content/docs/implementation-status.mdx), [course map](content/docs/course-map.mdx), and [build guide](content/docs/build-guide.mdx). The build guide starts with existing classroom computers, treats Raspberry Pi 5 systems as optional shared coprocessors, and reserves Systemcore-specific claims for real supported hardware.
 
@@ -57,7 +58,7 @@ npm run types:check
 npm run build
 ```
 
-The current verified production build generates 265 pages across documentation, searchable content, LLM-readable routes, and Open Graph images.
+The current verified production build generates 286 pages across documentation, searchable content, LLM-readable routes, and Open Graph images.
 
 ## Coding and testing goal
 

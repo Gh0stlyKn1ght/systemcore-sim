@@ -1,0 +1,25 @@
+---
+title: Module Quiz
+description: Check freshness, geometry, quality, fusion, and authority boundaries.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+<CourseQuiz questions={[
+  { prompt: 'What does targetPresent establish?', choices: ['Only that the pipeline found a candidate', 'That motion is authorized', 'That the field pose is exact', 'That the timestamp is fresh'], answer: 0, explanation: 'Presence is one field in the observation contract, not proof of usability or authority.' },
+  { prompt: 'Which timestamp best represents when the scene was observed?', choices: ['Capture timestamp', 'Dashboard render time', 'Test start time', 'Build timestamp'], answer: 0, explanation: 'Capture time anchors the evidence to the scene, provided clock semantics are compatible.' },
+  { prompt: 'What should a future timestamp cause?', choices: ['Rejection as a clock or conversion fault', 'Automatic acceptance', 'A larger correction', 'A firmware update'], answer: 0, explanation: 'Negative calculated age is not valid freshness evidence.' },
+  { prompt: 'Can latency compensation rescue malformed data?', choices: ['No', 'Always', 'Only on a Pi', 'Only while disabled'], answer: 0, explanation: 'Compensation assumes a trustworthy measurement and timestamp.' },
+  { prompt: 'What must accompany a yaw value?', choices: ['Units and coordinate frame', 'Only a color', 'A motor CAN ID', 'A dashboard animation'], answer: 0, explanation: 'A number without units and a frame cannot support dependable geometry.' },
+  { prompt: 'What does low ambiguity provide?', choices: ['Quality evidence, not motion authority', 'Permission to drive', 'A guaranteed field pose', 'Clock synchronization'], answer: 0, explanation: 'Quality and authority are separate gates.' },
+  { prompt: 'Who owns drivetrain output?', choices: ['The active authorized behavior', 'The camera pipeline', 'The NetworkTables topic', 'The AprilTag'], answer: 0, explanation: 'Vision supplies observations; authorized behavior supplies bounded requests.' },
+  { prompt: 'What should rejected vision produce?', choices: ['A named reason and zero correction', 'The last correction forever', 'Maximum turn output', 'Silent acceptance'], answer: 0, explanation: 'Failing closed is observable and does not preserve stale motion.' },
+  { prompt: 'Are aiming and pose fusion the same consumer contract?', choices: ['No', 'Yes', 'Only in simulation', 'Only with two tags'], answer: 0, explanation: 'Aiming may use camera-relative yaw, while pose fusion needs a timestamped field-relative pose and uncertainty.' },
+  { prompt: 'What does the Java example prove?', choices: ['The modeled rejection and bounded-correction rules', 'Real camera accuracy', 'Lens calibration', 'Systemcore deployment'], answer: 0, explanation: 'Hardware, calibration, and framework integration remain measured boundaries.' }
+]} />
+
+## Mastery target
+
+Score 8/10 or higher before allowing a measured camera observation to influence robot behavior.

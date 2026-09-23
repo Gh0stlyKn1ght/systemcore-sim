@@ -1,0 +1,42 @@
+---
+title: "Lab: Freeze and Reject Vision"
+description: Exercise every observation gate and prove rejected targets produce no correction.
+---
+
+# Freeze and reject vision
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict each decision. |
+| 5–12 | Run `npm run test:vision`. |
+| 12–23 | Trace the accepted path. |
+| 23–32 | Freeze or corrupt an observation. |
+| 32–38 | Verify neutral rejection. |
+| 38–42 | Restore and submit evidence. |
+
+## Required scenarios
+
+- fresh, finite, authorized target accepted;
+- missing target rejected;
+- non-finite value rejected;
+- unauthorized source rejected;
+- future timestamp rejected;
+- observation older than 100 milliseconds rejected;
+- ambiguity above the example threshold rejected;
+- impossible range and zero contributing tags rejected;
+- large accepted corrections clamped to the configured limit; and
+- every rejected result returns zero correction.
+
+## Modification
+
+Change one threshold in `VisionObservationCheck.java`, predict exactly which named case will fail, run the deliberate failure, update or restore the requirement, and run the complete suite again.
+
+## Hardware transfer
+
+Before connecting a real camera, document its processor location, network path, clock semantics, coordinate frames, calibration procedure, field layout, vendor dependency, and compatible controller release. Keep the synthetic test as the fast regression layer.
+
+## Evidence
+
+Submit the observation, calculated age, decision reason, correction, deliberate failure, restored suite, and the claims still blocked on a real camera and controller.

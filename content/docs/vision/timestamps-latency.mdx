@@ -1,0 +1,37 @@
+---
+title: "Lesson 2: Timestamps and Latency"
+description: Reject old camera evidence and avoid comparing unrelated clocks.
+---
+
+# Timestamps and latency
+
+**Essential question:** When did the scene exist, not merely when did the robot receive the message?
+
+## Learning targets
+
+- separate capture, processing, transport, and receive delay;
+- calculate age from compatible clock semantics; and
+- reject stale and future-dated observations.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Draw the four latency stages. |
+| 6–17 | Compare capture and receive timestamps. |
+| 17–29 | Test the freshness boundary. |
+| 29–38 | Freeze a source and inspect retained data. |
+| 38–42 | State the clock assumption. |
+
+```text
+age = decision time - capture time
+usable only when 0 <= age <= maximum age
+```
+
+That subtraction is meaningful only when the timestamps share a time base or have a documented synchronization conversion. Receiving an old value “now” does not make the underlying observation fresh. A future timestamp is also rejected because it indicates a clock or conversion fault.
+
+Pose estimators can account for measurement latency when given a trustworthy timestamp. Compensation does not rescue a stale, malformed, or misframed measurement.
+
+## Exit ticket
+
+Why is message arrival time alone insufficient when the pipeline, network, or scheduler can delay a camera result?

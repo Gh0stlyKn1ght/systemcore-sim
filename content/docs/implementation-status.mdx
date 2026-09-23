@@ -21,7 +21,7 @@ description: Current executable evidence, course completion, hardware boundaries
 | 07. Desktop simulation | Complete first edition | Deterministic drivetrain and sensor-fault checks |
 | 08. Automated testing | Complete first edition | Boundary tables, invariants, and mutation detection |
 | 09. Autonomous behavior | Complete first edition | Termination, timeout, interruption, and neutral-end checks |
-| 10. Vision inputs | Next to build | Planned stale-target fallback |
+| 10. Vision inputs | Complete first edition | Timestamp, quality, geometry, and authority checks |
 | 11. Systemcore hardware | Blocked on compatible hardware | Planned measured bench evidence |
 
 ## Verification commands
@@ -41,13 +41,14 @@ npm run test:telemetry
 npm run test:simulation
 npm run test:automated
 npm run test:autonomous
+npm run test:vision
 ```
 
 ## Evidence boundary
 
-The repository currently proves prepared Java behavior, telemetry classification, deterministic modeled motion, automated regression rules, and autonomous termination under modeled conditions.
+The repository currently proves prepared Java behavior, telemetry classification, deterministic modeled motion, automated regression rules, autonomous termination, and vision-observation rejection under modeled conditions.
 
-It does not yet prove final WPILib 2027 API compatibility, deployment to production Systemcore hardware, real CAN topology, vendor-device compatibility, controller timing, electrical behavior, mechanism motion, or vision accuracy.
+It does not yet prove final WPILib 2027 API compatibility, deployment to production Systemcore hardware, real CAN topology, vendor-device compatibility, controller timing, electrical behavior, mechanism motion, camera calibration, or vision accuracy.
 
 ## Hardware plan
 

@@ -1,0 +1,46 @@
+---
+title: "Lesson 4: Fusion and Authority"
+description: Gate aiming requests and pose-estimator measurements without creating a second motion owner.
+---
+
+# Fusion and authority
+
+**Essential question:** Who may turn accepted vision evidence into a robot action or state update?
+
+## Learning targets
+
+- separate observation acceptance from action authorization;
+- distinguish aiming from global pose fusion; and
+- define neutral fallback and useful telemetry.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Separate measurement from command. |
+| 6–17 | Build an acceptance gate. |
+| 17–28 | Compare aiming and pose-fusion paths. |
+| 28–37 | Remove authority and predict output. |
+| 37–42 | Submit the ownership trace. |
+
+| Consumer | Accepted input | Output |
+|---|---|---|
+| Aiming helper | fresh camera-relative yaw with current behavior authority | bounded correction request |
+| Pose estimator | fresh field-relative pose with known timestamp and uncertainty | estimator measurement update |
+
+The camera does not own the drivetrain. It publishes or returns an observation. The active teleoperated or autonomous behavior decides whether it is authorized to request a bounded correction. Likewise, an estimator receives an accepted measurement but remains responsible for combining it with the motion model.
+
+## Decision order
+
+1. target exists and fields are finite;
+2. source and behavior are authorized;
+3. timestamp is compatible and fresh;
+4. geometry and quality meet the selected contract;
+5. the correct consumer receives a bounded request or measurement;
+6. rejection produces neutral correction and a named reason.
+
+Required telemetry includes source, capture time, age, frame, quality fields, acceptance decision, rejection reason, and resulting bounded request.
+
+## Exit ticket
+
+Why should an accepted camera yaw not write directly to motor output or be silently reused as a field pose?

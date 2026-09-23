@@ -1,4 +1,13 @@
 {
   "title": "10 · Vision Inputs",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "observation-contract",
+    "timestamps-latency",
+    "geometry-quality",
+    "fusion-authority",
+    "vision-lab",
+    "reflection",
+    "quiz"
+  ]
 }
