@@ -1,0 +1,41 @@
+---
+title: "Lesson 2: Termination and Timeouts"
+description: Give every moving action a success condition and a maximum duration.
+---
+
+# Termination and timeouts
+
+**Essential question:** What forces the robot to stop if expected progress never arrives?
+
+## Learning targets
+
+- separate success from timeout;
+- reject stale or invalid progress observations; and
+- neutralize output on every terminal path.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Find the unbounded action. |
+| 6–17 | Define success, timeout, and sensor failure. |
+| 17–29 | Test boundary timing. |
+| 29–38 | Freeze progress and predict termination. |
+| 38–42 | Submit a bounded action contract. |
+
+| Moving state | Success | Timeout | Fault |
+|---|---|---|---|
+| Drive forward | distance ≥ target | step duration exceeded | distance missing, invalid, or stale |
+| Turn | absolute heading error ≤ tolerance | step duration exceeded | heading missing, invalid, or stale |
+
+Elapsed time alone is a fallback bound, not proof that distance or angle was reached.
+
+## Terminal invariant
+
+```text
+COMPLETE or CANCELED or FAILED -> left = 0 AND right = 0
+```
+
+## Exit ticket
+
+If the distance remains fresh but stops changing, which evidence distinguishes a blocked mechanism from a frozen sensor in simulation and on hardware?

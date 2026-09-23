@@ -1,0 +1,25 @@
+---
+title: Module Quiz
+description: Check your understanding of test levels, boundaries, invariants, and mutations.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+<CourseQuiz questions={[
+  { prompt: 'Which test is cheapest for checking output clamping?', choices: ['Pure unit test', 'Powered drivetrain test', 'CAN resistance measurement', 'Field match'], answer: 0, explanation: 'Clamping is deterministic decision logic and needs no hardware.' },
+  { prompt: 'What does Arrange define?', choices: ['The prepared state and inputs', 'The expected comparison only', 'The hardware purchase', 'The final deployment'], answer: 0, explanation: 'Arrange creates the controlled preconditions for the behavior.' },
+  { prompt: 'Which freshness table protects an inclusive 100 ms maximum?', choices: ['99, 100, 101', '0 and 500 only', '100 only', 'Random values only'], answer: 0, explanation: 'Just below, at, and just above expose the boundary rule.' },
+  { prompt: 'What is an invariant?', choices: ['A rule that must hold across a defined input set', 'One screenshot', 'A vendor firmware version', 'An unbounded hardware run'], answer: 0, explanation: 'Invariants generalize beyond one prepared example.' },
+  { prompt: 'Why introduce a controlled mutation?', choices: ['To prove the suite detects a broken rule', 'To make production wrong', 'To avoid assertions', 'To replace version control'], answer: 0, explanation: 'A surviving mutation exposes an unprotected contract.' },
+  { prompt: 'What should happen after the mutation fails?', choices: ['Restore and rerun the full baseline', 'Delete the failing test', 'Change the expectation', 'Attach motors'], answer: 0, explanation: 'Restoration demonstrates a controlled experiment.' },
+  { prompt: 'What does a successful build prove?', choices: ['The project compiled', 'Every behavior is correct', 'The CAN bus is terminated', 'The robot is safe'], answer: 0, explanation: 'Compilation and behavior are separate evidence levels.' },
+  { prompt: 'Where do Java WPILib JUnit tests belong?', choices: ['The generated project test source directory', 'Motor firmware', 'Driver Station settings', 'CAN wiring'], answer: 0, explanation: 'JUnit tests live with project test sources and use the matching release.' },
+  { prompt: 'What should a regression test do?', choices: ['Preserve a previously failing case', 'Hide the defect history', 'Depend on wall time', 'Require a competition field'], answer: 0, explanation: 'The regression prevents the corrected defect from returning silently.' },
+  { prompt: 'What remains after pure Java tests pass?', choices: ['Integration, simulation, and hardware claims still need evidence', 'Nothing', 'Only documentation color', 'A Raspberry Pi replaces all testing'], answer: 0, explanation: 'Each higher boundary requires its own evidence.' }
+]} />
+
+## Mastery target
+
+Score 8/10 or higher before beginning autonomous sequences.

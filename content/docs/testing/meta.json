@@ -1,4 +1,13 @@
 {
   "title": "08 · Automated Testing",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "test-levels",
+    "arrange-act-assert",
+    "boundary-tables",
+    "invariants-mutations",
+    "regression-lab",
+    "reflection",
+    "quiz"
+  ]
 }

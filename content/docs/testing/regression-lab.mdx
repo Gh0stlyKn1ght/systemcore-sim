@@ -1,0 +1,41 @@
+---
+title: "Lab: Break, Detect, Preserve"
+description: Prove the suite detects a mutation and retain the case as a regression.
+---
+
+# Break, detect, preserve
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict the baseline count. |
+| 5–12 | Run `npm run test:automated`. |
+| 12–22 | Trace boundary and invariant checks. |
+| 22–31 | Apply one approved mutation. |
+| 31–37 | Capture the expected failure and restore. |
+| 37–42 | Preserve the regression explanation. |
+
+## Approved mutations
+
+Choose one:
+
+1. Reject the accepted 100 ms boundary.
+2. Remove output clamping.
+3. Allow disabled output.
+4. Treat negative age as fresh.
+
+## Required evidence
+
+- passing baseline;
+- exact mutated rule;
+- test that failed;
+- why that test protects the requirement;
+- restored passing suite;
+- whether a higher test level is still needed.
+
+Never weaken an expected result to accommodate a broken implementation.
+
+## JUnit migration
+
+In the generated WPILib project, place tests in the project test source directory and translate each named case into JUnit 5. Keep the table, invariant, and mutation rationale with the test code.

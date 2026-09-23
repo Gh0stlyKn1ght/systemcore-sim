@@ -9,7 +9,9 @@
     "test:java": "java examples/java-behavior/BehaviorCheck.java",
     "test:telemetry": "java examples/telemetry-contract/TelemetryContractCheck.java",
     "test:simulation": "java examples/desktop-sim/DrivetrainSimulationCheck.java",
-    "test": "npm run test:java && npm run test:telemetry && npm run test:simulation",
+    "test:automated": "java examples/automated-testing/RegressionSuite.java",
+    "test:autonomous": "java examples/autonomous/AutonomousRoutineCheck.java",
+    "test": "npm run test:java && npm run test:telemetry && npm run test:simulation && npm run test:automated && npm run test:autonomous",
     "types:check": "next typegen && tsc --noEmit"
   },
   "dependencies": {

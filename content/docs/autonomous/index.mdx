@@ -5,16 +5,32 @@ description: Build bounded autonomous actions that start, finish, cancel, and fa
 
 # Module 09: autonomous behavior
 
-**Status:** Planned.
+**Status:** Complete first edition.
 
-## Students will be able to
+## Module outcomes
 
-- define the start, finish, interruption, and fallback conditions of an action;
-- separate a behavior sequence from its hardware adapter;
-- stop outputs when autonomous is canceled;
-- inspect position and heading error over time; and
-- explain when path-planning tools add value and when they add unnecessary complexity.
+- represent a routine as explicit states and transitions;
+- give every moving state a completion condition and timeout;
+- end, cancel, or fault into neutral output;
+- distinguish modeled progress from elapsed time alone;
+- record the active step, reason, and termination result; and
+- test normal completion, timeout, stale input, and interruption.
 
-## Planned practical
+<Cards>
+  <Card title="State machines" href="/docs/autonomous/state-machine" description="Make every autonomous phase explicit." />
+  <Card title="Termination and timeouts" href="/docs/autonomous/termination-timeouts" description="Bound every moving action." />
+  <Card title="Sequence contracts" href="/docs/autonomous/sequence-contracts" description="Define entry, progress, exit, and neutral behavior." />
+  <Card title="Interruption and faults" href="/docs/autonomous/interruption-faults" description="Cancel safely when observations fail." />
+  <Card title="Autonomous lab" href="/docs/autonomous/autonomous-lab" description="Run, interrupt, fault, and restore a routine." />
+  <Card title="Module quiz" href="/docs/autonomous/quiz" description="Check readiness for vision inputs." />
+</Cards>
 
-Run a short timed or distance-bounded routine, cancel it mid-run, and verify through tests and telemetry that outputs return to neutral.
+## Framework boundary
+
+The executable example uses a framework-neutral state machine. It can later be wrapped by the selected 2027 OpMode or command framework. Commands v3 is prerelease, so this module preserves behavior and termination contracts without requiring one alpha-specific scheduler API.
+
+## Source checks
+
+- [WPILib 2027 command compositions](https://docs.wpilib.org/en/2027/docs/software/commandbased/command-compositions.html)
+- [WPILib 2027 Command API](https://github.wpilib.org/allwpilib/docs/2027/java/org/wpilib/command3/Command.html)
+- [WPILib unit testing](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/unit-testing.html)

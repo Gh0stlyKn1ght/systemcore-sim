@@ -1,0 +1,50 @@
+---
+title: "Lesson 4: Invariants and Mutations"
+description: Sweep many inputs and prove the test suite detects a broken rule.
+---
+
+# Invariants and mutations
+
+**Essential question:** Does the suite protect the rule or merely repeat prepared examples?
+
+## Learning targets
+
+- express a property that must always hold;
+- sweep a bounded input space; and
+- use a deliberate mutation to evaluate test strength.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Convert one example into an invariant. |
+| 6–17 | Sweep normalized drive inputs. |
+| 17–28 | Introduce one controlled mutation. |
+| 28–37 | Identify which check detects it. |
+| 37–42 | Restore and preserve the regression. |
+
+## Useful invariants
+
+For every finite normalized drive input:
+
+- output remains in `[-1, 1]`;
+- disabled state produces neutral output;
+- stale input produces neutral output;
+- equal left and right requests produce near-zero modeled heading change;
+- completed, canceled, or failed routines request neutral output.
+
+## Mutation test
+
+Temporarily change one rule, such as:
+
+```text
+age > 100  ->  age >= 100
+```
+
+The 100 ms boundary test must fail. Restore the implementation and rerun the entire suite.
+
+A mutation that survives means the suite did not protect that contract.
+
+## Exit ticket
+
+Name one mutation that an output-range sweep would catch and one it would miss.

@@ -1,0 +1,50 @@
+---
+title: "Lesson 2: Arrange, Act, Assert"
+description: Write tests that expose one behavioral rule and one useful failure.
+---
+
+# Arrange, Act, Assert
+
+**Essential question:** Can a failure report identify the broken rule without rereading the entire program?
+
+## Learning targets
+
+- structure one behavioral example clearly;
+- compare actual and expected results; and
+- name tests by requirement rather than method name.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Rewrite a vague test name. |
+| 6–17 | Trace Arrange, Act, Assert. |
+| 17–29 | Write a stale-input test. |
+| 29–38 | Improve failure messages. |
+| 38–42 | Peer-review one test. |
+
+```java
+// Arrange
+DriveInput input = new DriveInput(true, true, 1.0, 0.0, 101);
+
+// Act
+DriveDecision actual = controller.decide(input);
+
+// Assert
+assertEquals(Reason.STALE_INPUT, actual.reason());
+assertEquals(DriveRequest.neutral(), actual.request());
+```
+
+The test name should state the contract: `inputOlderThan100MsReturnsNeutral`.
+
+## Weak patterns
+
+- testing several unrelated rules in one method;
+- copying the implementation calculation into the expected result;
+- catching an exception and ignoring it;
+- changing the assertion because the implementation failed;
+- depending on live time, random values, or hardware without declaring it.
+
+## Exit ticket
+
+Write one failure message that distinguishes “wrong reason” from “non-neutral output.”

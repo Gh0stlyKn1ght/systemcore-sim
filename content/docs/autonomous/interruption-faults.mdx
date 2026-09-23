@@ -1,0 +1,42 @@
+---
+title: "Lesson 4: Interruption and Faults"
+description: Cancel predictably and fail closed when progress evidence cannot be trusted.
+---
+
+# Interruption and faults
+
+**Essential question:** What does the robot request on the same cycle that autonomy becomes unsafe?
+
+## Learning targets
+
+- handle cancellation from every moving state;
+- reject stale and non-finite observations; and
+- preserve a useful terminal reason.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict output on disable. |
+| 5–16 | Trace interruption priority. |
+| 16–28 | Inject stale distance and heading. |
+| 28–37 | Verify neutral terminal output. |
+| 37–42 | Record recovery conditions. |
+
+## Decision priority
+
+1. canceled or disabled;
+2. missing, invalid, or stale observation;
+3. timeout;
+4. success transition;
+5. active bounded request.
+
+Cancellation is checked before progress so a routine cannot advance after losing authority.
+
+## Recovery rule
+
+A failed routine does not automatically resume because data becomes fresh again. Recovery requires a new explicitly authorized routine instance or operator action.
+
+## Exit ticket
+
+Explain why “hold the last output until the sensor returns” is unsafe without a tightly bounded independent safety argument.

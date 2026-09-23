@@ -1,0 +1,37 @@
+---
+title: "Lesson 1: Choose the Test Level"
+description: Match each engineering question to unit, integration, simulation, or hardware evidence.
+---
+
+# Choose the test level
+
+**Essential question:** What is the cheapest trustworthy evidence for this claim?
+
+## Learning targets
+
+- distinguish four test levels;
+- keep failures close to their cause; and
+- avoid using hardware for questions pure Java can answer.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Classify five robot claims. |
+| 5–16 | Compare unit, integration, simulation, and hardware tests. |
+| 16–29 | Build an evidence ladder for one drive requirement. |
+| 29–38 | Remove tests that claim too much. |
+| 38–42 | Submit the cheapest valid test. |
+
+| Level | Answers | Does not prove |
+|---|---|---|
+| Pure unit | Decision logic for prepared values | Framework, network, or hardware integration |
+| Integration | Two or more software boundaries work together | Physical electrical behavior |
+| Desktop simulation | Robot code and modeled state interact | Real mass, wiring, latency, or device firmware |
+| Hardware | The selected physical system produced measured evidence | Every untested condition |
+
+Start low. Promote a claim upward only when the lower layer cannot answer it.
+
+## Exit ticket
+
+Select the correct test level for: output clamping, NetworkTables type compatibility, modeled encoder reversal, and CAN termination resistance.

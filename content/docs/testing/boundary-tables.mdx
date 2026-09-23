@@ -1,0 +1,36 @@
+---
+title: "Lesson 3: Boundary Tables"
+description: Test thresholds just below, exactly at, and just above the rule.
+---
+
+# Boundary tables
+
+**Essential question:** Where is a defect most likely to hide around a threshold?
+
+## Learning targets
+
+- derive cases from a requirement;
+- test both sides of inclusive and exclusive boundaries; and
+- separate invalid values from merely out-of-range values.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict the 100 ms freshness boundary. |
+| 5–16 | Build a three-point table. |
+| 16–29 | Add deadband and output-limit tables. |
+| 29–38 | Find an off-by-one mutation. |
+| 38–42 | Submit one table with expected reasons. |
+
+| Rule | Below | At boundary | Above |
+|---|---|---|---|
+| Maximum age `100 ms` | `99` accepted | `100` accepted | `101` stale |
+| Deadband `0.08` | `0.079` neutral | `0.08` neutral | `0.081` active |
+| Output magnitude `1.0` | `0.99` unchanged | `1.0` unchanged | `1.01` clamped |
+
+Also include invalid classes such as `NaN`, infinity, negative age, missing observation, and unauthorized producer.
+
+## Exit ticket
+
+Why is testing only `0 ms` and `500 ms` insufficient for the 100 ms rule?

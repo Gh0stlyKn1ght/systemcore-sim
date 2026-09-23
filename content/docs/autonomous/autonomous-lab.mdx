@@ -1,0 +1,41 @@
+---
+title: "Lab: Complete, Cancel, Fail"
+description: Execute every terminal path and verify neutral output.
+---
+
+# Complete, cancel, fail
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict every terminal state. |
+| 5–12 | Run `npm run test:autonomous`. |
+| 12–23 | Trace the normal drive-turn routine. |
+| 23–32 | Inject cancellation or stale observation. |
+| 32–38 | Verify terminal neutral output. |
+| 38–42 | Restore and submit evidence. |
+
+## Required scenarios
+
+- normal completion;
+- cancellation while driving;
+- cancellation while turning;
+- drive timeout with no progress;
+- stale distance failure;
+- stale heading failure;
+- non-finite observation failure;
+- terminal states remain terminal;
+- every terminal path requests neutral output.
+
+## Modification
+
+Choose one:
+
+1. Change the drive target and update only requirements-derived expectations.
+2. Tighten the heading tolerance and predict the extra steps.
+3. Add a one-second settle state with its own timeout and neutral output.
+
+## Evidence
+
+Submit the transition trace, terminal reason, final request, deliberate failure, restored suite, and remaining WPILib and hardware boundaries.

@@ -1,0 +1,45 @@
+---
+title: "Lesson 1: Autonomous State Machines"
+description: Represent every phase, transition, and terminal state explicitly.
+---
+
+# Autonomous state machines
+
+**Essential question:** Which state owns the current output request and why?
+
+## Learning targets
+
+- name every autonomous phase;
+- define entry and transition conditions; and
+- make completion, cancellation, and failure terminal.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Rewrite “drive then turn” as explicit states. |
+| 5–16 | Map entry, progress, exit, and output. |
+| 16–29 | Trace one normal routine. |
+| 29–38 | Add canceled and failed states. |
+| 38–42 | Submit the transition map. |
+
+```text
+IDLE -> DRIVE_FORWARD -> TURN -> COMPLETE
+                     \-> FAILED
+any moving state -----> CANCELED
+```
+
+Every terminal state requests neutral output. A terminal state never silently restarts.
+
+## Required telemetry
+
+- active state;
+- state entry time;
+- observation value and age;
+- requested left and right output;
+- transition reason;
+- terminal result.
+
+## Exit ticket
+
+Why is a boolean called `autonomousDone` weaker than explicit `COMPLETE`, `CANCELED`, and `FAILED` states?

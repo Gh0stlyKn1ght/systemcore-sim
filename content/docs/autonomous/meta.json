@@ -1,4 +1,13 @@
 {
   "title": "09 · Autonomous Behavior",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "state-machine",
+    "termination-timeouts",
+    "sequence-contracts",
+    "interruption-faults",
+    "autonomous-lab",
+    "reflection",
+    "quiz"
+  ]
 }

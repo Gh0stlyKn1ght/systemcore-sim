@@ -5,16 +5,32 @@ description: Use JUnit to verify robot decisions before running the integrated s
 
 # Module 08: automated testing
 
-**Status:** Planned.
+**Status:** Complete first edition.
 
-## Students will be able to
+## Module outcomes
 
-- write a requirement as arrange, act, and assert;
-- distinguish a build check from a behavioral test;
-- test neutral input, output bounds, cancellation, and stale-data fallback;
-- confirm that a deliberately wrong expectation actually fails; and
-- read a test failure without editing the assertion merely to make it green.
+- separate unit, integration, simulation, and hardware tests;
+- write Arrange-Act-Assert checks with one named reason for failure;
+- generate boundary tables instead of testing one happy path;
+- express invariants across many inputs;
+- prove a test can detect a deliberate mutation; and
+- preserve a regression case after correcting a defect.
 
-## Planned practical
+<Cards>
+  <Card title="Test levels" href="/docs/testing/test-levels" description="Choose the cheapest evidence that can answer the question." />
+  <Card title="Arrange, Act, Assert" href="/docs/testing/arrange-act-assert" description="Build readable tests with one behavioral claim." />
+  <Card title="Boundary tables" href="/docs/testing/boundary-tables" description="Test just below, at, and above every threshold." />
+  <Card title="Invariants and mutations" href="/docs/testing/invariants-mutations" description="Sweep many inputs and prove tests detect broken rules." />
+  <Card title="Regression lab" href="/docs/testing/regression-lab" description="Break, detect, restore, and preserve the case." />
+  <Card title="Module quiz" href="/docs/testing/quiz" description="Check readiness for autonomous behavior." />
+</Cards>
 
-Complete a small JUnit suite for drive requests, break one requirement intentionally, and use the report to locate the behavior defect.
+## Two test layers
+
+The repository runs hardware-free Java checks through source-file mode. A generated WPILib robot project should translate permanent contracts into JUnit 5 tests. WPILib Java projects include JUnit 5 support, but imports and project layout must match the installed 2027 release.
+
+## Source checks
+
+- [WPILib unit testing](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/unit-testing.html)
+- [WPILib examples](https://docs.wpilib.org/en/stable/docs/software/examples-tutorials/wpilib-examples.html)
+- [Creating a robot program](https://docs.wpilib.org/en/2027/docs/software/vscode-overview/creating-robot-program.html)

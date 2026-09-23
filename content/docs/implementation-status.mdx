@@ -1,0 +1,56 @@
+---
+title: Implementation Status
+description: Current executable evidence, course completion, hardware boundaries, and next work.
+---
+
+# Implementation status
+
+**Snapshot:** September 23, 2026  
+**Reference path:** Java-first, WPILib 2027 prerelease, Systemcore transition
+
+## Course status
+
+| Module | Status | Executable evidence |
+|---|---|---|
+| 01. Controller layers | Complete first edition | Signal responsibility checks |
+| 02. WPILib foundations | Complete first edition | Lifecycle reasoning checks |
+| 03. Java robot code | Complete first edition | Bounded drive behavior |
+| 04. Driver Station | Complete first edition | Station-state classification |
+| 05. CAN and devices | Complete first edition | Readiness and address classification |
+| 06. NetworkTables and telemetry | Complete first edition | Freshness, validity, and authority checks |
+| 07. Desktop simulation | Complete first edition | Deterministic drivetrain and sensor-fault checks |
+| 08. Automated testing | Complete first edition | Boundary tables, invariants, and mutation detection |
+| 09. Autonomous behavior | Complete first edition | Termination, timeout, interruption, and neutral-end checks |
+| 10. Vision inputs | Next to build | Planned stale-target fallback |
+| 11. Systemcore hardware | Blocked on compatible hardware | Planned measured bench evidence |
+
+## Verification commands
+
+```bash
+npm install
+npm test
+npm run types:check
+npm run build
+```
+
+Individual executable checks:
+
+```bash
+npm run test:java
+npm run test:telemetry
+npm run test:simulation
+npm run test:automated
+npm run test:autonomous
+```
+
+## Evidence boundary
+
+The repository currently proves prepared Java behavior, telemetry classification, deterministic modeled motion, automated regression rules, and autonomous termination under modeled conditions.
+
+It does not yet prove final WPILib 2027 API compatibility, deployment to production Systemcore hardware, real CAN topology, vendor-device compatibility, controller timing, electrical behavior, mechanism motion, or vision accuracy.
+
+## Hardware plan
+
+Start on existing supported classroom computers. Raspberry Pi 5 kits are optional shared coprocessor stations. A Pi does not replace Systemcore. Physical validation waits for supported controller hardware, compatible vendor releases, reviewed power and CAN topology, and a bounded first-power procedure.
+
+See [Build the Systemcore Lab](/docs/build-guide) for the staged bill of materials and [Course Map](/docs/course-map) for the learning sequence.

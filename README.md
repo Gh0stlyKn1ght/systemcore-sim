@@ -33,11 +33,31 @@ Use `npm run types:check` and `npm run build` before merging course changes.
 
 ## Course build status
 
-**Module 01: Controller Layers** now has a complete first edition designed for nine 42-minute sessions: six layer lessons, one signal-trace diagnosis lab, one reflection, and one interactive ten-question quiz. Each lesson uses a short boot question, focused instruction, guided tracing, independent diagnosis, and an exit check.
+Modules 01 through 09 now have complete first editions:
 
-Modules 02–11 now have explicit entry pages, outcomes, and planned practical evidence. They are labeled as planned rather than presented as finished content. **Module 02: WPILib Foundations is the next authoring target.**
+- controller layers;
+- WPILib foundations;
+- Java robot code;
+- Driver Station;
+- CAN and devices;
+- NetworkTables and telemetry;
+- deterministic desktop simulation;
+- automated testing; and
+- bounded autonomous behavior.
 
-The verified course build currently generates 24 documentation routes plus matching searchable, LLM-readable, and Open Graph routes.
+The repository includes hardware-free Java checks for behavior, telemetry freshness and authority, drivetrain simulation, 1,681 automated input pairs with mutation detection, and autonomous completion, cancellation, timeout, and fault paths. Module 10, Vision Inputs, is the next authoring target. Module 11 remains blocked on compatible Systemcore hardware and reviewed bench procedures.
+
+See the [implementation status](content/docs/implementation-status.mdx), [course map](content/docs/course-map.mdx), and [build guide](content/docs/build-guide.mdx). The build guide starts with existing classroom computers, treats Raspberry Pi 5 systems as optional shared coprocessors, and reserves Systemcore-specific claims for real supported hardware.
+
+Verification:
+
+```bash
+npm test
+npm run types:check
+npm run build
+```
+
+The current verified production build generates 265 pages across documentation, searchable content, LLM-readable routes, and Open Graph images.
 
 ## Coding and testing goal
 

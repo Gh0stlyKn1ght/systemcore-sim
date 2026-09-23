@@ -1,0 +1,25 @@
+---
+title: Module Quiz
+description: Check explicit states, bounded actions, interruption, and neutral termination.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+<CourseQuiz questions={[
+  { prompt: 'Why use explicit autonomous states?', choices: ['To expose ownership and transitions', 'To hide terminal reasons', 'To replace sensors', 'To power motors'], answer: 0, explanation: 'States make the active behavior and transition reason inspectable.' },
+  { prompt: 'What must every moving state include?', choices: ['Success condition and timeout', 'Only elapsed time', 'A dashboard animation', 'A Raspberry Pi'], answer: 0, explanation: 'Success and maximum duration bound the action.' },
+  { prompt: 'What does elapsed time prove?', choices: ['Only modeled or measured duration', 'Target distance was reached', 'Heading is correct', 'Wiring is safe'], answer: 0, explanation: 'Time alone does not establish physical progress.' },
+  { prompt: 'What request belongs to COMPLETE?', choices: ['Neutral', 'Last drive output', 'Full reverse', 'Undefined'], answer: 0, explanation: 'Every terminal state must request neutral output.' },
+  { prompt: 'Which check has highest priority?', choices: ['Cancellation or disable', 'Success transition', 'Dashboard update', 'Next sequence step'], answer: 0, explanation: 'Lost authority prevents further progress.' },
+  { prompt: 'What should stale distance cause?', choices: ['Named failure and neutral output', 'Continue indefinitely', 'Automatic success', 'Higher voltage'], answer: 0, explanation: 'Untrusted progress evidence fails closed.' },
+  { prompt: 'Should FAILED resume automatically?', choices: ['No, require a new authorized start', 'Yes, immediately', 'Only if animation moves', 'Only on Pi'], answer: 0, explanation: 'Automatic recovery can reissue motion without current authority.' },
+  { prompt: 'Why capture state entry observations?', choices: ['To measure step-local progress', 'To rename Java variables', 'To configure CAN IDs', 'To install WPILib'], answer: 0, explanation: 'Each step needs its own reference and timer.' },
+  { prompt: 'What does Commands v3 change?', choices: ['Framework integration, not the need for bounded contracts', 'Physical wiring', 'Battery voltage', 'The meaning of neutral'], answer: 0, explanation: 'Framework APIs do not replace behavioral safety rules.' },
+  { prompt: 'What comes after Module 09?', choices: ['Vision inputs with stale-target fallback', 'Unbounded field testing', 'Removing tests', 'Replacing Systemcore with Pi'], answer: 0, explanation: 'Vision extends the observation contract and requires freshness handling.' }
+]} />
+
+## Mastery target
+
+Score 8/10 or higher before using vision observations to influence autonomous behavior.

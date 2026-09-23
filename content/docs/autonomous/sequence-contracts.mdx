@@ -1,0 +1,37 @@
+---
+title: "Lesson 3: Sequence Contracts"
+description: Compose bounded steps without leaking state or output between them.
+---
+
+# Sequence contracts
+
+**Essential question:** What must be true before one step hands control to the next?
+
+## Learning targets
+
+- define entry, active, exit, and neutral behavior;
+- reset step-local state; and
+- preserve one owner for drivetrain output.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Identify state leaked from a previous step. |
+| 5–16 | Build the four-part contract. |
+| 16–28 | Compose drive and turn. |
+| 28–37 | Check output ownership at transitions. |
+| 37–42 | Submit the sequence table. |
+
+| Contract phase | Requirement |
+|---|---|
+| Entry | Capture start observation and reset step timer. |
+| Active | Produce one bounded request from current observation. |
+| Exit | Record the exact success, timeout, cancel, or fault reason. |
+| Neutral | Return zero output before or with terminal transition. |
+
+Only the active routine owns the drivetrain request. Telemetry observes the request but does not become a second output owner.
+
+## Exit ticket
+
+Why must the turn step capture its own starting heading rather than reuse a value from the drive step?
