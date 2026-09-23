@@ -1,0 +1,68 @@
+---
+title: "Lesson 4: Live Data and Recorded Evidence"
+description: Use NetworkTables for current visibility and data logs for reconstructing a run.
+---
+
+# Live data and recorded evidence
+
+**Essential question:** Which evidence must survive after the robot stops?
+
+## Learning targets
+
+- separate live distribution from durable recording;
+- choose rates appropriate to bandwidth and diagnosis; and
+- define the minimum record needed to replay a decision.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Diagnose an event that disappeared before anyone saw it. |
+| 6–17 | Compare dashboard and on-robot evidence. |
+| 17–29 | Classify fields by live and recorded need. |
+| 29–38 | Design a post-run evidence bundle. |
+| 38–42 | Defend one rate and retention choice. |
+
+## Two jobs
+
+| Mechanism | Strongest use | Weakness |
+|---|---|---|
+| NetworkTables | Current values shared with dashboards and other participants | A live view may miss short events and does not automatically create a durable record. |
+| Data log | Accurate timestamped evidence inspected after a run | A saved log does not by itself give the operator a useful live display. |
+
+WPILib does not record robot telemetry by default. In the 2027 alpha API, centralized log management is under `org.wpilib.system.DataLogManager`; lower-level entries are under `org.wpilib.datalog`.
+
+## Selection matrix
+
+| Data | Live | Record | Reason |
+|---|---:|---:|---|
+| Enable and mode state | Yes | Yes | Operator awareness and event reconstruction |
+| Selected fallback reason | Yes | Yes | Immediate diagnosis and audit trail |
+| Raw high-rate mechanism samples | Usually no | Yes, when needed | Preserve detail without saturating the dashboard path |
+| Static build/version identity | Yes | Yes | Tie evidence to exact software |
+| Decorative dashboard animation state | Maybe | Usually no | Low diagnostic value |
+
+## Rate is part of the contract
+
+Publishing the same unchanged value every fast loop can waste bandwidth and obscure important events. Record the intended update strategy:
+
+- on change;
+- fixed bounded period;
+- every control iteration for local logging;
+- burst around a fault;
+- summary only.
+
+## Evidence bundle
+
+For every simulation or bench run, preserve:
+
+1. code revision and WPILib version;
+2. scenario and initial conditions;
+3. observations with time and validity;
+4. decisions, requests, and reasons;
+5. injected fault and expected fallback;
+6. actual termination condition.
+
+## Source check
+
+Review WPILib's distinction between dashboards and on-robot recording in [Telemetry: Recording and Sending Real-Time Data](https://docs.wpilib.org/en/stable/docs/software/telemetry/telemetry.html).

@@ -1,0 +1,38 @@
+---
+title: Reflection and Corrections
+description: Correct telemetry misconceptions before integrating desktop simulation.
+---
+
+# Reflection and corrections
+
+For each claim, write:
+
+1. why it is incomplete or false;
+2. the missing boundary;
+3. the evidence needed to correct it.
+
+## Claims
+
+1. “The topic object exists, so the value exists.”
+2. “The dashboard shows zero, so the robot published zero.”
+3. “A valid value is automatically fresh.”
+4. “A fresh remote value is automatically authorized for control.”
+5. “NetworkTables proves the motor moved.”
+6. “If it was visible live, we can reconstruct it later.”
+7. “More telemetry always makes diagnosis easier.”
+8. “A timestamp is useful even if nobody defines its clock.”
+9. “A 2026 `edu.wpi.first...` import is correct for the 2027 alpha.”
+10. “Passing the pure-Java lab proves the network path.”
+
+## Synthesis
+
+Design the minimum telemetry contract for a stale vision target. Include:
+
+- observation value and coordinate frame;
+- producer time or sequence semantics;
+- validity and maximum age;
+- selected behavior and request;
+- fallback reason;
+- fields needed live versus recorded.
+
+End with one sentence naming the first claim that still requires desktop simulation.

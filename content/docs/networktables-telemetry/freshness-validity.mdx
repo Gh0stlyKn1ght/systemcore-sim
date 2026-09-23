@@ -1,0 +1,67 @@
+---
+title: "Lesson 3: Freshness, Validity, and Authority"
+description: Reject old or invalid observations even when their values look reasonable.
+---
+
+# Freshness, validity, and authority
+
+**Essential question:** When should a plausible value still be rejected?
+
+## Learning targets
+
+- calculate observation age using one clock domain;
+- distinguish freshness from validity; and
+- require explicit authority before using remote data for control.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Inspect a frozen but plausible sensor value. |
+| 5–16 | Separate existence, type, freshness, validity, and authority. |
+| 16–29 | Evaluate boundary cases against a maximum age. |
+| 29–38 | Inject stale and future-timestamp faults. |
+| 38–42 | Write a fail-closed rule. |
+
+## Five gates
+
+| Gate | Question |
+|---|---|
+| Existence | Did a compatible producer publish anything? |
+| Type | Does the topic type match the consumer contract? |
+| Freshness | Is the observation recent enough for this behavior? |
+| Validity | Did the producer's domain checks pass? |
+| Authority | Is this producer allowed to influence this behavior now? |
+
+Passing one gate does not imply the others.
+
+## Age rule
+
+For a maximum age of `100_000` microseconds:
+
+```text
+age = nowMicros - observedAtMicros
+fresh = age >= 0 AND age <= 100_000
+usable = present AND valid AND authorized AND fresh
+```
+
+The lower bound matters. A future timestamp can indicate mixed clock domains, reset behavior, corruption, or a test fixture error.
+
+## Clock-domain warning
+
+Do not subtract an epoch timestamp from a monotonic robot timestamp. Define which clock produced each field. If data crosses computers, use the timestamp semantics supplied by the protocol or carry an explicit sequence and producer time contract. Do not pretend unsynchronized wall clocks are precise.
+
+## Safe fallback
+
+A rejected observation should select a named bounded behavior such as:
+
+- neutral output;
+- hold the last independently safe state for a defined interval;
+- cancel the command;
+- request operator intervention.
+
+“Keep going” is not a fallback specification.
+
+## Exit ticket
+
+A heading value is `0.2°`, marked valid, and 480 ms old. The autonomous controller allows 100 ms. State the decision, requested output, and reason telemetry you expect.

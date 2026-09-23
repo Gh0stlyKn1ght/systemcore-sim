@@ -1,0 +1,76 @@
+---
+title: "Lesson 1: Topics and Endpoints"
+description: Trace typed values through NetworkTables without treating a handle as evidence.
+---
+
+# Topics, publishers, and subscribers
+
+**Essential question:** What must exist before a consumer can trust a NetworkTables value?
+
+## Learning targets
+
+- distinguish a topic name from a published value;
+- explain publisher and subscriber lifetime; and
+- identify type conflicts and missing-data defaults.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Trace one dashboard value backward to its producer. |
+| 5–15 | Model topics, publishers, subscribers, and entries. |
+| 15–27 | Read a typed 2027 Java example. |
+| 27–37 | Diagnose lifetime, type, and default-value faults. |
+| 37–42 | Submit an endpoint trace. |
+
+## The model
+
+| Object | Responsibility | Important limit |
+|---|---|---|
+| Topic | Names a typed data channel | Obtaining a topic object does not prove that a matching value exists. |
+| Publisher | Sends values to a topic | It must remain alive for continued publishing. |
+| Subscriber | Receives values or a default | A returned default is not proof that a producer published it. |
+| Entry | Combines subscription with a publisher created on first write | Convenience does not remove type or ownership questions. |
+
+## 2027 Java shape
+
+```java
+import org.wpilib.networktables.DoublePublisher;
+import org.wpilib.networktables.NetworkTableInstance;
+
+public final class DriveTelemetry implements AutoCloseable {
+  private final DoublePublisher leftRequest =
+      NetworkTableInstance.getDefault()
+          .getDoubleTopic("/systemcore/drive/request/left")
+          .publish();
+
+  public void publish(double value) {
+    leftRequest.set(value);
+  }
+
+  @Override
+  public void close() {
+    leftRequest.close();
+  }
+}
+```
+
+The publisher is a field because endpoint lifetime matters. A publisher created only inside a short method can stop publishing when it is closed or no longer retained.
+
+## Three common failures
+
+1. **Same name, different type:** a double publisher and string subscriber do not create a valid conversion contract.
+2. **Default mistaken for data:** `subscriber.get()` can return its configured default before any matching publication arrives.
+3. **Topic handle mistaken for existence:** code can obtain a topic object even when no compatible publisher exists.
+
+## Diagnostic prompt
+
+A dashboard displays `0.0` for `/systemcore/drive/request/left`. List at least four explanations that do not mean the robot requested exactly zero.
+
+## Exit ticket
+
+Explain why “I can see the topic name” and “I received a current, typed value from the intended producer” are different claims.
+
+## Source check
+
+Compare endpoint lifetime and read methods in [publishing and subscribing](https://docs.wpilib.org/en/stable/docs/software/networktables/publish-and-subscribe.html) with the 2027 [`DoubleTopic` API](https://github.wpilib.org/allwpilib/docs/2027/java/org/wpilib/networktables/DoubleTopic.html).

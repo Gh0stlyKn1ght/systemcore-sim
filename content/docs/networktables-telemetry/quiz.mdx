@@ -1,0 +1,79 @@
+---
+title: Module Quiz
+description: Check your understanding of NetworkTables endpoints, telemetry contracts, freshness, and logs.
+---
+
+import { CourseQuiz } from '@/components/course/course-quiz';
+
+# Module quiz
+
+Choose the strongest answer for each question. Explanations appear after all ten are submitted.
+
+<CourseQuiz
+  questions={[
+    {
+      prompt: 'What does obtaining a typed Topic object prove?',
+      choices: ['A matching producer exists', 'The named handle can be used to create endpoints', 'The value is fresh', 'The producer is authorized'],
+      answer: 1,
+      explanation: 'A topic handle does not establish publication, compatible type, freshness, or authority.'
+    },
+    {
+      prompt: 'Why should a publisher usually be stored as a field?',
+      choices: ['To keep its publishing lifetime explicit', 'To power the motor', 'To synchronize wall clocks', 'To install WPILib'],
+      answer: 0,
+      explanation: 'Publishers remain active only while their endpoint lifetime is maintained.'
+    },
+    {
+      prompt: 'A subscriber returns its configured default. What remains unknown?',
+      choices: ['Whether a matching producer published a value', 'Whether Java supports doubles', 'Whether CAN is terminated', 'Whether the battery is charged'],
+      answer: 0,
+      explanation: 'A default can be returned before any compatible publication is received.'
+    },
+    {
+      prompt: 'Which field most directly explains why software requested neutral output?',
+      choices: ['A decorative widget color', 'A decision reason', 'The project folder name', 'The motor label'],
+      answer: 1,
+      explanation: 'A stable reason field connects the rejected observation to the selected fallback.'
+    },
+    {
+      prompt: 'When is an observation fresh under a 100,000 µs maximum age?',
+      choices: ['Its age is between 0 and 100,000 µs inclusive', 'Its value is nonzero', 'Its topic exists', 'Its producer uses Java'],
+      answer: 0,
+      explanation: 'Negative age is also rejected because it indicates a future or mixed-clock timestamp.'
+    },
+    {
+      prompt: 'Which statement best separates freshness and validity?',
+      choices: ['They are the same flag', 'Freshness concerns age; validity concerns domain checks', 'Validity applies only to strings', 'Freshness proves physical motion'],
+      answer: 1,
+      explanation: 'A recent observation can be invalid, and an old observation can retain a plausible value.'
+    },
+    {
+      prompt: 'What additional gate is needed before remote data influences control?',
+      choices: ['Authority', 'Font selection', 'Repository stars', 'Dashboard window size'],
+      answer: 0,
+      explanation: 'A fresh, valid value still needs an allowed producer and operating context.'
+    },
+    {
+      prompt: 'What is the strongest use of an on-robot data log?',
+      choices: ['Delivering motor power', 'Preserving timestamped evidence after a run', 'Assigning CAN IDs', 'Replacing every live display'],
+      answer: 1,
+      explanation: 'Logs preserve evidence for later analysis; live displays serve a different job.'
+    },
+    {
+      prompt: 'Which package matches the published 2027 alpha NetworkTables Java API?',
+      choices: ['edu.wpi.first.networktables', 'org.wpilib.networktables', 'java.net.tables', 'org.ros2.networktables'],
+      answer: 1,
+      explanation: 'The 2027 alpha API uses the org.wpilib namespace. Imports remain version-sensitive prerelease material.'
+    },
+    {
+      prompt: 'What does the pure-Java telemetry lab establish?',
+      choices: ['Physical actuator motion', 'Correct classification under the modeled contract', 'Network bandwidth on Systemcore', 'Dashboard compatibility'],
+      answer: 1,
+      explanation: 'The lab verifies decision logic without claiming transport, timing, dashboard, or hardware evidence.'
+    }
+  ]}
+/>
+
+## Mastery target
+
+A score of 8/10 or higher shows readiness for desktop simulation. Below 8, rerun the stale-telemetry lab and rewrite the five-gate table from memory before trying again.

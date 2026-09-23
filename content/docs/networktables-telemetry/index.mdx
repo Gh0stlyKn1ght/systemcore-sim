@@ -1,20 +1,57 @@
 ---
 title: "Module 06: NetworkTables and Telemetry"
-description: Publish data that explains behavior while preserving timestamp, validity, and source.
+description: Publish typed robot state, prove freshness, and preserve evidence without confusing visibility with validity.
 ---
 
 # Module 06: NetworkTables and telemetry
 
-**Status:** Planned.
+**Status:** Complete first edition.
 
-## Students will be able to
+NetworkTables moves typed values between robot code, dashboards, tools, and coprocessors. Telemetry is the engineering decision about **what those values mean**, when they were observed, and whether they are still safe to use.
 
-- describe topics, publishers, subscribers, and the usual robot-server arrangement;
-- choose telemetry that explains a decision instead of flooding the dashboard;
-- keep value, timestamp, validity, and source together;
-- distinguish a displayed number from a fresh observation; and
-- use AdvantageScope or Elastic for the job each tool is designed to perform.
+A visible value is not automatically a trustworthy value.
 
-## Planned practical
+## Module outcomes
 
-Publish a target observation with age and validity, stop updating the source, and verify that the dashboard exposes the stale state instead of silently showing an old “good” value.
+By the end of this module, students can:
+
+- explain topics, publishers, subscribers, and entries;
+- distinguish existence, type, freshness, validity, and authority;
+- design telemetry that explains a decision instead of flooding a dashboard;
+- attach observation time and fallback reason to control-relevant data; and
+- choose between live NetworkTables data and recorded data logs.
+
+## Lessons
+
+<Cards>
+  <Card title="Topics and endpoints" href="/docs/networktables-telemetry/topics-publishers-subscribers" description="Trace a typed value from publisher to subscriber." />
+  <Card title="Telemetry contract" href="/docs/networktables-telemetry/telemetry-contract" description="Name the observation, decision, request, and reason." />
+  <Card title="Freshness and validity" href="/docs/networktables-telemetry/freshness-validity" description="Reject old, invalid, or unauthorized values explicitly." />
+  <Card title="Live data versus logs" href="/docs/networktables-telemetry/logging-vs-live-data" description="Use dashboards for now and logs for later." />
+  <Card title="Run the lab" href="/docs/networktables-telemetry/telemetry-lab" description="Execute the pure-Java contract checks and diagnose faults." />
+  <Card title="Module quiz" href="/docs/networktables-telemetry/quiz" description="Check readiness for desktop simulation." />
+</Cards>
+
+## Evidence chain
+
+| Field | Question it answers | Example |
+|---|---|---|
+| Observation | What did the system receive or measure? | `drive/input/forward = 0.62` |
+| Observation time | When was it produced? | `drive/input/observedAtMicros` |
+| Validity | Did the producer's checks pass? | `drive/input/valid = true` |
+| Decision | What did the behavior choose? | `drive/decision/state = "COMMAND"` |
+| Request | What output did software ask for? | `drive/request/left = 0.58` |
+| Reason | Why did it choose that result? | `drive/decision/reason = "bounded input"` |
+
+This chain establishes what software knew and requested. It does not prove that a motor moved or that a mechanism was safe.
+
+## 2027 release boundary
+
+The 2027 alpha Java API uses `org.wpilib.networktables`, not the 2026 `edu.wpi.first.networktables` package. This module was checked on **September 23, 2026** against the published WPILib 2027 alpha API. Treat exact imports and lifecycle details as versioned prerelease material and record the installed WPILib build with every exercise.
+
+## Source checks
+
+- [WPILib 2027 Java NetworkTables API](https://github.wpilib.org/allwpilib/docs/2027/java/org/wpilib/networktables/package-summary.html)
+- [NetworkTables topics](https://docs.wpilib.org/en/stable/docs/software/networktables/tables-and-topics.html)
+- [Publishing and subscribing](https://docs.wpilib.org/en/stable/docs/software/networktables/publish-and-subscribe.html)
+- [Telemetry and data logs](https://docs.wpilib.org/en/stable/docs/software/telemetry/telemetry.html)

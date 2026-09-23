@@ -1,4 +1,13 @@
 {
   "title": "06 · NetworkTables and Telemetry",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "topics-publishers-subscribers",
+    "telemetry-contract",
+    "freshness-validity",
+    "logging-vs-live-data",
+    "telemetry-lab",
+    "reflection",
+    "quiz"
+  ]
 }

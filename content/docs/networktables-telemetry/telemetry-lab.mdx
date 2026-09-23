@@ -1,0 +1,64 @@
+---
+title: "Lab: Reject Stale Telemetry"
+description: Run executable checks for present, valid, authorized, and fresh observations.
+---
+
+# Reject stale telemetry
+
+## Objective
+
+Execute the repository's hardware-free telemetry contract, change one boundary, and explain every result using named gates.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–5 | Predict all baseline decisions. |
+| 5–12 | Run the executable checks. |
+| 12–24 | Trace the acceptance rule. |
+| 24–34 | Change one boundary or add one case. |
+| 34–39 | Restore and rerun the baseline. |
+| 39–42 | Submit evidence. |
+
+## Run
+
+From the repository root:
+
+```bash
+npm run test:telemetry
+```
+
+The script uses Java source-file mode. It requires Java 17 or newer and no WPILib installation.
+
+## Baseline cases
+
+| Case | Expected result | Gate |
+|---|---|---|
+| Recent, valid, authorized observation | Accept request | All pass |
+| Too old | Neutral fallback | Freshness fails |
+| Invalid producer state | Neutral fallback | Validity fails |
+| Unauthorized producer | Neutral fallback | Authority fails |
+| Future observation time | Neutral fallback | Clock/freshness fails |
+| Non-finite value | Neutral fallback | Value validity fails |
+
+## Modification
+
+Choose one:
+
+1. Change the maximum accepted age from 100 ms to 50 ms and update the boundary checks.
+2. Add a sequence number and reject a repeated sequence.
+3. Add a bounded range and reject values outside `[-1, 1]`.
+
+Do not delete a test to make the program pass. Change the contract and the checks together.
+
+## Required evidence
+
+- baseline command and passing output;
+- the rule you changed;
+- one deliberately failing run;
+- restored passing output;
+- a short explanation of what the pure-Java test does **not** prove.
+
+## Hardware boundary
+
+This lab proves decision classification. It does not prove NetworkTables transport, clock synchronization between devices, controller timing, dashboard rendering, or physical actuator behavior.

@@ -1,0 +1,63 @@
+---
+title: "Lesson 2: Build a Telemetry Contract"
+description: Publish the smallest field set that explains a behavior decision.
+---
+
+# Build a telemetry contract
+
+**Essential question:** Can another person reconstruct why the robot made a decision?
+
+## Learning targets
+
+- separate observations, decisions, requests, and outcomes;
+- define stable names, types, units, rates, and owners; and
+- reject telemetry that is high-volume but low-information.
+
+## 42-minute plan
+
+| Minutes | Work |
+|---|---|
+| 0–6 | Compare “motor = 0.4” with a complete decision record. |
+| 6–16 | Define the five-part contract. |
+| 16–29 | Design one drivetrain namespace. |
+| 29–38 | Remove redundant and ambiguous fields. |
+| 38–42 | Exchange and audit contracts. |
+
+## Contract fields
+
+Every control-relevant group should answer:
+
+1. What value was observed?
+2. When was that observation produced?
+3. Did the producer consider it valid?
+4. What decision and output request followed?
+5. Why was that decision selected?
+
+| Topic | Type | Unit | Producer | Intended rate |
+|---|---|---|---|---|
+| `/systemcore/drive/input/forward` | double | normalized `[-1, 1]` | operator-input adapter | on change or bounded periodic |
+| `/systemcore/drive/input/observedAtMicros` | integer | microseconds | operator-input adapter | with observation |
+| `/systemcore/drive/input/valid` | boolean | none | input validator | with observation |
+| `/systemcore/drive/request/left` | double | normalized `[-1, 1]` | drive behavior | with decision |
+| `/systemcore/drive/decision/reason` | string | none | drive behavior | on change |
+
+## Names are interfaces
+
+Do not rename or change the type of a topic casually. Dashboards, tests, logging rules, and coprocessors may depend on it. Put experimental data under an explicit experimental namespace rather than silently changing a stable contract.
+
+## What not to publish
+
+- duplicate values with different names;
+- values with no unit or coordinate frame;
+- every loop-local variable “just in case”;
+- high-rate data that is never inspected;
+- secrets, tokens, or credentials;
+- a boolean called `good` with no defined failure condition.
+
+## Architecture exercise
+
+Design a contract for a heading observation used by autonomous behavior. Include value, unit, coordinate convention, observation time, validity, selected request, and fallback reason.
+
+## Exit ticket
+
+Write one telemetry field that proves a software request and one measurement that would be needed to prove a physical outcome. Explain the boundary.
