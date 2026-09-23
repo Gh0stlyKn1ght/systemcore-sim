@@ -7,6 +7,8 @@
     "dev": "next dev",
     "start": "next start",
     "test:java": "java examples/java-behavior/BehaviorCheck.java",
+    "test:telemetry": "java examples/telemetry-contract/TelemetryContractCheck.java",
+    "test": "npm run test:java && npm run test:telemetry",
     "types:check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
